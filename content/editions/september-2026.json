@@ -185,7 +185,10 @@
       "region": "global",
       "label": "US federal funds target, end July",
       "value": "3.50–3.75%",
-      "source": null
+      "source": {
+        "title": "Federal Reserve FOMC statement, 29 July 2026",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm"
+      }
     }
   ],
   "risks": [
