@@ -150,10 +150,13 @@
               return payload;
             });
         })
-        .then(function () {
+        .then(function (payload) {
           form.reset();
+          /* The API distinguishes "confirmation sent" from "already on the
+             list", so prefer its message over the form's generic one. */
           setStatus(
-            form.getAttribute('data-success') ||
+            (payload && payload.message) ||
+              form.getAttribute('data-success') ||
               'Thank you. Check your inbox to confirm your subscription.',
             true
           );

@@ -3,6 +3,8 @@
 
 'use strict';
 
+var crypto = require('crypto');
+
 var RESEND_API = 'https://api.resend.com';
 
 /* Deliberately permissive. Real validation is the confirmation email; this
@@ -57,17 +59,18 @@ function sameOrigin(req) {
   }
 }
 
-function resend(path, body) {
+function resend(path, body, method) {
   var key = process.env.RESEND_API_KEY;
   if (!key) return Promise.reject(new Error('RESEND_API_KEY is not set'));
-  return fetch(RESEND_API + path, {
-    method: 'POST',
+  var opts = {
+    method: method || 'POST',
     headers: {
       Authorization: 'Bearer ' + key,
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  }).then(function (r) {
+    }
+  };
+  if (body != null) opts.body = JSON.stringify(body);
+  return fetch(RESEND_API + path, opts).then(function (r) {
     return r
       .text()
       .then(function (t) {
@@ -97,4 +100,76 @@ function guard(req, res) {
   return false;
 }
 
-module.exports = { isEmail: isEmail, clean: clean, readBody: readBody, json: json, resend: resend, guard: guard };
+/* ----------------------------------------------------------------------
+   Confirmation links.
+
+   The link carries the address, an expiry, and an HMAC over both, so the
+   double opt-in flow needs no database: a link cannot be forged, edited to
+   confirm somebody else's address, or replayed after it expires.
+   ---------------------------------------------------------------------- */
+
+function b64url(buf) {
+  return Buffer.from(buf).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function unb64url(s) {
+  var t = String(s).replace(/-/g, '+').replace(/_/g, '/');
+  return Buffer.from(t, 'base64').toString('utf8');
+}
+
+/* Prefer an explicit CONFIRM_SECRET. Falling back to a value derived from the
+   API key keeps this working with no extra configuration, and the derivation
+   means the API key itself is never used directly as a signing key. Rotating
+   the API key invalidates links that are still in flight, which is an
+   acceptable trade for one less secret to manage. */
+function confirmSecret() {
+  if (process.env.CONFIRM_SECRET) return process.env.CONFIRM_SECRET;
+  var key = process.env.RESEND_API_KEY;
+  if (!key) return null;
+  return crypto.createHmac('sha256', key).update('helm-horizon/confirm/v1').digest('hex');
+}
+
+function signConfirm(email, exp) {
+  var secret = confirmSecret();
+  if (!secret) return null;
+  return b64url(crypto.createHmac('sha256', secret).update(email + '.' + exp).digest());
+}
+
+function verifyConfirm(email, exp, sig) {
+  var expected = signConfirm(email, exp);
+  if (!expected || !sig) return false;
+  var a = Buffer.from(expected);
+  var b = Buffer.from(String(sig));
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
+
+/* Build the absolute confirm URL from the request, so preview deployments
+   produce links that point at themselves rather than at production. */
+function confirmUrl(req, email, ttlDays) {
+  var exp = Math.floor(Date.now() / 1000) + (ttlDays || 7) * 86400;
+  var sig = signConfirm(email, exp);
+  if (!sig) return null;
+  var host = req.headers['x-forwarded-host'] || req.headers.host || '';
+  var proto = req.headers['x-forwarded-proto'] || 'https';
+  return (
+    proto + '://' + host + '/api/confirm' +
+    '?e=' + encodeURIComponent(b64url(email)) +
+    '&x=' + exp +
+    '&t=' + encodeURIComponent(sig)
+  );
+}
+
+module.exports = {
+  isEmail: isEmail,
+  clean: clean,
+  readBody: readBody,
+  json: json,
+  resend: resend,
+  guard: guard,
+  b64url: b64url,
+  unb64url: unb64url,
+  signConfirm: signConfirm,
+  verifyConfirm: verifyConfirm,
+  confirmUrl: confirmUrl
+};

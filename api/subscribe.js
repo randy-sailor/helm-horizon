@@ -34,11 +34,13 @@ module.exports = async function handler(req, res) {
   /* Contacts are global in Resend's current model — no audience needed.
      Role and company become custom contact properties, which makes them
      usable for segmenting and personalising a Broadcast. */
+  /* Double opt-in: the contact starts unsubscribed and only becomes active
+     when the reader clicks the link in the confirmation email. */
   var payload = {
     email: email,
     first_name: first,
     last_name: last,
-    unsubscribed: false
+    unsubscribed: true
   };
 
   var role = lib.clean(body.role, 60);
@@ -55,6 +57,17 @@ module.exports = async function handler(req, res) {
   if (segment) payload.segments = [{ id: segment }];
 
   try {
+    /* Look first. Creating a contact that already exists could otherwise flip
+       a confirmed subscriber back to unsubscribed — someone re-entering their
+       address would quietly remove themselves from the list. */
+    var existing = await lib.resend('/contacts/' + encodeURIComponent(email), null, 'GET');
+    if (existing.ok && existing.body && existing.body.unsubscribed === false) {
+      return lib.json(res, 200, {
+        ok: true,
+        message: 'You are already on the list. The next issue is on its way.'
+      });
+    }
+
     var r = await lib.resend('/contacts', payload);
 
     /* The custom properties and the segment are enrichment; the subscription
@@ -73,7 +86,7 @@ module.exports = async function handler(req, res) {
         email: email,
         first_name: first,
         last_name: last,
-        unsubscribed: false
+        unsubscribed: true
       });
       if (r.ok) console.error('Fallback succeeded: contact created without properties/segments');
     }
@@ -96,7 +109,41 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    return lib.json(res, 200, { ok: true });
+    /* The contact exists but is inert until confirmed. Send the link. */
+    var url = lib.confirmUrl(req, email, 7);
+    var from = process.env.MAIL_FROM || process.env.SUBMIT_FROM;
+    if (!url || !from) {
+      console.error('MAIL_FROM/SUBMIT_FROM missing, or the confirm link could not be signed');
+      return lib.json(res, 500, {
+        error: 'We could not send your confirmation email. Please email editor@thehelmandhorizon.com.'
+      });
+    }
+
+    var mail = await lib.resend('/emails', {
+      from: from,
+      to: [email],
+      subject: 'Confirm your Helm & Horizon subscription',
+      text:
+        'Thanks for subscribing to Helm & Horizon.\n\n' +
+        'Confirm your subscription by opening this link:\n\n' +
+        url +
+        '\n\nThe link is valid for seven days. If you did not request this, ' +
+        'ignore this email — no issues will be sent unless you confirm.\n\n' +
+        'Helm & Horizon — a monthly market briefing for yacht industry leaders.\n' +
+        'Published by The Walton Group, Inc.\n'
+    });
+
+    if (!mail.ok) {
+      console.error('Confirmation email failed', mail.status, JSON.stringify(mail.body));
+      return lib.json(res, 502, {
+        error: 'We could not send your confirmation email. Please email editor@thehelmandhorizon.com.'
+      });
+    }
+
+    return lib.json(res, 200, {
+      ok: true,
+      message: 'Almost there. Check your inbox and click the link to confirm.'
+    });
   } catch (err) {
     console.error('subscribe failed', err && err.message);
     return lib.json(res, 500, {

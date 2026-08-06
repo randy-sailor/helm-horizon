@@ -150,6 +150,8 @@ Production and Preview:
 | `SUBMIT_FROM` | yes | `Helm & Horizon <newsletter@thehelmandhorizon.com>` |
 | `EDITOR_EMAIL` | yes | `editor@thehelmandhorizon.com` |
 | `RESEND_SEGMENT_ID` | no | A segment ID, if you want new readers filed into one |
+| `MAIL_FROM` | no | Overrides `SUBMIT_FROM` as the sending identity |
+| `CONFIRM_SECRET` | no | Signing key for confirmation links — see below |
 
 There is deliberately **no** `RESEND_AUDIENCE_ID`. Resend has moved to a global
 Contacts model: Audiences were renamed Segments, contacts are no longer scoped
@@ -209,6 +211,35 @@ dig TXT _dmarc.thehelmandhorizon.com   +short
 The first command is the one that matters. If it returns anything other than
 the two ImprovMX hosts — an `amazonses` or `inbound-smtp` host in particular —
 something has taken the root MX and inbound mail is no longer reaching you.
+
+## Double opt-in
+
+Subscribing does not put anyone on the list directly. `/api/subscribe` creates
+the contact with `unsubscribed: true` and emails a confirmation link.
+`/api/confirm` verifies the link and flips the contact to active, then redirects
+to `/confirmed`, or to `/confirm-failed` if the link is bad or stale.
+
+The link carries the address, an expiry, and an HMAC over both, so there is no
+database: a link cannot be forged, edited to confirm a different address, or
+replayed after seven days. `CONFIRM_SECRET` is the signing key. Leave it unset
+and a distinct key is derived from `RESEND_API_KEY` — which means **rotating the
+API key invalidates confirmation links still in flight**. Set `CONFIRM_SECRET`
+explicitly (any long random string) if that matters to you.
+
+Two consequences worth knowing:
+
+- **An unconfirmed contact stays in Resend as unsubscribed.** It will not be
+  sent anything. Contacts that sit unconfirmed for a long time are worth
+  clearing out periodically.
+- **A confirmed subscriber re-entering their address is left alone.** The
+  handler checks first, so nobody removes themselves by accident, and the form
+  tells them they are already on the list.
+
+Confirmation links are opened by clicking, so a security scanner or an email
+client that pre-fetches links can in principle confirm on the reader's behalf.
+The usual defence is to make the landing page require a button press. That was
+not done here: it costs a click for every real subscriber, and the exposure is
+someone being subscribed who did submit the form themselves.
 
 ## Unsubscribe
 
