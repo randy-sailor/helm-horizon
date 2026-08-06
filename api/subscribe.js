@@ -57,6 +57,27 @@ module.exports = async function handler(req, res) {
   try {
     var r = await lib.resend('/contacts', payload);
 
+    /* The custom properties and the segment are enrichment; the subscription
+       is the point. A custom property that does not exist on the account, or
+       a stale segment id, would otherwise cost us the signup entirely — so if
+       the enriched payload is rejected, fall back to the minimum and keep the
+       reader. Both attempts are logged so the cause stays visible. */
+    if (!r.ok && r.status !== 409 && (payload.properties || payload.segments)) {
+      console.error(
+        'Enriched contact rejected',
+        r.status,
+        JSON.stringify(r.body),
+        '— retrying without properties/segments'
+      );
+      r = await lib.resend('/contacts', {
+        email: email,
+        first_name: first,
+        last_name: last,
+        unsubscribed: false
+      });
+      if (r.ok) console.error('Fallback succeeded: contact created without properties/segments');
+    }
+
     /* An address already on the list is a success from the reader's point
        of view, and saying so would disclose who is subscribed. */
     if (!r.ok && r.status !== 409) {
