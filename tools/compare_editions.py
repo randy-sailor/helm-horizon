@@ -22,7 +22,9 @@ import sys
 import urllib.request
 from html.parser import HTMLParser
 
-SITE = 'https://www.thehelmandhorizon.com'
+# The apex is canonical — every canonical tag and sitemap entry uses it, and
+# www redirects here. Fetching the www host would compare against a redirect.
+SITE = 'https://thehelmandhorizon.com'
 SKIP_TEXT = {'script', 'style'}
 
 
