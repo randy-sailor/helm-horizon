@@ -4,9 +4,9 @@ on:
   pull_request:
     paths:
       - 'content/editions/**'
-      - 'tools/validate_edition.py'
+      - 'tools/*.py'
       - 'tools/fixtures/**'
-      - '.github/workflows/validate-editions.yml'
+      - '.github/workflows/*.yml'
   push:
     branches: [main]
   workflow_dispatch:
@@ -28,6 +28,23 @@ jobs:
       # would wave everything through, so prove it still rejects.
       - name: Test the validator
         run: python3 tools/test_validate_edition.py
+
+      # The drafting layer decides the edition number, the publication date, and
+      # that reader quotes are never machine-written. Those are not the model's
+      # to get wrong, so they are checked here.
+      - name: Test the drafting layer
+        run: python3 tools/test_draft_edition.py
+
+      # Prove the whole path still runs: draft -> validate -> render, with no
+      # model, no key, and no cost.
+      - name: Dry-run the pipeline
+        run: |
+          set -euo pipefail
+          python3 tools/draft_edition.py --provider stub --month 2099-01 \
+            --out /tmp/stub.json
+          python3 tools/validate_edition.py --offline /tmp/stub.json
+          python3 tools/render_html.py /tmp/stub.json --dry-run > /dev/null
+          echo "draft -> validate -> render: ok"
 
       # Runners have unrestricted network, so the link check runs for real
       # here even though it must be skipped locally behind a proxy.

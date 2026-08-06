@@ -4,3 +4,6 @@ node_modules/
 .env
 .env*.local
 *.log
+__pycache__/
+*.pyc
+tools/.stub-draft.json
