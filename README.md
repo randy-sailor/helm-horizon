@@ -43,6 +43,7 @@ api/subscribe.js               Creates a pending contact, sends the confirm link
 api/confirm.js                 Verifies the link and activates the contact
 api/submit.js                  Emails a reader submission to the editor
 api/_lib.js                    Shared validation, guards, signing, Resend client
+api/_email.js                  Branded HTML + plain-text email templates
 docs/email-setup.md            Resend + ImprovMX DNS and configuration
 ```
 
