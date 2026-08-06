@@ -195,9 +195,16 @@ something has taken the root MX and inbound mail is no longer reaching you.
 
 The site promises one-click unsubscribe in every issue. Resend Broadcasts
 handle this: include the `{{{RESEND_UNSUBSCRIBE_URL}}}` variable in the
-broadcast footer and Resend manages the opt-out against the audience. Do not
-hand-roll it — an unsubscribe link that does not work is a spam complaint and,
-for a commercial newsletter, a legal exposure.
+broadcast footer. Under the global Contacts model the link opens a preference
+page where the reader can either opt out of specific **Topics** or unsubscribe
+from everything you send, and Resend records it against the contact.
+
+If you later send more than one kind of email, create a Topic per kind and
+scope each Broadcast to one. That way a reader who only wants out of the
+monthly edition is not forced to leave altogether.
+
+Do not hand-roll any of this — an unsubscribe link that does not work is a spam
+complaint and, for a commercial newsletter, a legal exposure.
 
 ## Sources
 
