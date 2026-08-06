@@ -19,6 +19,11 @@ module.exports = async function handler(req, res) {
     return lib.json(res, 400, { error: 'Please enter a valid email address.' });
   }
 
+  if (!process.env.RESEND_API_KEY) {
+    console.error('RESEND_API_KEY is not set');
+    return lib.json(res, 500, { error: 'Subscriptions are not configured yet.' });
+  }
+
   /* Resend contacts carry first/last name, so split the single name field
      on the first space and keep the remainder as the surname. */
   var name = lib.clean(body.name, 120);
@@ -56,6 +61,15 @@ module.exports = async function handler(req, res) {
        of view, and saying so would disclose who is subscribed. */
     if (!r.ok && r.status !== 409) {
       console.error('Resend contacts error', r.status, JSON.stringify(r.body));
+      /* Creating a contact is not a send, so a sending_access key cannot do
+         it — the single most likely cause of a rejection here. Say so in the
+         logs rather than leaving it to be inferred from a bare 401. */
+      if (r.status === 401 || r.status === 403) {
+        console.error(
+          'Resend rejected the API key for POST /contacts. Creating contacts ' +
+            'requires a full_access key; sending_access can only send emails.'
+        );
+      }
       return lib.json(res, 502, {
         error: 'We could not add you just now. Please email editor@thehelmandhorizon.com.'
       });
