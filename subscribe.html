@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Subscribe — Helm &amp; Horizon</title>
+    <meta name="description" content="Get the monthly Helm &amp; Horizon market briefing by email on the first Thursday of every month. Free, cited, one-click unsubscribe." />
+    <link rel="canonical" href="https://helmandhorizon.com/subscribe.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Helm &amp; Horizon" />
+    <meta property="og:title" content="Subscribe — Helm &amp; Horizon" />
+    <meta property="og:description" content="Get the monthly Helm &amp; Horizon market briefing by email on the first Thursday of every month. Free, cited, one-click unsubscribe." />
+    <meta property="og:image" content="assets/img/hero-yacht.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2306192e'/%3E%3Cpath d='M16 5l4.5 11L16 27l-4.5-11z' fill='%23c9a55a'/%3E%3Cpath d='M4 16h24' stroke='%23c9a55a' stroke-width='1.6'/%3E%3C/svg%3E" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=zodiak@400,500,700&f[]=satoshi@400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/base.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="masthead">
+      <div class="shell masthead__inner">
+        <a class="brand" href="index.html" aria-label="Helm and Horizon home">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5" />
+            <path d="M2 16h28" stroke="currentColor" stroke-width="1.5" />
+            <path d="M16 3.5 21 16l-5 12.5L11 16z" fill="currentColor" />
+          </svg>
+          <span class="brand__name">Helm &amp; Horizon</span>
+        </a>
+        <button
+          class="nav__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Toggle navigation"
+        >
+          <svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true">
+            <path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+        </button>
+        <nav class="nav" id="site-nav" aria-label="Primary">
+          <a href="index.html">Latest</a>
+          <a href="archive.html">Archive</a>
+          <a href="about.html">About</a>
+          <a href="submit.html">Contribute</a>
+          <a class="nav__cta" href="subscribe.html" aria-current="page">Subscribe</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section section--deep">
+        <div class="shell">
+          <p class="eyebrow">Subscribe</p>
+          <h1 style="font-size: var(--text-2xl); max-width: 30ch; margin-bottom: var(--space-6)">
+            One issue a month. No lifestyle filler.
+          </h1>
+          <div class="hero__rule"></div>
+          <p style="color: var(--light-blue); font-size: var(--text-lg); max-width: 56ch; margin: 0">
+            Helm &amp; Horizon lands on the first Thursday of each month with the earnings tape, the charter picture, the risk notices, and three things worth doing about it.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section--navy">
+        <div class="shell subscribe">
+          <div>
+            <h2 style="font-size: var(--text-xl); margin-bottom: var(--space-4)">
+              What arrives in your inbox
+            </h2>
+            <p style="color: var(--light-blue); max-width: 48ch">
+              The full edition, formatted to read cleanly on a phone, with a typeset PDF companion
+              for anyone who wants to circulate it internally or print it for a board packet. Every
+              figure links to its primary source.
+            </p>
+            <ul class="keylist" style="max-width: 34rem">
+              <li style="border-color: var(--rule-dark)">
+                <strong style="color: var(--gold)">Cadence</strong>
+                <span style="color: var(--light-blue)">First Thursday of every month</span>
+              </li>
+              <li style="border-color: var(--rule-dark)">
+                <strong style="color: var(--gold)">Volume</strong>
+                <span style="color: var(--light-blue)">One email. We never send anything else.</span>
+              </li>
+              <li style="border-color: var(--rule-dark)">
+                <strong style="color: var(--gold)">Price</strong>
+                <span style="color: var(--light-blue)">Free, and no issue is ever paywalled</span>
+              </li>
+              <li style="border-color: var(--rule-dark)">
+                <strong style="color: var(--gold)">Privacy</strong>
+                <span style="color: var(--light-blue)"
+                  >Your address is never shared, sold, or rented</span
+                >
+              </li>
+              <li style="border-color: var(--rule-dark)">
+                <strong style="color: var(--gold)">Exit</strong>
+                <span style="color: var(--light-blue)"
+                  >One-click unsubscribe in the footer of every issue</span
+                >
+              </li>
+            </ul>
+          </div>
+
+          <form
+            class="form"
+            data-hh-form="subscribe"
+            data-endpoint="REPLACE_WITH_YOUR_SUBSCRIBE_ENDPOINT"
+            data-success="You are on the list. Watch for a confirmation email."
+          >
+            <div class="field">
+              <label for="email">Email address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="you@company.com"
+              />
+            </div>
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" autocomplete="name" placeholder="Optional" />
+            </div>
+            <div class="field">
+              <label for="company">Company</label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                autocomplete="organization"
+                placeholder="Optional"
+              />
+            </div>
+            <div class="field">
+              <label for="role">Where you sit in the market</label>
+              <select id="role" name="role">
+                <option value="">Select one (optional)</option>
+                <option>Broker</option>
+                <option>Dealer</option>
+                <option>Builder / shipyard</option>
+                <option>Refit / service yard</option>
+                <option>Marina operator</option>
+                <option>Charter management</option>
+                <option>Captain / crew</option>
+                <option>Finance / insurance</option>
+                <option>Supplier</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <button class="btn btn--gold" type="submit" style="width: 100%; justify-content: center">
+              Subscribe free
+            </button>
+            <p class="form__note">
+              By subscribing you agree to receive the monthly Helm &amp; Horizon edition at this
+              address. Unsubscribe from any issue.
+            </p>
+            <p class="form__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section section--warm">
+        <div class="shell">
+          <div class="section__head">
+            <div>
+              <p class="eyebrow eyebrow--ink">Before you commit</p>
+              <h2>Read an issue first</h2>
+            </div>
+            <a href="archive.html">All issues</a>
+          </div>
+          <div class="grid-cards">
+            <article class="card">
+              <p class="card__vol">Vol. 1, No. 9 &middot; September 2026</p>
+              <div class="card__body">
+                <h3>Margins Up, Volumes Down</h3>
+                <p>
+                  The MarineMax auction reaches its final round while gross margins hit a record on
+                  falling volumes.
+                </p>
+                <div class="card__links">
+                  <a href="editions/september-2026.html">Read online</a>
+                  <a href="pdf/Helm_Horizon_September2026.pdf">PDF</a>
+                </div>
+              </div>
+            </article>
+            <article class="card">
+              <p class="card__vol">Vol. 1, No. 8 &middot; August 2026</p>
+              <div class="card__body">
+                <h3>The Sharks Circle</h3>
+                <p>
+                  A $1.49B refinancing, a compressed charter calendar, and consolidation spreading
+                  into the service tier.
+                </p>
+                <div class="card__links">
+                  <a href="pdf/Helm_Horizon_August2026.pdf">PDF</a>
+                </div>
+              </div>
+            </article>
+            <article class="card">
+              <p class="card__vol">Vol. 1, No. 7 &middot; July 2026</p>
+              <div class="card__body">
+                <h3>The Year of the Deal</h3>
+                <p>
+                  Three deals in thirty days, and the month June became the new August in the
+                  Mediterranean.
+                </p>
+                <div class="card__links">
+                  <a href="pdf/Helm_Horizon_July2026.pdf">PDF</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="shell">
+        <div class="footer__grid">
+          <div class="footer__brand">
+            <a class="brand" href="index.html" style="margin-bottom: var(--space-4)">
+              <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5" />
+            <path d="M2 16h28" stroke="currentColor" stroke-width="1.5" />
+            <path d="M16 3.5 21 16l-5 12.5L11 16z" fill="currentColor" />
+          </svg>
+              <span class="brand__name">Helm &amp; Horizon</span>
+            </a>
+            <p>
+              A monthly market briefing for yacht industry leaders. Published by The Walton Group,
+              Inc. Sources cited inline. Not investment advice.
+            </p>
+          </div>
+          <div>
+            <h4>Read</h4>
+            <ul>
+              <li><a href="editions/september-2026.html">Current issue</a></li>
+              <li><a href="archive.html">Archive</a></li>
+              <li><a href="pdf/Helm_Horizon_September2026.pdf">Download PDF</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Participate</h4>
+            <ul>
+              <li><a href="subscribe.html">Subscribe</a></li>
+              <li><a href="submit.html">Submit an outlook</a></li>
+              <li><a href="about.html">About &amp; masthead</a></li>
+              <li><a href="mailto:randy@waltongroup.net">Contact the editor</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__legal">
+          <span>&copy; <span data-year>2026</span> The Walton Group, Inc. All rights reserved.</span>
+          <span>Data as of late July / early August 2026.</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/site.js" defer></script>
+  </body>
+</html>
