@@ -1,0 +1,36 @@
+name: API tests
+
+# The subscribe and submit routes send email on an unauthenticated request.
+# These tests are what stands between a refactor and an open relay, so they run
+# on every change to api/ — not only on the pull request that introduced them.
+
+on:
+  pull_request:
+    paths:
+      - 'api/**'
+      - 'tools/test-api.js'
+      - '*.html'
+      - 'editions/**'
+      - 'sitemap.xml'
+      - '.github/workflows/api-tests.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # No install step: the routes have no dependencies and neither do the
+      # tests, which is the same reason the project has no package.json.
+      - name: Test the API routes
+        run: node tools/test-api.js

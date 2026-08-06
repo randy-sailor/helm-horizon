@@ -7,7 +7,9 @@ var lib = require('./_lib');
 var email_tpl = require('./_email');
 
 module.exports = async function handler(req, res) {
-  if (lib.guard(req, res)) return;
+  /* Five signups per ten minutes from one address is generous for a human and
+     ruinous for a script pointing confirmation mail at someone else's inbox. */
+  if (lib.guard(req, res, 5)) return;
 
   var body = lib.readBody(req);
 
@@ -62,14 +64,15 @@ module.exports = async function handler(req, res) {
        a confirmed subscriber back to unsubscribed — someone re-entering their
        address would quietly remove themselves from the list. */
     var existing = await lib.resend('/contacts/' + encodeURIComponent(email), null, 'GET');
-    if (existing.ok && existing.body && existing.body.unsubscribed === false) {
-      return lib.json(res, 200, {
-        ok: true,
-        message: 'You are already on the list. The next issue is on its way.'
-      });
-    }
+    var confirmed = !!(existing.ok && existing.body && existing.body.unsubscribed === false);
 
-    var r = await lib.resend('/contacts', payload);
+    /* An already-confirmed reader is left exactly as they are: no write, so
+       nothing can flip them back to unsubscribed. They still get the same
+       reply and the same email as everyone else, because a different reply
+       would answer "is this address on the list?" for anyone who asked.
+       Re-confirming is idempotent, so the link in that email is harmless. */
+    var r = confirmed ? { ok: true, status: 200, body: {} }
+                      : await lib.resend('/contacts', payload);
 
     /* The custom properties and the segment are enrichment; the subscription
        is the point. A custom property that does not exist on the account, or
