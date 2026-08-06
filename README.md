@@ -17,6 +17,13 @@ filenames, so they are served `max-age=0, must-revalidate` (cheap 304s, and edit
 immediately). Only `/assets/img/` is cached immutably for a year — rename an image rather than
 replacing it in place.
 
+The HTML references them as `base.css?v=2` and `site.js?v=2`. That query string is a cache key,
+added because the site originally served these files `immutable, max-age=31536000`: browsers
+that loaded the site before the header was corrected had them pinned for a year and would not
+revalidate. **If you ever change either file in a way that must reach returning visitors
+immediately, bump the number in all six HTML pages.** Vercel matches header rules on the path,
+so the `must-revalidate` rule still applies with a query string attached.
+
 ## Layout
 
 ```
