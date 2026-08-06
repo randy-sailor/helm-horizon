@@ -25,8 +25,8 @@ module.exports = async function handler(req, res) {
 
   var from = process.env.SUBMIT_FROM;
   var to = process.env.EDITOR_EMAIL;
-  if (!from || !to) {
-    console.error('SUBMIT_FROM or EDITOR_EMAIL is not set');
+  if (!from || !to || !process.env.RESEND_API_KEY) {
+    console.error('SUBMIT_FROM, EDITOR_EMAIL, or RESEND_API_KEY is not set');
     return lib.json(res, 500, { error: 'Submissions are not configured yet.' });
   }
 

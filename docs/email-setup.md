@@ -116,7 +116,7 @@ Send mail as → Add another email address* and use:
 | SMTP server | `smtp.resend.com` |
 | Port | `587` (STARTTLS) or `465` (SSL/TLS) |
 | Username | `resend` |
-| Password | your Resend API key |
+| Password | your `sending_access` Resend API key |
 
 This works only because the **root** domain is verified for sending in Resend.
 It is also why the API key needs treating as a real credential — it is now
@@ -146,7 +146,7 @@ Production and Preview:
 
 | Variable | Required | Value |
 | --- | --- | --- |
-| `RESEND_API_KEY` | yes | Resend API key — **create it with sending permission only** |
+| `RESEND_API_KEY` | yes | Resend API key with **Full access** — see below |
 | `SUBMIT_FROM` | yes | `Helm & Horizon <newsletter@thehelmandhorizon.com>` |
 | `EDITOR_EMAIL` | yes | `editor@thehelmandhorizon.com` |
 | `RESEND_SEGMENT_ID` | no | A segment ID, if you want new readers filed into one |
@@ -158,6 +158,25 @@ earlier, delete it — nothing reads it.
 
 The subscribe form writes `role` and `company` as custom contact properties, so
 they are available for segmenting and for personalising a Broadcast.
+
+### The key needs Full access, not Sending access
+
+Resend offers two permissions, and the distinction matters here:
+
+- `full_access` — create, delete, get, and update any resource
+- `sending_access` — **can only send emails**
+
+`/api/submit` sends an email, so a sending key would do. But `/api/subscribe`
+creates a *contact*, which is not a send. A `sending_access` key is rejected,
+and the reader sees "We could not add you just now."
+
+So `RESEND_API_KEY` must be **Full access**. If the subscribe form fails while
+the contribute form works, this is almost certainly why — and the function logs
+will say so explicitly.
+
+Use a **second, `sending_access` key** for Gmail send-as. That key lives in
+Gmail's settings rather than in your own infrastructure, so it is the one worth
+restricting, and sending is all it needs to do.
 
 The API key is a secret: it belongs only in Vercel's environment variables,
 never in this repository. `.env` is already gitignored.
