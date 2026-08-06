@@ -1,0 +1,35 @@
+name: Validate editions
+
+on:
+  pull_request:
+    paths:
+      - 'content/editions/**'
+      - 'tools/validate_edition.py'
+      - 'tools/fixtures/**'
+      - '.github/workflows/validate-editions.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # The validator's own tests come first: a validator that cannot fail
+      # would wave everything through, so prove it still rejects.
+      - name: Test the validator
+        run: python3 tools/test_validate_edition.py
+
+      # Runners have unrestricted network, so the link check runs for real
+      # here even though it must be skipped locally behind a proxy.
+      - name: Validate every edition
+        run: python3 tools/validate_edition.py
