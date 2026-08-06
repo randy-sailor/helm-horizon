@@ -10,11 +10,22 @@
       var open = nav.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+    var closeNav = function () {
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    };
     nav.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') {
-        nav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
+      if (e.target.tagName === 'A') closeNav();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+        closeNav();
+        toggle.focus();
       }
+    });
+    document.addEventListener('click', function (e) {
+      if (!nav.classList.contains('is-open')) return;
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) closeNav();
     });
   }
 
@@ -85,15 +96,27 @@
         var lines = Object.keys(data).map(function (k) {
           return k + ': ' + data[k];
         });
-        setStatus(
-          'Opening your email client to complete the request. The hosted form endpoint is not connected yet.',
-          true
-        );
-        window.location.href =
+        var href =
           'mailto:randy@waltongroup.net?subject=' +
           encodeURIComponent(subject) +
           '&body=' +
           encodeURIComponent(lines.join('\n'));
+
+        /* Windows and several mail clients silently drop mailto: URLs past
+           roughly 2,000 characters, which would lose a long submission. */
+        if (href.length > 1800) {
+          setStatus(
+            'Your submission is too long to hand off by email link. Please email it directly to randy@waltongroup.net — the hosted form endpoint is not connected yet.',
+            false
+          );
+          return;
+        }
+
+        setStatus(
+          'Opening your email client to complete the request. The hosted form endpoint is not connected yet.',
+          true
+        );
+        window.location.href = href;
         return;
       }
 
