@@ -112,7 +112,7 @@ jobs:
         # Pinned to a compatible release: this runs once a month unattended, so
         # a breaking SDK change would surface as a failed edition, not as a
         # failing test someone is watching.
-        run: pip install --quiet 'anthropic~=0.120'
+        run: pip install --quiet 'anthropic~=0.120' 'reportlab~=5.0'
 
       # A re-run lands on the existing branch, so an editor's own commits are
       # never force-pushed away.
@@ -151,14 +151,17 @@ jobs:
         run: |
           python3 tools/test_validate_edition.py
           python3 tools/test_draft_edition.py
+          python3 tools/test_render_pdf.py
 
       - name: Validate the draft
         if: steps.plan.outputs.proceed == 'true'
         run: python3 tools/validate_edition.py "${{ steps.plan.outputs.path }}"
 
-      - name: Render the page
+      - name: Render the page and the PDF
         if: steps.plan.outputs.proceed == 'true'
-        run: python3 tools/render_html.py "${{ steps.plan.outputs.path }}"
+        run: |
+          python3 tools/render_html.py "${{ steps.plan.outputs.path }}"
+          python3 tools/render_pdf.py "${{ steps.plan.outputs.path }}"
 
       - name: Commit
         id: commit

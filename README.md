@@ -77,6 +77,7 @@ content/editions/<slug>.json   The edition — the only file you edit by hand
 tools/draft_edition.py         Researches a month and writes that JSON
 tools/validate_edition.py      Refuses an edition that breaks the standard
 tools/render_html.py           JSON -> the page, plus index/archive/sitemap/vercel
+tools/render_pdf.py            JSON -> the PDF companion in pdf/
 tools/compare_editions.py      Proves a render matches what is already published
 tools/build-edition-email.js   Page -> branded email for a Resend Broadcast
 ```
@@ -99,11 +100,22 @@ without a model, a key, or any cost — useful when changing the workflow itself
 python3 tools/draft_edition.py --month 2026-11        # research and write the JSON
 python3 tools/validate_edition.py content/editions/november-2026.json
 python3 tools/render_html.py content/editions/november-2026.json
+python3 tools/render_pdf.py content/editions/november-2026.json
 ```
 
-The render writes `editions/<slug>.html` and updates `index.html`, `archive.html`,
-`sitemap.xml`, and the `/latest` redirect in `vercel.json` in the same run. Add the
-PDF to `pdf/` separately.
+The HTML render writes `editions/<slug>.html` and updates `index.html`,
+`archive.html`, `sitemap.xml`, and the `/latest` redirect in `vercel.json` in the
+same run. The PDF render writes `pdf/Helm_Horizon_<Month><Year>.pdf` — the
+filename comes from the same function the page's download link uses, so the two
+cannot drift apart.
+
+The PDF needs `reportlab` (`pip install 'reportlab~=5.0'`); nothing else in the
+pipeline has a dependency. Zodiak and Satoshi are served to browsers from
+Fontshare and are not in this repository, so the PDF substitutes the best sans
+installed on the machine — `python3 tools/render_pdf.py --fonts` says which. When
+only ReportLab's built-in Helvetica is available it cannot draw a minus sign or an
+arrow, so `−7%` and `118 → 83` are transliterated to `-7%` and `118 -> 83` rather
+than printed as black boxes.
 
 Then build the email edition and paste it into a Resend Broadcast:
 
@@ -127,9 +139,14 @@ item, or source link from the article did not survive the conversion. See
 
 That last one is why quotes are never drafted. `draft_edition.py` always writes
 `voices: []`; a reader's words go in by hand, after a person has confirmed they
-may be published. `tools/test_validate_edition.py` and
-`tools/test_draft_edition.py` prove those refusals still fire — a validator that
-cannot fail would wave everything through.
+may be published. Both renderers refuse an uncleared quote outright, so skipping
+the validator does not get one printed.
+
+`tools/test_validate_edition.py`, `tools/test_draft_edition.py`, and
+`tools/test_render_pdf.py` prove those refusals still fire — a validator that
+cannot fail would wave everything through. The PDF test also asserts that every
+cited URL survives as a clickable link annotation, because a citation that
+silently stopped being a link still looks correct on the page.
 
 ### Secrets
 

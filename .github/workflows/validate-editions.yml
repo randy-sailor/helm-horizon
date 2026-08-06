@@ -35,6 +35,14 @@ jobs:
       - name: Test the drafting layer
         run: python3 tools/test_draft_edition.py
 
+      - name: Install the PDF toolkit
+        run: pip install --quiet 'reportlab~=5.0'
+
+      # The PDF is where the sourcing standard is easiest to lose silently: a
+      # citation that stopped being a clickable link still looks fine.
+      - name: Test the PDF renderer
+        run: python3 tools/test_render_pdf.py
+
       # Prove the whole path still runs: draft -> validate -> render, with no
       # model, no key, and no cost.
       - name: Dry-run the pipeline
@@ -44,7 +52,8 @@ jobs:
             --out /tmp/stub.json
           python3 tools/validate_edition.py --offline /tmp/stub.json
           python3 tools/render_html.py /tmp/stub.json --dry-run > /dev/null
-          echo "draft -> validate -> render: ok"
+          python3 tools/render_pdf.py /tmp/stub.json --out /tmp/stub.pdf
+          echo "draft -> validate -> render (html + pdf): ok"
 
       # Runners have unrestricted network, so the link check runs for real
       # here even though it must be skipped locally behind a proxy.
