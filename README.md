@@ -30,6 +30,10 @@ assets/base.css                Design system and all page styles
 assets/site.js                 Mobile nav, scroll reveal, form handling
 assets/img/                    WebP imagery
 pdf/                           PDF companion for each edition
+api/subscribe.js               Adds a reader as a Resend contact
+api/submit.js                  Emails a reader submission to the editor
+api/_lib.js                    Shared validation, guards, and Resend client
+docs/email-setup.md            Resend + ImprovMX DNS and configuration
 ```
 
 ## Design system
@@ -57,19 +61,29 @@ Type is Zodiak (display) and Satoshi (body), served from Fontshare.
 
 ## Forms
 
-`assets/site.js` reads `data-hh-form` and `data-endpoint` on each form. While `data-endpoint`
-still begins with `REPLACE`, submissions fall back to a `mailto:` link. Replace the placeholder
-values with live API routes to capture submissions server-side.
+`assets/site.js` reads `data-hh-form` and `data-endpoint` on each form and POSTs JSON to that
+endpoint. Both forms now point at same-origin Vercel functions in `api/`:
 
-**Until that happens, nothing is captured server-side** — the mailto handoff depends on the
-visitor having a working mail client, and it silently drops submissions longer than ~1,800
-characters (the `submit.html` outlook textarea can easily exceed that).
+| Form | Endpoint | What it does |
+| --- | --- | --- |
+| Subscribe (`index.html`, `subscribe.html`) | `/api/subscribe` | Adds the reader as a Resend contact |
+| Contribute (`submit.html`) | `/api/submit` | Emails the outlook to the editor via Resend |
 
-When you do wire up an endpoint, note the CSP in `vercel.json`: `connect-src 'self'` allows
-`fetch()` only to same-origin URLs. A same-origin route (`/api/subscribe`) works as-is. A
-third-party endpoint (Mailchimp, ConvertKit, Formspree, Buttondown) will be **blocked by the
-browser**, and the visitor will only see the generic "Something went wrong" message — add the
-provider's origin to `connect-src` at the same time you set `data-endpoint`.
+Both require environment variables to be set in Vercel — see
+[`docs/email-setup.md`](docs/email-setup.md). Until they are, the endpoints return a 500 with a
+readable message rather than failing silently.
+
+Because the endpoints are same-origin, the `connect-src 'self'` CSP in `vercel.json` needs no
+change. If you ever swap in a third-party endpoint (Mailchimp, ConvertKit, Formspree), it will
+be **blocked by the browser** until you add that provider's origin to `connect-src`.
+
+If `data-endpoint` is set back to a value beginning with `REPLACE`, the form falls back to a
+`mailto:` handoff. That path is a last resort: it depends on the visitor having a working mail
+client, and it refuses submissions over ~1,800 characters because mail clients truncate long
+`mailto:` URLs.
+
+The functions have no npm dependencies — they use the Node runtime's global `fetch`, so the
+project still has no build step and no `package.json`.
 
 ## Local development
 
