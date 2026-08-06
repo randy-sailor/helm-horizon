@@ -241,6 +241,32 @@ The usual defence is to make the landing page require a button press. That was
 not done here: it costs a click for every real subscriber, and the exposure is
 someone being subscribed who did submit the form themselves.
 
+## Email templates
+
+`api/_email.js` renders the confirmation email in the site's palette: navy
+masthead, gold rule, Georgia display type over a light body. Every send is
+multipart — HTML for clients that render it, plain text for those that do not
+and for spam filters, which treat HTML-only mail with suspicion.
+
+Email HTML is not web HTML. Layout is tables, styling is inline, and the
+palette is hard-coded rather than read from custom properties, because none of
+`base.css` reaches an inbox. If you restyle the site, this file does not
+follow automatically.
+
+The masthead is typographic rather than an image. Remote images are blocked by
+default in Outlook and frequently in Gmail, and a wordmark that always renders
+looks more deliberate than a broken image placeholder.
+
+To change the wording or add a template — a welcome email, say — edit
+`api/_email.js`. `shell()` supplies the masthead and footer; `button()` renders
+a click target that survives Outlook. Anything interpolated must go through
+`esc()`.
+
+One thing to add before sending marketing email at volume: US commercial email
+requires a physical postal address in the footer. The confirmation email is
+transactional so it is not strictly covered, but the Broadcasts will be, and
+Resend's Broadcast footer is the place for it.
+
 ## Unsubscribe
 
 The site promises one-click unsubscribe in every issue. Resend Broadcasts

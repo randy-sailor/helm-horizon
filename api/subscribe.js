@@ -4,6 +4,7 @@
 'use strict';
 
 var lib = require('./_lib');
+var email_tpl = require('./_email');
 
 module.exports = async function handler(req, res) {
   if (lib.guard(req, res)) return;
@@ -119,18 +120,15 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    /* Both parts are sent: the HTML for clients that render it, the text for
+       those that do not and for spam filters, which distrust HTML-only mail. */
+    var msg = email_tpl.confirmation({ url: url, name: name });
     var mail = await lib.resend('/emails', {
       from: from,
       to: [email],
-      subject: 'Confirm your Helm & Horizon subscription',
-      text:
-        'Thanks for subscribing to Helm & Horizon.\n\n' +
-        'Confirm your subscription by opening this link:\n\n' +
-        url +
-        '\n\nThe link is valid for seven days. If you did not request this, ' +
-        'ignore this email — no issues will be sent unless you confirm.\n\n' +
-        'Helm & Horizon — a monthly market briefing for yacht industry leaders.\n' +
-        'Published by The Walton Group, Inc.\n'
+      subject: msg.subject,
+      html: msg.html,
+      text: msg.text
     });
 
     if (!mail.ok) {
