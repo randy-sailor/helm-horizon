@@ -886,6 +886,15 @@ ul {
 .field select option {
   color: var(--ink);
 }
+/* Honeypot. Hidden from people, left in the DOM for bots to fill in.
+   Not display:none — some bots skip those. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 .form__note {
   font-size: var(--text-xs);
   color: rgba(207, 220, 236, 0.7);

@@ -111,7 +111,7 @@
             class="form"
             method="post"
             data-hh-form="subscribe"
-            data-endpoint="REPLACE_WITH_YOUR_SUBSCRIBE_ENDPOINT"
+            data-endpoint="/api/subscribe"
             data-success="You are on the list. Watch for a confirmation email."
           >
             <div class="field">
@@ -154,6 +154,10 @@
                 <option>Supplier</option>
                 <option>Other</option>
               </select>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="hp-sub">Website</label>
+              <input type="text" id="hp-sub" name="website" tabindex="-1" autocomplete="off" />
             </div>
             <button class="btn btn--gold" type="submit" style="width: 100%; justify-content: center">
               Subscribe free

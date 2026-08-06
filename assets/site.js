@@ -132,10 +132,23 @@
         body: JSON.stringify(data)
       })
         .then(function (res) {
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          return res.json().catch(function () {
-            return {};
-          });
+          return res
+            .json()
+            .catch(function () {
+              return {};
+            })
+            .then(function (payload) {
+              /* Surface the server's own message so a reader is told what
+                 actually went wrong rather than a blanket failure. */
+              if (!res.ok) {
+                var e = new Error(payload.error || 'HTTP ' + res.status);
+                /* Only trust the message when the API actually supplied one.
+                   A bare status code is not something to show a reader. */
+                e.fromServer = typeof payload.error === 'string' && payload.error.length > 0;
+                throw e;
+              }
+              return payload;
+            });
         })
         .then(function () {
           form.reset();
@@ -145,9 +158,13 @@
             true
           );
         })
-        .catch(function () {
+        .catch(function (err) {
+          /* Network-level failures carry browser text like "Failed to fetch",
+             so only show a message that actually came from our API. */
           setStatus(
-            'Something went wrong. Please email randy@waltongroup.net and we will add you manually.',
+            err && err.fromServer
+              ? err.message
+              : 'Something went wrong. Please email randy@waltongroup.net and we will add you manually.',
             false
           );
         })
