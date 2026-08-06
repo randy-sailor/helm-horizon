@@ -56,14 +56,14 @@ module.exports = async function handler(req, res) {
     if (!r.ok) {
       console.error('Resend send error', r.status, JSON.stringify(r.body));
       return lib.json(res, 502, {
-        error: 'We could not send that. Please email randy@waltongroup.net directly.'
+        error: 'We could not send that. Please email editor@thehelmandhorizon.com directly.'
       });
     }
     return lib.json(res, 200, { ok: true });
   } catch (err) {
     console.error('submit failed', err && err.message);
     return lib.json(res, 500, {
-      error: 'We could not send that. Please email randy@waltongroup.net directly.'
+      error: 'We could not send that. Please email editor@thehelmandhorizon.com directly.'
     });
   }
 };

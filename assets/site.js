@@ -97,7 +97,7 @@
           return k + ': ' + data[k];
         });
         var href =
-          'mailto:randy@waltongroup.net?subject=' +
+          'mailto:editor@thehelmandhorizon.com?subject=' +
           encodeURIComponent(subject) +
           '&body=' +
           encodeURIComponent(lines.join('\n'));
@@ -106,7 +106,7 @@
            roughly 2,000 characters, which would lose a long submission. */
         if (href.length > 1800) {
           setStatus(
-            'Your submission is too long to hand off by email link. Please email it directly to randy@waltongroup.net — the hosted form endpoint is not connected yet.',
+            'Your submission is too long to hand off by email link. Please email it directly to editor@thehelmandhorizon.com — the hosted form endpoint is not connected yet.',
             false
           );
           return;
@@ -164,7 +164,7 @@
           setStatus(
             err && err.fromServer
               ? err.message
-              : 'Something went wrong. Please email randy@waltongroup.net and we will add you manually.',
+              : 'Something went wrong. Please email editor@thehelmandhorizon.com and we will add you manually.',
             false
           );
         })

@@ -45,7 +45,7 @@ module.exports = async function handler(req, res) {
     if (!r.ok && r.status !== 409) {
       console.error('Resend contacts error', r.status, JSON.stringify(r.body));
       return lib.json(res, 502, {
-        error: 'We could not add you just now. Please email randy@waltongroup.net.'
+        error: 'We could not add you just now. Please email editor@thehelmandhorizon.com.'
       });
     }
 
@@ -60,7 +60,7 @@ module.exports = async function handler(req, res) {
   } catch (err) {
     console.error('subscribe failed', err && err.message);
     return lib.json(res, 500, {
-      error: 'We could not add you just now. Please email randy@waltongroup.net.'
+      error: 'We could not add you just now. Please email editor@thehelmandhorizon.com.'
     });
   }
 };

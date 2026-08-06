@@ -1,5 +1,12 @@
 # Email setup — Resend + ImprovMX
 
+> **Before merging:** the site now publishes `editor@thehelmandhorizon.com` in
+> every footer, the About masthead, and the corrections and error messages. That
+> alias does not exist until you create it in ImprovMX and the MX records
+> resolve. Merging this branch before then means the site advertises an address
+> that bounces. Create the alias first, confirm with
+> `dig MX thehelmandhorizon.com +short`, then merge.
+
 Two services, two jobs, and one rule that matters more than the rest.
 
 | Service | Job | Owns |
@@ -98,7 +105,7 @@ Set these up in ImprovMX, all forwarding to `randy@waltongroup.net`:
 
 | Alias | Used for |
 | --- | --- |
-| `editor@` | Masthead, corrections, the site's contact links |
+| `editor@` | **Required** — the site publishes this in 25 places |
 | `hello@` | General |
 | `tips@` | The "Tips" route on the contribute page |
 | `dmarc@` | DMARC aggregate reports (they are noisy — worth its own alias) |
