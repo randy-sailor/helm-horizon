@@ -44,6 +44,8 @@ api/confirm.js                 Verifies the link and activates the contact
 api/submit.js                  Emails a reader submission to the editor
 api/_lib.js                    Shared validation, guards, signing, Resend client
 api/_email.js                  Branded HTML + plain-text email templates
+tools/build-edition-email.js   Turns an edition page into a branded email
+emails/                        Generated email editions, for Resend Broadcasts
 docs/email-setup.md            Resend + ImprovMX DNS and configuration
 ```
 
@@ -69,6 +71,15 @@ Type is Zodiak (display) and Satoshi (body), served from Fontshare.
 4. Add a card to `archive.html` and update the lede on `index.html`.
 5. Point the `/latest` redirect in `vercel.json` at the new edition.
 6. Add the new URL to `sitemap.xml`.
+7. Build the email edition and paste it into a Resend Broadcast:
+
+```bash
+node tools/build-edition-email.js editions/<month>-<year>.html
+```
+
+It writes `emails/<month>-<year>.html` and fails loudly if any heading,
+paragraph, list item, or source link from the article did not survive the
+conversion. See [`docs/email-setup.md`](docs/email-setup.md).
 
 ## Forms
 

@@ -5,23 +5,59 @@
   "headers": [
     {
       "source": "/assets/img/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/assets/(base.css|site.js)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/emails/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     },
     {
       "source": "/pdf/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        },
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://api.fontshare.com; font-src 'self' https://cdn.fontshare.com; script-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'"
@@ -30,9 +66,25 @@
     }
   ],
   "redirects": [
-    { "source": "/latest", "destination": "/editions/september-2026", "permanent": false },
-    { "source": "/september-2026", "destination": "/editions/september-2026", "permanent": true },
-    { "source": "/issues", "destination": "/archive", "permanent": true },
-    { "source": "/contribute", "destination": "/submit", "permanent": true }
+    {
+      "source": "/latest",
+      "destination": "/editions/september-2026",
+      "permanent": false
+    },
+    {
+      "source": "/september-2026",
+      "destination": "/editions/september-2026",
+      "permanent": true
+    },
+    {
+      "source": "/issues",
+      "destination": "/archive",
+      "permanent": true
+    },
+    {
+      "source": "/contribute",
+      "destination": "/submit",
+      "permanent": true
+    }
   ]
 }
