@@ -1,5 +1,5 @@
-/* POST /api/subscribe — add a reader to the Resend audience.
-   Same-origin only. Requires RESEND_API_KEY and RESEND_AUDIENCE_ID. */
+/* POST /api/subscribe — add a reader as a Resend contact.
+   Same-origin only. Requires RESEND_API_KEY. RESEND_SEGMENT_ID is optional. */
 
 'use strict';
 
@@ -19,12 +19,6 @@ module.exports = async function handler(req, res) {
     return lib.json(res, 400, { error: 'Please enter a valid email address.' });
   }
 
-  var audience = process.env.RESEND_AUDIENCE_ID;
-  if (!audience) {
-    console.error('RESEND_AUDIENCE_ID is not set');
-    return lib.json(res, 500, { error: 'Subscriptions are not configured yet.' });
-  }
-
   /* Resend contacts carry first/last name, so split the single name field
      on the first space and keep the remainder as the surname. */
   var name = lib.clean(body.name, 120);
@@ -32,13 +26,31 @@ module.exports = async function handler(req, res) {
   var first = space === -1 ? name : name.slice(0, space);
   var last = space === -1 ? '' : name.slice(space + 1);
 
+  /* Contacts are global in Resend's current model — no audience needed.
+     Role and company become custom contact properties, which makes them
+     usable for segmenting and personalising a Broadcast. */
+  var payload = {
+    email: email,
+    first_name: first,
+    last_name: last,
+    unsubscribed: false
+  };
+
+  var role = lib.clean(body.role, 60);
+  var company = lib.clean(body.company, 120);
+  if (role || company) {
+    payload.properties = {};
+    if (role) payload.properties.role = role;
+    if (company) payload.properties.company = company;
+  }
+
+  /* Optional. Set RESEND_SEGMENT_ID to file new readers into a segment;
+     leave it unset and they are simply global contacts. */
+  var segment = process.env.RESEND_SEGMENT_ID;
+  if (segment) payload.segments = [{ id: segment }];
+
   try {
-    var r = await lib.resend('/audiences/' + encodeURIComponent(audience) + '/contacts', {
-      email: email,
-      first_name: first,
-      last_name: last,
-      unsubscribed: false
-    });
+    var r = await lib.resend('/contacts', payload);
 
     /* An address already on the list is a success from the reader's point
        of view, and saying so would disclose who is subscribed. */
@@ -48,13 +60,6 @@ module.exports = async function handler(req, res) {
         error: 'We could not add you just now. Please email editor@thehelmandhorizon.com.'
       });
     }
-
-    /* Role and company are not Resend contact fields. Log them so they are
-       recoverable from the function logs until there is somewhere to put
-       them; drop these two lines if you would rather not retain them. */
-    var role = lib.clean(body.role, 60);
-    var company = lib.clean(body.company, 120);
-    if (role || company) console.log('signup context', email, role, company);
 
     return lib.json(res, 200, { ok: true });
   } catch (err) {

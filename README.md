@@ -30,7 +30,7 @@ assets/base.css                Design system and all page styles
 assets/site.js                 Mobile nav, scroll reveal, form handling
 assets/img/                    WebP imagery
 pdf/                           PDF companion for each edition
-api/subscribe.js               Adds a reader to the Resend audience
+api/subscribe.js               Adds a reader as a Resend contact
 api/submit.js                  Emails a reader submission to the editor
 api/_lib.js                    Shared validation, guards, and Resend client
 docs/email-setup.md            Resend + ImprovMX DNS and configuration
@@ -66,7 +66,7 @@ endpoint. Both forms now point at same-origin Vercel functions in `api/`:
 
 | Form | Endpoint | What it does |
 | --- | --- | --- |
-| Subscribe (`index.html`, `subscribe.html`) | `/api/subscribe` | Adds the reader to a Resend audience |
+| Subscribe (`index.html`, `subscribe.html`) | `/api/subscribe` | Adds the reader as a Resend contact |
 | Contribute (`submit.html`) | `/api/submit` | Emails the outlook to the editor via Resend |
 
 Both require environment variables to be set in Vercel — see

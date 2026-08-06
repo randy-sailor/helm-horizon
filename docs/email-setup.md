@@ -144,12 +144,20 @@ A catch-all (`*@`) is convenient but attracts spam. Named aliases are safer.
 Set these in the Vercel project (Settings → Environment Variables), for
 Production and Preview:
 
-| Variable | Value |
-| --- | --- |
-| `RESEND_API_KEY` | Resend API key — **create it with sending permission only** |
-| `RESEND_AUDIENCE_ID` | The Resend audience the subscribe form adds contacts to |
-| `SUBMIT_FROM` | `Helm & Horizon <newsletter@thehelmandhorizon.com>` |
-| `EDITOR_EMAIL` | `editor@thehelmandhorizon.com` |
+| Variable | Required | Value |
+| --- | --- | --- |
+| `RESEND_API_KEY` | yes | Resend API key — **create it with sending permission only** |
+| `SUBMIT_FROM` | yes | `Helm & Horizon <newsletter@thehelmandhorizon.com>` |
+| `EDITOR_EMAIL` | yes | `editor@thehelmandhorizon.com` |
+| `RESEND_SEGMENT_ID` | no | A segment ID, if you want new readers filed into one |
+
+There is deliberately **no** `RESEND_AUDIENCE_ID`. Resend has moved to a global
+Contacts model: Audiences were renamed Segments, contacts are no longer scoped
+to one, and `POST /contacts` takes no audience. If you set that variable
+earlier, delete it — nothing reads it.
+
+The subscribe form writes `role` and `company` as custom contact properties, so
+they are available for segmenting and for personalising a Broadcast.
 
 The API key is a secret: it belongs only in Vercel's environment variables,
 never in this repository. `.env` is already gitignored.
@@ -161,12 +169,12 @@ never in this repository. `.env` is already gitignored.
 3. Add the ImprovMX records **and** the Resend records to DNS.
 4. Verify in both dashboards. DNS can take minutes to hours.
 5. Create the `editor@` alias in ImprovMX and send yourself a test.
-6. Create the Resend audience, copy its ID.
-7. Set the four Vercel environment variables, redeploy.
-8. Subscribe through the live form and confirm the contact appears in Resend.
-9. Merge the PR — only once `editor@` is confirmed working.
-10. Add Gmail send-as via `smtp.resend.com` if you want to reply as `editor@`.
-11. Send the first Broadcast to a test audience of one before the real list.
+6. Set the three required Vercel environment variables, redeploy.
+7. Subscribe through the live form and confirm the contact appears under
+   Audience → Contacts in Resend.
+8. Merge the PR — only once `editor@` is confirmed working.
+9. Add Gmail send-as via `smtp.resend.com` if you want to reply as `editor@`.
+10. Send the first Broadcast to a test audience of one before the real list.
 
 ## Checking your work
 
