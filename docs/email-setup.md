@@ -7,30 +7,44 @@
 > that bounces. Create the alias first, confirm with
 > `dig MX thehelmandhorizon.com +short`, then merge.
 
-Two services, two jobs, and one rule that matters more than the rest.
+Two services, two jobs.
 
 | Service | Job | Owns |
 | --- | --- | --- |
-| **Resend** | Sends the monthly edition to subscribers | `send.thehelmandhorizon.com` |
-| **ImprovMX** | Receives mail at `@thehelmandhorizon.com` and forwards it | `thehelmandhorizon.com` (root) |
+| **Resend** | Sends the monthly edition and the site's transactional mail | `send.thehelmandhorizon.com` (return path only) |
+| **ImprovMX** | Receives mail at `@thehelmandhorizon.com` and forwards it to you | `thehelmandhorizon.com` MX |
 
-## The rule: keep Resend off the root domain
+## Add the root domain to Resend, not a subdomain
 
-A hostname can have exactly one set of MX records. ImprovMX needs the root
-domain's MX records to receive mail. Resend also asks for an MX record, for
-bounce and complaint feedback.
+This is the part that is easy to get backwards.
 
-**If you point Resend at `thehelmandhorizon.com`, its MX record replaces
-ImprovMX's and inbound mail to the domain stops arriving.** Not immediately
-obvious either — sending keeps working, so the failure looks unrelated.
+Resend needs an MX record to collect bounce and complaint reports. It does
+**not** put that record on your root domain. When you add
+`thehelmandhorizon.com` to Resend, it generates a return-path MX on
+`send.thehelmandhorizon.com` for you. Your root MX is never touched, so
+ImprovMX keeps receiving mail.
 
-Putting Resend on the `send.` subdomain avoids the collision entirely, and it
-is what [Resend recommends](https://github.com/resend/resend-skills/blob/main/skills/resend/references/domains.md)
-for exactly this reason. It also isolates reputation: if newsletter sending
-ever gets a domain flagged, your actual address is unaffected.
+That means you should add **`thehelmandhorizon.com`** — the root — as the
+sending domain. Doing so is what lets you send *from*
+`newsletter@thehelmandhorizon.com` and `editor@thehelmandhorizon.com`.
 
-So in Resend, add the domain as **`send.thehelmandhorizon.com`**, not
-`thehelmandhorizon.com`.
+If you instead add `send.thehelmandhorizon.com` as the domain, you can only
+send from `@send.thehelmandhorizon.com`, which is not an address you want on a
+masthead.
+
+## Do not turn on Resend receiving
+
+Resend also offers inbound email, but it is webhook-based, not forwarding-based:
+it accepts the mail, stores it, and POSTs metadata to an endpoint you have to
+build and host. Nothing reaches your inbox without code.
+
+Worse, enabling it on the root domain means
+[all mail routes to Resend and none to any other mailbox](https://resend.com/docs/dashboard/receiving/introduction)
+— which would silently replace ImprovMX. If you have already enabled receiving,
+remove that MX record from the root before the change propagates.
+
+ImprovMX handles this with per-alias rules and no code. Resend inbound is a
+catch-all that needs an application behind it.
 
 ## DNS records
 
@@ -45,7 +59,7 @@ registrar if the nameservers point elsewhere).
 | MX | `@` | `mx2.improvmx.com` | 20 |
 | TXT | `@` | `v=spf1 include:spf.improvmx.com ~all` | — |
 
-### Resend — sending, on the `send.` subdomain
+### Resend — sending
 
 Resend generates these when you add the domain. Copy the values from its
 dashboard rather than from here — **the DKIM key is unique to your domain and
@@ -55,7 +69,10 @@ cannot be guessed**, and the MX hostname is region-specific.
 | --- | --- | --- | --- |
 | MX | `send` | `feedback-smtp.<region>.amazonses.com` (from Resend) | 10 |
 | TXT | `send` | `v=spf1 include:amazonses.com ~all` (from Resend) | — |
-| TXT | `resend._domainkey.send` | the long DKIM value from Resend | — |
+| TXT | `resend._domainkey` | the long DKIM value from Resend | — |
+
+Note that the MX and SPF land on `send`, while DKIM sits on the root. That
+split is deliberate and is why the two services coexist.
 
 Pick the region deliberately — it is **immutable after creation**. `us-east-1`
 is the default and is right unless you have an EU data-residency reason.
@@ -77,27 +94,37 @@ you silently lose real mail.
    SPF record from anything else, do not add a second — merge the includes into
    one: `v=spf1 include:spf.improvmx.com include:otherservice.com ~all`.
 2. **If your DNS provider auto-appends the domain,** entering
-   `resend._domainkey.send.thehelmandhorizon.com` can become
-   `...thehelmandhorizon.com.thehelmandhorizon.com`. Enter just
-   `resend._domainkey.send`, or use a trailing dot.
+   `feedback-smtp.us-east-1.amazonses.com` can become
+   `feedback-smtp.us-east-1.amazonses.com.thehelmandhorizon.com`. Add a trailing
+   dot to the value, or enter just the subdomain portion for the host.
 
 On Cloudflare, set all of these to **DNS only** (grey cloud). Proxying breaks
 DKIM verification.
 
-## Sending *from* the domain
+## Sending as editor@ from your own inbox
 
 ImprovMX forwarding is one-directional: mail arrives and is forwarded, but
 replying from your normal inbox still sends from that inbox's address.
 
-To send as `editor@thehelmandhorizon.com` you need **ImprovMX SMTP, which is a
-paid feature** — [Premium, $9/month](https://improvmx.com/pricing) at the time
-of writing, with a 6,000/month send limit. You create SMTP credentials in
-ImprovMX, add their DKIM and DMARC records, then add the address to Gmail under
-*Settings → Accounts → Send mail as* using `smtp.improvmx.com`.
+**Resend's SMTP interface solves this at no extra cost**, so ImprovMX's paid
+SMTP add-on is not needed. In Gmail, go to *Settings → Accounts and Import →
+Send mail as → Add another email address* and use:
 
-Without a paid plan you can receive at the domain but not send from it. There
-is no free path to sending from a custom domain without running a mail server,
-which is the thing you said you wanted to avoid.
+| Setting | Value |
+| --- | --- |
+| Email address | `editor@thehelmandhorizon.com` |
+| SMTP server | `smtp.resend.com` |
+| Port | `587` (STARTTLS) or `465` (SSL/TLS) |
+| Username | `resend` |
+| Password | your Resend API key |
+
+This works only because the **root** domain is verified for sending in Resend.
+It is also why the API key needs treating as a real credential — it is now
+sitting in Gmail's settings as an SMTP password. Consider a separate key for
+this, so you can rotate it without breaking the site's forms.
+
+One tradeoff: your personal replies then share sending reputation with the
+newsletter. For a low-volume editorial address that is fine.
 
 ## Suggested aliases
 
@@ -121,7 +148,7 @@ Production and Preview:
 | --- | --- |
 | `RESEND_API_KEY` | Resend API key — **create it with sending permission only** |
 | `RESEND_AUDIENCE_ID` | The Resend audience the subscribe form adds contacts to |
-| `SUBMIT_FROM` | `Helm & Horizon <newsletter@send.thehelmandhorizon.com>` |
+| `SUBMIT_FROM` | `Helm & Horizon <newsletter@thehelmandhorizon.com>` |
 | `EDITOR_EMAIL` | `editor@thehelmandhorizon.com` |
 
 The API key is a secret: it belongs only in Vercel's environment variables,
@@ -129,29 +156,32 @@ never in this repository. `.env` is already gitignored.
 
 ## Order of operations
 
-1. Add the domain in Resend as `send.thehelmandhorizon.com`, pick the region.
-2. Add the ImprovMX records **and** the Resend records to DNS.
-3. Verify in both dashboards. DNS can take minutes to hours.
-4. Create the Resend audience, copy its ID.
-5. Set the four Vercel environment variables, redeploy.
-6. Subscribe yourself through the live form and confirm the contact appears.
-7. Upgrade ImprovMX to Premium and configure SMTP if you want to send as
-   `editor@`.
-8. Send the first Broadcast to a test audience of one before the real list.
+1. In Resend, add the domain as **`thehelmandhorizon.com`**, pick the region.
+2. If Resend receiving is enabled, disable it and remove its root MX record.
+3. Add the ImprovMX records **and** the Resend records to DNS.
+4. Verify in both dashboards. DNS can take minutes to hours.
+5. Create the `editor@` alias in ImprovMX and send yourself a test.
+6. Create the Resend audience, copy its ID.
+7. Set the four Vercel environment variables, redeploy.
+8. Subscribe through the live form and confirm the contact appears in Resend.
+9. Merge the PR — only once `editor@` is confirmed working.
+10. Add Gmail send-as via `smtp.resend.com` if you want to reply as `editor@`.
+11. Send the first Broadcast to a test audience of one before the real list.
 
 ## Checking your work
 
 ```bash
-dig MX  thehelmandhorizon.com          +short   # expect mx1/mx2.improvmx.com
+dig MX  thehelmandhorizon.com          +short   # expect mx1/mx2.improvmx.com ONLY
 dig TXT thehelmandhorizon.com          +short   # expect the improvmx SPF
 dig MX  send.thehelmandhorizon.com     +short   # expect feedback-smtp...amazonses.com
 dig TXT send.thehelmandhorizon.com     +short   # expect the amazonses SPF
-dig TXT resend._domainkey.send.thehelmandhorizon.com +short
+dig TXT resend._domainkey.thehelmandhorizon.com +short
 dig TXT _dmarc.thehelmandhorizon.com   +short
 ```
 
-If the first command returns anything other than the ImprovMX hosts, something
-has taken the root MX — that is the collision described at the top.
+The first command is the one that matters. If it returns anything other than
+the two ImprovMX hosts — an `amazonses` or `inbound-smtp` host in particular —
+something has taken the root MX and inbound mail is no longer reaching you.
 
 ## Unsubscribe
 
@@ -160,3 +190,10 @@ handle this: include the `{{{RESEND_UNSUBSCRIBE_URL}}}` variable in the
 broadcast footer and Resend manages the opt-out against the audience. Do not
 hand-roll it — an unsubscribe link that does not work is a spam complaint and,
 for a commercial newsletter, a legal exposure.
+
+## Sources
+
+- [Resend: how to avoid conflicts with your MX records](https://resend.com/docs/knowledge-base/how-do-i-avoid-conflicting-with-my-mx-records)
+- [Resend: receiving emails](https://resend.com/docs/dashboard/receiving/introduction)
+- [Resend: send with SMTP](https://resend.com/docs/send-with-smtp)
+- [ImprovMX: MX records](https://improvmx.com/guides/mx-records/)
