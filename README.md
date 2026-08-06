@@ -12,6 +12,11 @@ Boat International's order book, and charter and insurance market reporting.
 Static HTML, CSS, and vanilla JavaScript. No build step, no framework, no dependencies.
 Hosted on Vercel; `vercel.json` handles clean URLs, cache headers, and CSP.
 
+Because there is no build step, `base.css` and `site.js` have no content hash in their
+filenames, so they are served `max-age=0, must-revalidate` (cheap 304s, and edits go live
+immediately). Only `/assets/img/` is cached immutably for a year — rename an image rather than
+replacing it in place.
+
 ## Layout
 
 ```
@@ -55,6 +60,16 @@ Type is Zodiak (display) and Satoshi (body), served from Fontshare.
 `assets/site.js` reads `data-hh-form` and `data-endpoint` on each form. While `data-endpoint`
 still begins with `REPLACE`, submissions fall back to a `mailto:` link. Replace the placeholder
 values with live API routes to capture submissions server-side.
+
+**Until that happens, nothing is captured server-side** — the mailto handoff depends on the
+visitor having a working mail client, and it silently drops submissions longer than ~1,800
+characters (the `submit.html` outlook textarea can easily exceed that).
+
+When you do wire up an endpoint, note the CSP in `vercel.json`: `connect-src 'self'` allows
+`fetch()` only to same-origin URLs. A same-origin route (`/api/subscribe`) works as-is. A
+third-party endpoint (Mailchimp, ConvertKit, Formspree, Buttondown) will be **blocked by the
+browser**, and the visitor will only see the generic "Something went wrong" message — add the
+provider's origin to `connect-src` at the same time you set `data-endpoint`.
 
 ## Local development
 

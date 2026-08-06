@@ -14,7 +14,7 @@
   --paper-warm: #efeae0;
   --ink: #14202c;
   --ink-soft: #4a5b6c;
-  --ink-faint: #7d8b98;
+  --ink-faint: #5a6a78; /* darkened for 4.5:1 on --paper and --paper-warm */
   --light-blue: #cfdcec;
   --rule: #dcd6c9;
   --rule-dark: rgba(207, 220, 236, 0.18);

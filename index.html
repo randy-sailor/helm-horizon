@@ -11,6 +11,7 @@
     <link rel="canonical" href="https://thehelmandhorizon.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Helm &amp; Horizon" />
+    <meta property="og:url" content="https://thehelmandhorizon.com/" />
     <meta
       property="og:title"
       content="Helm &amp; Horizon — A monthly market briefing for yacht industry leaders"
@@ -30,12 +31,19 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/assets/base.css" />
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      </style>
+    </noscript>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Periodical",
         "name": "Helm & Horizon",
-        "issn": "",
         "description": "A monthly market briefing for yacht industry leaders.",
         "publisher": { "@type": "Organization", "name": "The Walton Group, Inc." }
       }
@@ -354,6 +362,7 @@
 
           <form
             class="form"
+            method="post"
             data-hh-form="subscribe"
             data-endpoint="REPLACE_WITH_YOUR_SUBSCRIBE_ENDPOINT"
             data-success="You are on the list. Watch for a confirmation email."
@@ -402,6 +411,15 @@
               We send one email a month and nothing else. No sharing, no reselling, unsubscribe from
               any issue.
             </p>
+            <noscript>
+              <p class="form__note">
+                This form needs JavaScript. Email
+                <a href="mailto:randy@waltongroup.net" style="color: var(--gold)"
+                  >randy@waltongroup.net</a
+                >
+                and we will add you by hand.
+              </p>
+            </noscript>
             <p class="form__status" role="status" aria-live="polite"></p>
           </form>
         </div>
