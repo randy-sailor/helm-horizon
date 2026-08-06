@@ -267,6 +267,44 @@ requires a physical postal address in the footer. The confirmation email is
 transactional so it is not strictly covered, but the Broadcasts will be, and
 Resend's Broadcast footer is the place for it.
 
+## Building the email edition
+
+The monthly Broadcast is generated from the edition page rather than written
+twice:
+
+```bash
+node tools/build-edition-email.js editions/september-2026.html
+# -> emails/september-2026.html
+```
+
+Paste the output into a Resend Broadcast. It reuses `api/_email.js` for the
+masthead, footer, and button, so the edition and the confirmation email cannot
+drift apart, and it maps every component the editions use — callouts, the risk
+boxes, `datalist` tables, numbered action steps, figures — onto table-based
+equivalents.
+
+The build **fails** if any heading, paragraph, list item, or source link from
+the article is missing from the output, so a markup change that the converter
+does not understand is caught rather than shipped as a silently truncated
+issue. It also fails on double-escaped entities, which are invisible in source
+but print as literal `&mdash;` in the inbox.
+
+Two things it does deliberately:
+
+- **Absolute URLs.** Relative links work on the site and break in an inbox, so
+  every `/path` becomes `https://thehelmandhorizon.com/path`.
+- **The unsubscribe variable.** The footer carries
+  `{{{RESEND_UNSUBSCRIBE_URL}}}`, which Resend substitutes per recipient. The
+  build fails if it is absent, because an edition without a working unsubscribe
+  link is a spam complaint waiting to happen.
+
+Images are referenced absolutely from the live site. Most clients block remote
+images by default, so an edition should read completely without them — the
+figures carry `alt` text and nothing load-bearing lives in an image.
+
+Send a test to yourself before the list. Resend Broadcasts support a test send,
+and it is worth doing on every issue.
+
 ## Unsubscribe
 
 The site promises one-click unsubscribe in every issue. Resend Broadcasts
