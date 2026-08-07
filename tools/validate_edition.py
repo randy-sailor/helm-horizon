@@ -199,13 +199,19 @@ def validate_structure(p, ed):
                     p.add(where, 'missing "%s"' % k)
 
 
-def validate_sequence(p, ed, path):
-    """number must be exactly one greater than the highest other edition."""
+def validate_sequence(p, ed, path, editions_dir=EDITIONS_DIR):
+    """number must be exactly one greater than the highest other edition.
+
+    The archive to sequence against is a parameter, not a constant: an edition
+    is only in or out of sequence relative to some set of editions, and the
+    fixtures need to state their own. Pinning this to the live directory made
+    the fixture tests fail the moment a new edition landed on disk.
+    """
     highest = None
-    for name in sorted(os.listdir(EDITIONS_DIR)) if os.path.isdir(EDITIONS_DIR) else []:
+    for name in sorted(os.listdir(editions_dir)) if os.path.isdir(editions_dir) else []:
         if not name.endswith('.json'):
             continue
-        full = os.path.join(EDITIONS_DIR, name)
+        full = os.path.join(editions_dir, name)
         if os.path.abspath(full) == os.path.abspath(path):
             continue
         try:
@@ -295,7 +301,7 @@ def validate_links(p, ed, workers=8):
 
 # ------------------------------------------------------------------- reporting
 
-def validate(path, offline=False):
+def validate(path, offline=False, editions_dir=EDITIONS_DIR):
     p = Problems(path)
     try:
         ed = json.load(open(path, encoding='utf-8'))
@@ -307,7 +313,7 @@ def validate(path, offline=False):
         return p
 
     validate_structure(p, ed)
-    validate_sequence(p, ed, path)
+    validate_sequence(p, ed, path, editions_dir)
     if not offline:
         validate_links(p, ed)
     return p

@@ -114,6 +114,20 @@ jobs:
         # failing test someone is watching.
         run: pip install --quiet 'anthropic~=0.120' 'reportlab~=5.0'
 
+      # A pull request opened with GITHUB_TOKEN does not trigger other
+      # workflows, so validate-editions.yml will not run on it. Validation
+      # happens here or it does not happen at all.
+      #
+      # Before the draft is written, not after: these prove the checks can
+      # still fail, and they should do that against a tree nothing has
+      # touched yet.
+      - name: Prove the checks still reject
+        if: steps.plan.outputs.proceed == 'true'
+        run: |
+          python3 tools/test_validate_edition.py
+          python3 tools/test_draft_edition.py
+          python3 tools/test_render_pdf.py
+
       # A re-run lands on the existing branch, so an editor's own commits are
       # never force-pushed away.
       - name: Check out the edition branch
@@ -142,16 +156,6 @@ jobs:
           else
             python3 tools/draft_edition.py --provider "$PROVIDER" --force
           fi
-
-      # A pull request opened with GITHUB_TOKEN does not trigger other
-      # workflows, so validate-editions.yml will not run on it. Validation
-      # happens here or it does not happen at all.
-      - name: Prove the validator still rejects
-        if: steps.plan.outputs.proceed == 'true'
-        run: |
-          python3 tools/test_validate_edition.py
-          python3 tools/test_draft_edition.py
-          python3 tools/test_render_pdf.py
 
       - name: Validate the draft
         if: steps.plan.outputs.proceed == 'true'
