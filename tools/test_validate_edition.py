@@ -6,13 +6,24 @@
 A validator that never fails is worse than none, so each fixture isolates one
 defect and asserts both that it is caught and that the message names it.
 """
+import json
 import os
 import sys
+import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import validate_edition as V  # noqa: E402
 
 FIX = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
+
+# The fixtures are numbered 10, so they need an archive whose highest edition is
+# 9 to sequence against. Building that here rather than borrowing the real
+# content/editions keeps these tests hermetic: they used to start failing the
+# moment a new edition landed on disk, which is how the drafting workflow
+# caught this — it writes a draft and then runs these.
+ARCHIVE = tempfile.mkdtemp()
+json.dump({'volume': 1, 'number': 9, 'slug': 'prior-2026'},
+          open(os.path.join(ARCHIVE, 'prior-2026.json'), 'w', encoding='utf-8'))
 
 CASES = [
     ('valid.json', None, 'baseline must pass'),
@@ -25,7 +36,7 @@ CASES = [
 
 failures = 0
 for name, expect, desc in CASES:
-    p = V.validate(os.path.join(FIX, name), offline=True)
+    p = V.validate(os.path.join(FIX, name), offline=True, editions_dir=ARCHIVE)
     msgs = ' | '.join('%s: %s' % (w, m) for w, m in p.items)
     if expect is None:
         ok = not p
