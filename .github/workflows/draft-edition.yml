@@ -195,13 +195,43 @@ jobs:
           MONTH: ${{ steps.plan.outputs.month }}
           NUMBER: ${{ steps.plan.outputs.number }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
           if gh pr view "$BRANCH" --json number >/dev/null 2>&1; then
             gh pr comment "$BRANCH" --body-file .github/pr-redraft.md
             echo "updated the open pull request" | tee -a "$GITHUB_STEP_SUMMARY"
-          else
-            gh pr create --base main --head "$BRANCH" \
-              --title "Draft: $MONTH (Vol. 1 No. $NUMBER)" \
-              --body-file .github/pr-draft-edition.md
-            echo "opened a pull request" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
           fi
+
+          if out=$(gh pr create --base main --head "$BRANCH" \
+                     --title "Draft: $MONTH (Vol. 1 No. $NUMBER)" \
+                     --body-file .github/pr-draft-edition.md 2>&1); then
+            echo "opened a pull request: $out" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # "Allow GitHub Actions to create and approve pull requests" is off by
+          # default. The draft is already committed and pushed at this point, so
+          # the month's work is not lost — a person just has to click. Failing
+          # the run every month over a settings checkbox would train everyone to
+          # ignore a red X, so say precisely what happened and where the draft is.
+          if printf '%s' "$out" | grep -q 'not permitted to create or approve pull requests'; then
+            {
+              echo "### Draft ready, pull request not opened"
+              echo
+              echo "The draft for **$MONTH** is committed and pushed to \`$BRANCH\`."
+              echo "GitHub refused to open the pull request:"
+              echo
+              echo '```'
+              echo "$out"
+              echo '```'
+              echo
+              echo "Open it here: https://github.com/${GITHUB_REPOSITORY}/compare/main...${BRANCH}?expand=1"
+              echo
+              echo "To let this happen automatically, tick **Settings → Actions → General →"
+              echo "Workflow permissions → Allow GitHub Actions to create and approve pull requests**."
+            } | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "$out"
+          exit 1
