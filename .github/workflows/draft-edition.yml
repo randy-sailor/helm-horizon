@@ -1,0 +1,203 @@
+name: Draft next edition
+
+# Helm & Horizon publishes on the first Thursday of the month. This runs on the
+# first Thursday of the *previous* month, researches the coming issue, and opens
+# a pull request. Nothing here publishes anything and nothing here emails
+# anyone — a person reads the draft, edits it, and merges it. Sending an issue
+# to subscribers is a separate, manually triggered workflow.
+#
+# Cron cannot express "first Thursday", so this fires every Thursday and the
+# first step decides whether today is the one.
+
+on:
+  schedule:
+    - cron: '17 13 * * 4'
+  workflow_dispatch:
+    inputs:
+      month:
+        description: 'Target month, e.g. 2026-11. Default: next month.'
+        required: false
+        type: string
+      provider:
+        description: 'stub drafts without a model, a key, or any cost.'
+        required: false
+        default: anthropic
+        type: choice
+        options: [anthropic, stub]
+      ignore_guards:
+        description: 'Run even if it is not the first Thursday, or the edition exists.'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: draft-edition
+  cancel-in-progress: false
+
+env:
+  # Dispatch inputs reach the shell as environment variables, never as
+  # ${{ }} interpolated into a command line.
+  TARGET_MONTH: ${{ inputs.month }}
+  PROVIDER: ${{ inputs.provider || 'anthropic' }}
+  IGNORE_GUARDS: ${{ inputs.ignore_guards }}
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Guard one: the calendar. Without it a weekly cron drafts four issues a
+      # month.
+      - name: Is today the first Thursday?
+        id: calendar
+        run: |
+          set -euo pipefail
+          day=$(date -u +%-d)
+          if [ "$IGNORE_GUARDS" = "true" ]; then
+            echo "manual run — calendar guard skipped" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          elif [ "$day" -le 7 ]; then
+            echo "day $day, and cron only fires on Thursdays — this is the first Thursday" \
+              | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "day $day — not the first Thursday, nothing to draft" \
+              | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Guard two: the archive. Ask the tool what it would draft rather than
+      # recomputing the calendar in shell, where the two would drift apart.
+      - name: What would be drafted?
+        id: plan
+        if: steps.calendar.outputs.proceed == 'true'
+        run: |
+          set -euo pipefail
+          if [ -n "$TARGET_MONTH" ]; then
+            plan=$(python3 tools/draft_edition.py --plan --month "$TARGET_MONTH")
+          else
+            plan=$(python3 tools/draft_edition.py --plan)
+          fi
+          echo "$plan"
+          PLAN="$plan" python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          p = json.loads(os.environ['PLAN'])
+          for k in ('month', 'slug', 'published', 'number', 'path'):
+              print('%s=%s' % (k, p[k]))
+          blocked = p['exists'] and os.environ.get('IGNORE_GUARDS') != 'true'
+          print('proceed=%s' % ('false' if blocked else 'true'))
+          PY
+
+      - name: Already published
+        if: steps.calendar.outputs.proceed == 'true' && steps.plan.outputs.proceed != 'true'
+        run: |
+          echo "${{ steps.plan.outputs.path }} already exists — nothing to draft" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+      # Past this point both guards have cleared.
+
+      - name: Install the SDK
+        if: steps.plan.outputs.proceed == 'true'
+        # Pinned to a compatible release: this runs once a month unattended, so
+        # a breaking SDK change would surface as a failed edition, not as a
+        # failing test someone is watching.
+        run: pip install --quiet 'anthropic~=0.120' 'reportlab~=5.0'
+
+      # A re-run lands on the existing branch, so an editor's own commits are
+      # never force-pushed away.
+      - name: Check out the edition branch
+        if: steps.plan.outputs.proceed == 'true'
+        env:
+          SLUG: ${{ steps.plan.outputs.slug }}
+        run: |
+          set -euo pipefail
+          branch="edition/$SLUG"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            git fetch origin "$branch"
+            git checkout "$branch"
+          else
+            git checkout -b "$branch"
+          fi
+          echo "BRANCH=$branch" >> "$GITHUB_ENV"
+
+      - name: Research and draft
+        if: steps.plan.outputs.proceed == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -n "$TARGET_MONTH" ]; then
+            python3 tools/draft_edition.py --provider "$PROVIDER" --force --month "$TARGET_MONTH"
+          else
+            python3 tools/draft_edition.py --provider "$PROVIDER" --force
+          fi
+
+      # A pull request opened with GITHUB_TOKEN does not trigger other
+      # workflows, so validate-editions.yml will not run on it. Validation
+      # happens here or it does not happen at all.
+      - name: Prove the validator still rejects
+        if: steps.plan.outputs.proceed == 'true'
+        run: |
+          python3 tools/test_validate_edition.py
+          python3 tools/test_draft_edition.py
+          python3 tools/test_render_pdf.py
+
+      - name: Validate the draft
+        if: steps.plan.outputs.proceed == 'true'
+        run: python3 tools/validate_edition.py "${{ steps.plan.outputs.path }}"
+
+      - name: Render the page and the PDF
+        if: steps.plan.outputs.proceed == 'true'
+        run: |
+          python3 tools/render_html.py "${{ steps.plan.outputs.path }}"
+          python3 tools/render_pdf.py "${{ steps.plan.outputs.path }}"
+
+      - name: Commit
+        id: commit
+        if: steps.plan.outputs.proceed == 'true'
+        env:
+          MONTH: ${{ steps.plan.outputs.month }}
+          NUMBER: ${{ steps.plan.outputs.number }}
+        run: |
+          set -euo pipefail
+          git config user.name "helm-horizon-bot"
+          git config user.email "noreply@thehelmandhorizon.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "the draft is identical to what is already on $BRANCH" \
+              | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Draft $MONTH (No. $NUMBER)"
+            git push -u origin "$BRANCH"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update the pull request
+        if: steps.plan.outputs.proceed == 'true' && steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MONTH: ${{ steps.plan.outputs.month }}
+          NUMBER: ${{ steps.plan.outputs.number }}
+        run: |
+          set -euo pipefail
+          if gh pr view "$BRANCH" --json number >/dev/null 2>&1; then
+            gh pr comment "$BRANCH" --body-file .github/pr-redraft.md
+            echo "updated the open pull request" | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            gh pr create --base main --head "$BRANCH" \
+              --title "Draft: $MONTH (Vol. 1 No. $NUMBER)" \
+              --body-file .github/pr-draft-edition.md
+            echo "opened a pull request" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi

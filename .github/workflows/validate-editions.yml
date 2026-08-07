@@ -1,0 +1,61 @@
+name: Validate editions
+
+on:
+  pull_request:
+    paths:
+      - 'content/editions/**'
+      - 'tools/*.py'
+      - 'tools/fixtures/**'
+      - '.github/workflows/*.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # The validator's own tests come first: a validator that cannot fail
+      # would wave everything through, so prove it still rejects.
+      - name: Test the validator
+        run: python3 tools/test_validate_edition.py
+
+      # The drafting layer decides the edition number, the publication date, and
+      # that reader quotes are never machine-written. Those are not the model's
+      # to get wrong, so they are checked here.
+      - name: Test the drafting layer
+        run: python3 tools/test_draft_edition.py
+
+      - name: Install the PDF toolkit
+        run: pip install --quiet 'reportlab~=5.0'
+
+      # The PDF is where the sourcing standard is easiest to lose silently: a
+      # citation that stopped being a clickable link still looks fine.
+      - name: Test the PDF renderer
+        run: python3 tools/test_render_pdf.py
+
+      # Prove the whole path still runs: draft -> validate -> render, with no
+      # model, no key, and no cost.
+      - name: Dry-run the pipeline
+        run: |
+          set -euo pipefail
+          python3 tools/draft_edition.py --provider stub --month 2099-01 \
+            --out /tmp/stub.json
+          python3 tools/validate_edition.py --offline /tmp/stub.json
+          python3 tools/render_html.py /tmp/stub.json --dry-run > /dev/null
+          python3 tools/render_pdf.py /tmp/stub.json --out /tmp/stub.pdf
+          echo "draft -> validate -> render (html + pdf): ok"
+
+      # Runners have unrestricted network, so the link check runs for real
+      # here even though it must be skipped locally behind a proxy.
+      - name: Validate every edition
+        run: python3 tools/validate_edition.py

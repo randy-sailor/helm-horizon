@@ -1,0 +1,280 @@
+{
+  "volume": 1,
+  "number": 10,
+  "month": "October 2026",
+  "slug": "october-2026",
+  "published": "2026-09-03",
+  "headline": "Margins Up, Volumes Down: The Second-Half Split Screen",
+  "dek": "Record margins on shrinking volumes, three private-equity firms in a final-round auction, and a builder tier that has started to crack.",
+  "description": "Helm & Horizon, Vol. 1 No. 9. Blackstone, Donerail, and Centerbridge reach the final round on MarineMax. Brunswick raises guidance. Italian Sea Group files for insolvency. Med charter off 20-30%.",
+  "hero": {
+    "image": "/assets/img/harbour-dusk.webp",
+    "alt": "Superyachts berthed stern-to along a Mediterranean stone quay at dusk"
+  },
+  "from_the_desk": [
+    "Earnings season delivered the split-screen we expected. MarineMax posted a Q3 revenue miss and a record 35.7% gross margin, up 530 basis points, while confirming Blackstone, Donerail, and Centerbridge as its three final-round bidders. Brunswick beat on the top line, raised full-year guidance to $4.35–$4.75 in earnings per share on tariff refunds and mix, and now sits on $278M of second-quarter free cash flow. OneWater hit its below-four-times leverage target a quarter early on a 4% revenue decline.",
+    "The dealer channel is smaller, more premium, and dramatically more profitable — the volume tourists have left. Meanwhile the Mediterranean charter market is off 20–30% and The Italian Sea Group has filed for court-supervised insolvency, drawing a Sanlorenzo-backed consortium bid. Below: what the earnings tape and the Monaco run-up mean for your fourth-quarter book."
+  ],
+  "featured": {
+    "title": "Three bidders, one endgame",
+    "sections": [
+      {
+        "heading": "The MarineMax auction enters its final round",
+        "body": [
+          "On 24 July, [Reuters reported](https://www.reuters.com/business/blackstone-donerail-among-final-bidders-yacht-retailer-marinemax-sources-say-2026-07-24/) that **Blackstone, Donerail, and Centerbridge Partners** have advanced to the third and final round of bidding for MarineMax (NYSE: HZO), with Donerail’s raised all-cash offer of roughly $35 per share now benchmarking the process. Shares jumped 6.5% on the report to close near $36.41 ([Tampa Bay Business Journal via ITA Yachts Canada](https://itayachtscanada.com/marinemax-announces-third-quarter-q3-earnings-and-an-update-on-the-potential-sale-of-the-marinemax-group-to-three-prospective-buyers/)). Blackstone’s interest reads through directly from its 2025 **$5.65B Safe Harbor acquisition**: MarineMax’s IGY Marinas and 65 owned marina and storage locations are the strategic prize ([SuperYacht Times](https://www.facebook.com/SuperYachtTimes/posts/blackstone-and-donerail-are-reportedly-among-the-final-bidders-for-marinemaxaccording-to-reuters-th/1588618659298167/)).",
+          "The 23 July third-quarter print made the case for a premium. Revenue of **$611.3M missed consensus by roughly $71M**, but gross margin expanded **530 basis points to a record 35.7%**, adjusted EBITDA jumped **44% to $51.3M**, and adjusted earnings per share surged to **$0.81 from $0.05** ([Yahoo Finance](https://finance.yahoo.com/quote/HZO/earnings/HZO-Q3-2026-earnings_call-653690.html)). Management reaffirmed full-year adjusted EBITDA of **$110–125M** and adjusted earnings per share of **$0.40–$0.95**, and disclosed that acquisitions since 2019 have added **$700M of high-margin revenue** across brokerage, finance and insurance, marinas, superyachts, and parts and service ([Quartr](https://quartr.com/events/marinemax-inc-hzo-q3-2026_3siVEb7h)). Inventory is down $118M year on year to $788.6M; cash stands at $174.8M ([TradingView, on the 8-K](https://www.tradingview.com/news/tradingview:57b1b553a043e:0-marinemax-reports-q3-fiscal-2026-revenue-611-3m-gross-margin-35-7-adj-diluted-eps-0-81/)). Bidders are buying a cleaner balance sheet, a higher-margin business mix, and a marina platform that behaves like a moat."
+        ]
+      },
+      {
+        "figure": {
+          "image": "/assets/img/marina-aerial.webp",
+          "alt": "Aerial view of a marina with rows of moored motor yachts and berths",
+          "caption": "Marina and storage assets — not new-boat throughput — are what the final-round bidders are underwriting."
+        }
+      },
+      {
+        "heading": "The read for dealers and brokers",
+        "body": [
+          "Whoever wins, the model is validated: dealer economics survive a down cycle only if brokerage, service, marinas, and superyachts carry the profit and loss statement while new-boat volumes correct. Every MarineMax competitor now has to answer the same question in its own board deck — what is your non-new-boat gross-profit share, and where can it be next year?",
+          "Meanwhile, at the builder tier, **The Italian Sea Group has filed for court-supervised insolvency**, and a Sanlorenzo-led consortium operating as Polo Nautico Carrara has submitted a debt-free, going-concern bid for the Admiral, Tecnomar, and Perini Navi brands, with Azimut-Benetti also circling select assets ([Reuters](https://www.reuters.com/business/italys-sanlorenzo-backs-bid-embattled-yacht-maker-italian-sea-group-2026-07-27/)). The consolidation wave has crossed from dealer to builder."
+        ]
+      }
+    ],
+    "takeaway": {
+      "eyebrow": "Key takeaway",
+      "body": "The Q2/Q3 earnings tape validates a two-track model: volumes down — MarineMax same-store sales −7%, OneWater −4%, industry retail −7.1% on a rolling twelve-month basis — but margins and cash flow up. That gap only widens for dealers heavy in brokerage, finance and insurance, marinas, and service. Independent operators still running a 2022-era new-boat-first model will find both financing and exit valuations increasingly hostile as the MarineMax comparable lands in the fourth quarter."
+    }
+  },
+  "indicators": [
+    {
+      "region": "us",
+      "label": "MarineMax Q3 revenue",
+      "value": "$611.3M · −7%",
+      "source": {
+        "title": "Yahoo Finance on MarineMax",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/marinemax-inc-hzo-q3-2026-210330404.html"
+      }
+    },
+    {
+      "region": "us",
+      "label": "MarineMax Q3 gross margin",
+      "value": "35.7% · +530 bps",
+      "source": {
+        "title": "Yahoo Finance on MarineMax",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/marinemax-inc-hzo-q3-2026-210330404.html"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Brunswick Q2 net sales",
+      "value": "$1.558B · +8%",
+      "source": {
+        "title": "Investing.com on Brunswick",
+        "url": "https://www.investing.com/news/company-news/brunswick-q2-2026-slides-all-segments-grow-guidance-raised-93CH-4825713"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Brunswick Q2 adjusted EPS",
+      "value": "$1.56 · +34%",
+      "source": {
+        "title": "Investing.com on Brunswick",
+        "url": "https://www.investing.com/news/company-news/brunswick-q2-2026-slides-all-segments-grow-guidance-raised-93CH-4825713"
+      }
+    },
+    {
+      "region": "us",
+      "label": "OneWater Q3 revenue",
+      "value": "$530.7M · −4%",
+      "source": {
+        "title": "MarketBeat on OneWater",
+        "url": "https://www.marketbeat.com/instant-alerts/onewater-marine-q3-earnings-call-highlights-2026-07-30/"
+      }
+    },
+    {
+      "region": "us",
+      "label": "OneWater adjusted net leverage",
+      "value": "3.7×",
+      "source": {
+        "title": "MarketBeat on OneWater",
+        "url": "https://www.marketbeat.com/instant-alerts/onewater-marine-q3-earnings-call-highlights-2026-07-30/"
+      }
+    },
+    {
+      "region": "us",
+      "label": "US new powerboat retail, rolling 12 months",
+      "value": "−7.1%",
+      "source": {
+        "title": "Marine Business World on association data",
+        "url": "https://www.marinebusinessworld.com/news/298024/Mixed-sales-data-from-latest-industry-association"
+      }
+    },
+    {
+      "region": "us",
+      "label": "US recreational marine spending, 2025",
+      "value": "$54B",
+      "source": {
+        "title": "Boating Industry Canada on NMMA spending",
+        "url": "https://boatingindustry.ca/research/nmma-reports-that-u-s-recreational-marine-spending-reached-54-billion-in-2025/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Pre-owned yachts over 24m on market, 1 July",
+      "value": "2,157",
+      "source": {
+        "title": "365 Yachts Market Intelligence",
+        "url": "https://www.linkedin.com/pulse/365-yachts-market-intelligence-august-1-2026-update-shelly-melcher-7klje"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Combined asking value",
+      "value": "~$18.8B",
+      "source": {
+        "title": "365 Yachts Market Intelligence",
+        "url": "https://www.linkedin.com/pulse/365-yachts-market-intelligence-august-1-2026-update-shelly-melcher-7klje"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Edmiston H1 superyacht sales, by units",
+      "value": "−13%",
+      "source": {
+        "title": "Edmiston’s Q2 market update",
+        "url": "https://www.edmiston.com/Q2-2026-market-update/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Edmiston H1 superyacht sales, by value",
+      "value": "−7%",
+      "source": {
+        "title": "Edmiston’s Q2 market update",
+        "url": "https://www.edmiston.com/Q2-2026-market-update/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Mediterranean charter rates, year on year",
+      "value": "−20 to −30%",
+      "source": {
+        "title": "CNBC on Mediterranean charter",
+        "url": "https://www.cnbc.com/2026/07/22/mediterranean-yacht-rentals.html"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Charter booking lead time",
+      "value": "118 → 83 days",
+      "source": {
+        "title": "Lisbon by Boat on booking windows",
+        "url": "https://www.lisbonbyboat.com/post/tourism-trends-for-sailing-2026-what-to-expect"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Monaco Yacht Show, 23–26 Sept",
+      "value": "~120 yachts",
+      "source": {
+        "title": "Boat International on the Monaco show",
+        "url": "https://www.boatinternational.com/yachts/news/biggest-yachting-news-stories-july-2026"
+      }
+    },
+    {
+      "region": "global",
+      "label": "US federal funds target, end July",
+      "value": "3.50–3.75%",
+      "source": {
+        "title": "Placeholder",
+        "url": "https://example.com/placeholder"
+      }
+    }
+  ],
+  "risks": [
+    {
+      "region": "us",
+      "title": "United States",
+      "body": "Florida brokerage inventory stood at 4,316 active listings on 24 July, with a median asking price of $349,995; the 100-foot-and-above segment carried a $7.4M median and roughly $61,600 per foot ([Florida Yacht Market](https://floridaluxury.io/yachts/market)). Hurricane season is now in its peak window as the MarineMax sale decision approaches, and the consensus exit multiple resets industry-wide when that deal announces.",
+      "sources": [
+        {
+          "title": "Florida Yacht Market",
+          "url": "https://floridaluxury.io/yachts/market"
+        }
+      ]
+    },
+    {
+      "region": "global",
+      "title": "Global",
+      "body": "EU27 diesel reached €1.929 per litre on 16 July, up about 18% against the February baseline ([Logifie](https://www.logifie.com/blog/eu-diesel-price-spike-july-2026)), and marine gasoil in the Amsterdam-Rotterdam-Antwerp hub is up 73.5% since February on tight supply ([Argus Media](https://www.argusmedia.com/en/news-and-insights/latest-market-news/2857848-mgo-prices-outpace-fuel-oil-in-europe-on-tight-supply)). Strait of Hormuz war-risk premiums are running at 5–10% of hull value ([S&P Global](https://www.spglobal.com/energy/en/news-research/latest-news/shipping/072226-middle-east-shipping-insurance-costs-rise-on-hormuz-risks-marsh)), the London Joint War Committee widened its Red Sea high-risk zone on 29 July ([Reuters](https://www.reuters.com/legal/litigation/london-insurers-widen-red-sea-high-risk-zone-after-houthi-attacks-2026-07-30/)), and Bab el-Mandeb premiums have doubled to above 1% ([Reuters](https://www.reuters.com/world/middle-east/war-risk-insurance-costs-surge-southern-red-sea-voyages-after-houthi-attacks-2026-07-23/)).",
+      "sources": [
+        {
+          "title": "Logifie",
+          "url": "https://www.logifie.com/blog/eu-diesel-price-spike-july-2026"
+        },
+        {
+          "title": "Argus Media",
+          "url": "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2857848-mgo-prices-outpace-fuel-oil-in-europe-on-tight-supply"
+        },
+        {
+          "title": "S&P Global",
+          "url": "https://www.spglobal.com/energy/en/news-research/latest-news/shipping/072226-middle-east-shipping-insurance-costs-rise-on-hormuz-risks-marsh"
+        },
+        {
+          "title": "Reuters",
+          "url": "https://www.reuters.com/legal/litigation/london-insurers-widen-red-sea-high-risk-zone-after-houthi-attacks-2026-07-30/"
+        },
+        {
+          "title": "Reuters",
+          "url": "https://www.reuters.com/world/middle-east/war-risk-insurance-costs-surge-southern-red-sea-voyages-after-houthi-attacks-2026-07-23/"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "title": "Run the MarineMax playbook on your own P&L before year-end.",
+      "body": "MarineMax did not beat because boats sold — same-store sales were down 7%. It beat because brokerage, finance and insurance, marinas, superyachts, and parts and service now carry the gross profit. Break out your last-twelve-month gross profit by revenue line and mark the non-new-boat share. If it is below 40%, you are running a 2022 business model in a 2026 market. Set a written fiscal 2027 target — the multiple your business is worth in a sale conversation will move with that ratio far more than with unit volume."
+    },
+    {
+      "title": "Move charter cross-currency exposure to the front of the risk register.",
+      "body": "With EU diesel back at €1.93 a litre and marine gasoil up 73.5% since February, a Mediterranean charter contract priced in euros against a dollar-denominated cost book — provisioning, US-based crew payroll, delivery voyage fuel — is now materially different from what your advance provisioning allowance assumed in April. Requote every August to October Mediterranean charter with a fresh fuel assumption, a currency buffer of 300–500 basis points, and an explicit clause for Red Sea and Hormuz war-risk surcharge pass-through. Owners will accept honest math; they will not accept surprise overruns."
+    },
+    {
+      "title": "Book Monaco with a builder-services agenda, not a boat-shopping agenda.",
+      "body": "The Monaco Yacht Show runs 23–26 September, with roughly 120 yachts and 43 new deliveries expected — but the real story on the pontoons will be builder distress. With The Italian Sea Group in insolvency proceedings and a Sanlorenzo-led consortium bidding, refit, warranty, and completion questions will drive more meaningful conversations than new orders. Come with a list: which builders have open orders on which of your clients’ hulls, which yards carry credible completion risk, and which service providers you can extend a preferred-vendor relationship to before demand snaps back. The best Monaco value this year is in the yards, not the demo boats."
+    }
+  ],
+  "profile": {
+    "company": "Brunswick Corporation",
+    "ticker": "NYSE: BC",
+    "dek": "The propulsion, parts, and Freedom Boat Club engine that keeps printing through the volume trough.",
+    "sections": [
+      {
+        "heading": null,
+        "body": [
+          "Headquartered in Mettawa, Illinois, Brunswick (NYSE: BC) is the world’s largest marine-recreation manufacturer — Mercury Marine propulsion, Boston Whaler, Sea Ray, Bayliner, Lund, and Harris boats, Navico Group electronics, plus the Freedom Boat Club shared-access platform. On 30 July the company reported second-quarter net sales of **$1.558B, up 8%**, adjusted operating earnings of $150.1M, up 19%, adjusted earnings per share of **$1.56, up 34%**, and quarterly free cash flow of $278M at better than 250% conversion ([Investing.com](https://www.investing.com/news/company-news/brunswick-q2-2026-slides-all-segments-grow-guidance-raised-93CH-4825713)). All four segments grew year on year for the fourth consecutive quarter: Propulsion $644M (+8%), Engine Parts and Accessories $367.9M (+9%) at a 23.3% operating margin, Navico $215.8M (+7%), and Boat $424.4M (+5%) ([Stock Titan, on the 8-K](https://www.stocktitan.net/sec-filings/BC/8-k-brunswick-corp-reports-material-event-df9545f8bacc.html))."
+        ]
+      },
+      {
+        "heading": "Why it matters now",
+        "body": [
+          "Brunswick raised its full-year guide to **$5.7–5.8B in revenue, roughly 8% operating margin, $4.35–$4.75 in adjusted earnings per share, and more than $400M of free cash flow** ([Brunswick investor relations](https://www.brunswick.com/news/press-releases/detail/1003/brunswick-corporation-releases-2026-second-quarter-earnings)). Roughly $0.30 of the raise reflects Phase 2 tariff refunds — a $30.4M cost-of-sales credit plus a $24.6M state tax benefit — and the other $0.20 is operational. Freedom Boat Club reached its **450th location** in June, converting new-boat volume softness into recurring membership economics. Brunswick is a real-time barometer of the marine channel: parts and accessories signal what fleets are actually running, propulsion signals original-equipment confidence, and Freedom signals what happens to would-be first-time buyers when new-boat affordability breaks."
+        ]
+      },
+      {
+        "heading": "Watch for",
+        "body": [
+          "A third-quarter guide of $1.4–1.5B in revenue and $1.20–$1.40 in adjusted earnings per share, about a 15% top-line step-down against the second quarter and in line with normal seasonality; the trajectory of Navico’s autonomy and lower-cost sensor stack; and whether Freedom Boat Club’s international footprint, now well over 100 non-US clubs, keeps outpacing its US comparables."
+        ]
+      }
+    ]
+  },
+  "voices": [],
+  "voices_intro": [
+    "This section runs reader-submitted outlooks from brokers, dealers, builders, captains, and supply-chain partners. Second-quarter earnings from MarineMax, Brunswick, and OneWater confirmed the two-track market — record margins on shrinking volumes — but the on-the-water colour is where the next-quarter shift usually shows up first.",
+    "Send us what you are seeing on the Monaco run-in, on used inventory absorption, on charter reprice negotiations, and on refit-yard capacity. One quote per issue gets the lead position, and we run through October."
+  ],
+  "colophon": "Sources cited inline with links. Data as of late July / early August 2026. Helm & Horizon is published by The Walton Group, Inc. and is not investment advice.",
+  "_fixture": "Baseline that must pass, so a fixture failing proves the defect and not the harness."
+}

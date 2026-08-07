@@ -46,6 +46,9 @@ api/_lib.js                    Shared validation, guards, signing, Resend client
 api/_email.js                  Branded HTML + plain-text email templates
 tools/build-edition-email.js   Turns an edition page into a branded email
 emails/                        Generated email editions, for Resend Broadcasts
+content/editions/*.json        The editions themselves — source of truth
+tools/                         Draft, validate, render, and compare editions
+.github/workflows/             Monthly drafting, and edition validation on every PR
 docs/email-setup.md            Resend + ImprovMX DNS and configuration
 ```
 
@@ -65,21 +68,91 @@ Type is Zodiak (display) and Satoshi (body), served from Fontshare.
 
 ## Adding an edition
 
-1. Copy the most recent file in `editions/` to `editions/<month>-<year>.html`.
-2. Update the content, the canonical URL, and the Open Graph tags.
-3. Add the PDF to `pdf/`.
-4. Add a card to `archive.html` and update the lede on `index.html`.
-5. Point the `/latest` redirect in `vercel.json` at the new edition.
-6. Add the new URL to `sitemap.xml`.
-7. Build the email edition and paste it into a Resend Broadcast:
+An edition is **data first**. `content/editions/<slug>.json` is the source of truth;
+the page in `editions/` is generated from it and should not be hand-edited, because
+the next render will overwrite it.
 
-```bash
-node tools/build-edition-email.js editions/<month>-<year>.html
+```
+content/editions/<slug>.json   The edition — the only file you edit by hand
+tools/draft_edition.py         Researches a month and writes that JSON
+tools/validate_edition.py      Refuses an edition that breaks the standard
+tools/render_html.py           JSON -> the page, plus index/archive/sitemap/vercel
+tools/render_pdf.py            JSON -> the PDF companion in pdf/
+tools/compare_editions.py      Proves a render matches what is already published
+tools/build-edition-email.js   Page -> branded email for a Resend Broadcast
 ```
 
-It writes `emails/<month>-<year>.html` and fails loudly if any heading,
-paragraph, list item, or source link from the article did not survive the
-conversion. See [`docs/email-setup.md`](docs/email-setup.md).
+### The monthly cycle
+
+On the first Thursday of each month, `.github/workflows/draft-edition.yml`
+researches the *following* month, validates the result, renders it, and opens a
+pull request on `edition/<slug>`. It never publishes and it never emails anyone —
+a person reads the draft, corrects it, and merges. Two guards keep it honest:
+cron cannot express "first Thursday", so it fires weekly and skips the other
+three; and it skips any month that already exists in `content/editions/`.
+
+Run it by hand from the Actions tab. `provider: stub` exercises the whole path
+without a model, a key, or any cost — useful when changing the workflow itself.
+
+### By hand
+
+```bash
+python3 tools/draft_edition.py --month 2026-11        # research and write the JSON
+python3 tools/validate_edition.py content/editions/november-2026.json
+python3 tools/render_html.py content/editions/november-2026.json
+python3 tools/render_pdf.py content/editions/november-2026.json
+```
+
+The HTML render writes `editions/<slug>.html` and updates `index.html`,
+`archive.html`, `sitemap.xml`, and the `/latest` redirect in `vercel.json` in the
+same run. The PDF render writes `pdf/Helm_Horizon_<Month><Year>.pdf` — the
+filename comes from the same function the page's download link uses, so the two
+cannot drift apart.
+
+The PDF needs `reportlab` (`pip install 'reportlab~=5.0'`); nothing else in the
+pipeline has a dependency. Zodiak and Satoshi are served to browsers from
+Fontshare and are not in this repository, so the PDF substitutes the best sans
+installed on the machine — `python3 tools/render_pdf.py --fonts` says which. When
+only ReportLab's built-in Helvetica is available it cannot draw a minus sign or an
+arrow, so `−7%` and `118 → 83` are transliterated to `-7%` and `118 -> 83` rather
+than printed as black boxes.
+
+Then build the email edition and paste it into a Resend Broadcast:
+
+```bash
+node tools/build-edition-email.js editions/<slug>.html
+```
+
+It writes `emails/<slug>.html` and fails loudly if any heading, paragraph, list
+item, or source link from the article did not survive the conversion. See
+[`docs/email-setup.md`](docs/email-setup.md).
+
+### The editorial standard, enforced
+
+`validate_edition.py` runs in CI and exits non-zero on any of these:
+
+* a figure with no source, or a source that is not `https://`
+* a link that returns 404 or 410, or whose host does not resolve
+* anything other than exactly three action steps
+* an edition number out of sequence with the rest of the archive
+* a `voices[]` entry whose `permission_to_quote` is not `true`
+
+That last one is why quotes are never drafted. `draft_edition.py` always writes
+`voices: []`; a reader's words go in by hand, after a person has confirmed they
+may be published. Both renderers refuse an uncleared quote outright, so skipping
+the validator does not get one printed.
+
+`tools/test_validate_edition.py`, `tools/test_draft_edition.py`, and
+`tools/test_render_pdf.py` prove those refusals still fire — a validator that
+cannot fail would wave everything through. The PDF test also asserts that every
+cited URL survives as a clickable link annotation, because a citation that
+silently stopped being a link still looks correct on the page.
+
+### Secrets
+
+`ANTHROPIC_API_KEY` is a repository secret (Settings → Secrets and variables →
+Actions). Nothing else in the pipeline needs credentials, and nothing in this
+repository may contain them.
 
 ## Forms
 
