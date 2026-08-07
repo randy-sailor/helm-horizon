@@ -1,0 +1,196 @@
+{
+  "volume": 1,
+  "number": 10,
+  "month": "November 2026",
+  "slug": "november-2026",
+  "published": "2026-11-05",
+  "headline": "Stub draft for November 2026",
+  "dek": "A structurally valid placeholder produced without calling a model.",
+  "description": "Stub edition for November 2026, used to exercise the pipeline.",
+  "hero": {
+    "image": "/assets/img/harbour-dusk.webp",
+    "alt": "Placeholder hero image"
+  },
+  "from_the_desk": [
+    "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/).",
+    "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+  ],
+  "featured": {
+    "title": "Stub feature",
+    "sections": [
+      {
+        "heading": "First section",
+        "body": [
+          "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+        ]
+      },
+      {
+        "figure": {
+          "image": "/assets/img/harbour-dusk.webp",
+          "alt": "Placeholder figure",
+          "caption": "Placeholder caption."
+        }
+      },
+      {
+        "heading": "Second section",
+        "body": [
+          "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+        ]
+      }
+    ],
+    "takeaway": {
+      "eyebrow": "Key takeaway",
+      "body": "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+    }
+  },
+  "indicators": [
+    {
+      "region": "us",
+      "label": "Stub indicator 1",
+      "value": "0.0%",
+      "source": {
+        "title": "Example primary source",
+        "url": "https://example.com/"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Stub indicator 2",
+      "value": "0.0%",
+      "source": {
+        "title": "Example primary source",
+        "url": "https://example.com/"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Stub indicator 3",
+      "value": "0.0%",
+      "source": {
+        "title": "Example primary source",
+        "url": "https://example.com/"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Stub indicator 4",
+      "value": "0.0%",
+      "source": {
+        "title": "Example primary source",
+        "url": "https://example.com/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Stub indicator 5",
+      "value": "0.0%",
+      "source": {
+        "title": "Example primary source",
+        "url": "https://example.com/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Stub indicator 6",
+      "value": "0.0%",
+      "source": {
+        "title": "Example primary source",
+        "url": "https://example.com/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Stub indicator 7",
+      "value": "0.0%",
+      "source": {
+        "title": "Example primary source",
+        "url": "https://example.com/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Stub indicator 8",
+      "value": "0.0%",
+      "source": {
+        "title": "Example primary source",
+        "url": "https://example.com/"
+      }
+    }
+  ],
+  "risks": [
+    {
+      "region": "us",
+      "title": "United States",
+      "body": "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/).",
+      "sources": [
+        {
+          "title": "Example primary source",
+          "url": "https://example.com/"
+        }
+      ]
+    },
+    {
+      "region": "global",
+      "title": "Global",
+      "body": "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/).",
+      "sources": [
+        {
+          "title": "Example primary source",
+          "url": "https://example.com/"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "title": "Stub action 1.",
+      "body": "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+    },
+    {
+      "title": "Stub action 2.",
+      "body": "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+    },
+    {
+      "title": "Stub action 3.",
+      "body": "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+    }
+  ],
+  "profile": {
+    "company": "Stub Company",
+    "ticker": "NYSE: STUB",
+    "dek": "A placeholder profile.",
+    "sections": [
+      {
+        "heading": null,
+        "body": [
+          "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+        ]
+      },
+      {
+        "heading": "Why it matters now",
+        "body": [
+          "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+        ]
+      },
+      {
+        "heading": "Watch for",
+        "body": [
+          "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+        ]
+      }
+    ]
+  },
+  "voices": [],
+  "voices_intro": [
+    "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/).",
+    "Placeholder prose for November 2026, generated without a model so the pipeline can be tested. See [the source](https://example.com/)."
+  ],
+  "colophon": "Sources cited inline with links. Data as of the stub run. Helm & Horizon is published by The Walton Group, Inc. and is not investment advice.",
+  "data_as_of": "Data as of the stub run.",
+  "previous": {
+    "slug": "september-2026",
+    "volume": 1,
+    "number": 9,
+    "headline": "Margins Up, Volumes Down: The Second-Half Split Screen"
+  }
+}
