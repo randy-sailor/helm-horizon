@@ -7,7 +7,8 @@
 var lib = require('./_lib');
 
 module.exports = async function handler(req, res) {
-  if (lib.guard(req, res)) return;
+  /* Each submission lands in the editor's inbox, so the ceiling is lower. */
+  if (lib.guard(req, res, 3)) return;
 
   var body = lib.readBody(req);
 

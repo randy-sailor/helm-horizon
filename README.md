@@ -168,6 +168,28 @@ Both require environment variables to be set in Vercel — see
 [`docs/email-setup.md`](docs/email-setup.md). Until they are, the endpoints return a 500 with a
 readable message rather than failing silently.
 
+### Abuse and privacy
+
+Both routes send email on an unauthenticated request, so both are guarded:
+
+* **Same-origin only, including scripts.** A request with no `Origin` and no `Referer` is
+  refused. Browsers attach `Origin` to every POST, so anything arriving without one is a
+  script — and previously those were the only callers the guard let through. `Referer` is
+  accepted as a fallback for the proxies that strip `Origin`, and `Sec-Fetch-Site` is
+  honoured where the browser sends it.
+* **Rate limited.** Five signups and three submissions per caller per ten minutes, answered
+  with a 429 and a `Retry-After`. The counters live in memory, so the ceiling is per warm
+  instance rather than per deployment — a speed bump, not a wall. It is what is available
+  without adding a datastore, and it turns a trivial flood into an expensive one. If abuse
+  ever justifies the dependency, swap in Vercel KV behind `rateLimit()` in `api/_lib.js`.
+* **No subscriber enumeration.** An address already on the list gets byte-for-byte the same
+  reply, and the same confirmation email, as one that is not — so the endpoint cannot be
+  used to ask whether a given person subscribes. An already-confirmed contact is never
+  rewritten, so re-entering an address still cannot unsubscribe anyone.
+
+`node tools/test-api.js` proves all of it without a network or a key, and runs in CI on
+every change to `api/`.
+
 Because the endpoints are same-origin, the `connect-src 'self'` CSP in `vercel.json` needs no
 change. If you ever swap in a third-party endpoint (Mailchimp, ConvertKit, Formspree), it will
 be **blocked by the browser** until you add that provider's origin to `connect-src`.
