@@ -148,11 +148,25 @@ cannot fail would wave everything through. The PDF test also asserts that every
 cited URL survives as a clickable link annotation, because a citation that
 silently stopped being a link still looks correct on the page.
 
-### Secrets
+### Repository settings the workflow needs
 
-`ANTHROPIC_API_KEY` is a repository secret (Settings → Secrets and variables →
+`ANTHROPIC_API_KEY` as a repository secret (Settings → Secrets and variables →
 Actions). Nothing else in the pipeline needs credentials, and nothing in this
 repository may contain them.
+
+**Settings → Actions → General → Workflow permissions → Allow GitHub Actions to
+create and approve pull requests.** Off by default, and without it the drafting
+workflow can commit and push the draft but cannot open the pull request:
+
+```
+pull request create failed: GraphQL: GitHub Actions is not permitted
+to create or approve pull requests (createPullRequest)
+```
+
+The workflow treats that as a warning rather than a failure — the month's work
+is already on `edition/<slug>`, so it writes a link to the run summary and a
+person opens the pull request by hand. Ticking the box removes that step. Any
+*other* failure to open the pull request still fails the run loudly.
 
 ## Forms
 
