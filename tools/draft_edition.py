@@ -373,6 +373,10 @@ class AnthropicProvider(Provider):
 
     name = 'anthropic'
 
+    # Each resume is another request that picks up where the last one stopped.
+    # Five attempts is far more headroom than a month's research has ever needed.
+    MAX_RESUMES = 4
+
     def __init__(self, model=MODEL, effort='high', max_tokens=32000):
         self.model = model
         self.effort = effort
@@ -388,33 +392,55 @@ class AnthropicProvider(Provider):
                              '(repository secret, exposed to the workflow as an env var)')
 
         client = anthropic.Anthropic()
-        # Streaming, because a full edition runs well past the non-streaming
-        # request timeout once web search rounds are included.
-        with client.messages.stream(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            system=SYSTEM,
-            messages=[{'role': 'user', 'content': user_prompt(brief)}],
-            thinking={'type': 'adaptive'},
-            tools=[
-                # Bounded because this runs unattended on a schedule; an
-                # unbounded research loop is an unbounded bill.
-                {'type': 'web_search_20260209', 'name': 'web_search', 'max_uses': 30},
-                {'type': 'web_fetch_20260209', 'name': 'web_fetch', 'max_uses': 30},
-            ],
-            output_config={
-                'effort': self.effort,
-                'format': {'type': 'json_schema', 'schema': schema},
-            },
-        ) as stream:
-            message = stream.get_final_message()
+        prompt = user_prompt(brief)
+        messages = [{'role': 'user', 'content': prompt}]
+        tools = [
+            # Bounded because this runs unattended on a schedule; an
+            # unbounded research loop is an unbounded bill.
+            {'type': 'web_search_20260209', 'name': 'web_search', 'max_uses': 30},
+            {'type': 'web_fetch_20260209', 'name': 'web_fetch', 'max_uses': 30},
+        ]
 
-        if message.stop_reason == 'refusal':
-            raise SystemExit('the model declined to draft this edition; '
-                             'no output to read')
-        if message.stop_reason == 'max_tokens':
-            raise SystemExit('the draft hit max_tokens and is truncated; '
-                             'raise --max-tokens and re-run')
+        for resumed in range(self.MAX_RESUMES + 1):
+            # Streaming, because a full edition runs well past the non-streaming
+            # request timeout once web search rounds are included.
+            with client.messages.stream(
+                model=self.model,
+                max_tokens=self.max_tokens,
+                system=SYSTEM,
+                messages=messages,
+                thinking={'type': 'adaptive'},
+                tools=tools,
+                output_config={
+                    'effort': self.effort,
+                    'format': {'type': 'json_schema', 'schema': schema},
+                },
+            ) as stream:
+                message = stream.get_final_message()
+
+            if message.stop_reason == 'refusal':
+                raise SystemExit('the model declined to draft this edition; '
+                                 'no output to read')
+            if message.stop_reason == 'max_tokens':
+                raise SystemExit('the draft hit max_tokens and is truncated; '
+                                 'raise --max-tokens and re-run')
+            if message.stop_reason != 'pause_turn':
+                break
+
+            # The server runs its own sampling loop for web search and stops at
+            # ten iterations with stop_reason "pause_turn" — no text, no error,
+            # just an unfinished turn. October's re-run spent eight minutes
+            # searching and came back with nothing because this was treated as a
+            # failure. Re-sending the exchange resumes it; the trailing
+            # server_tool_use block is the cue, so do not add a "continue"
+            # message of your own.
+            print('research paused at the server tool limit — resuming (%d of %d)'
+                  % (resumed + 1, self.MAX_RESUMES), file=sys.stderr)
+            messages = [{'role': 'user', 'content': prompt},
+                        {'role': 'assistant', 'content': message.content}]
+        else:
+            raise SystemExit('research still paused after %d resumes; the month '
+                             'needs more search than expected' % self.MAX_RESUMES)
 
         # Web search rounds can leave narration in earlier text blocks, so the
         # draft is the last block that parses rather than simply the first.
@@ -424,7 +450,8 @@ class AnthropicProvider(Provider):
                 return json.loads(text)
             except json.JSONDecodeError:
                 continue
-        raise SystemExit('no JSON in the response (%d text block(s))' % len(blocks))
+        raise SystemExit('no JSON in the response (%d text block(s), stop_reason %s)'
+                         % (len(blocks), message.stop_reason))
 
 
 class StubProvider(Provider):
