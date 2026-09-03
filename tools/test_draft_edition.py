@@ -222,6 +222,29 @@ try:
 except SystemExit as e:
     check('a refusal is reported, not parsed', 'declined' in str(e), str(e))
 
+# A truncated draft is often still parseable JSON — the model stops mid-document
+# and the last complete block reads fine. Reading it would publish half an
+# edition, so the budget is checked before the content is.
+truncated = _Msg('max_tokens', [_Block(json.dumps({'headline': 'Half an edition'}))])
+try:
+    run_provider([truncated])
+    check('a truncated draft is refused rather than half-published', False)
+except SystemExit as e:
+    check('a truncated draft is refused rather than half-published',
+          'budget' in str(e) and str(D.MAX_TOKENS) in str(e), str(e))
+
+check('the output budget leaves room for thinking as well as prose',
+      D.MAX_TOKENS >= 64000 and D.AnthropicProvider().max_tokens == D.MAX_TOKENS,
+      '%d' % D.MAX_TOKENS)
+
+# The budget is per request, so a resume starts a fresh one. If it were ever
+# carried forward, a long month would fail on the second call rather than the
+# first — quietly, and only in production.
+_, msgs = run_provider([paused, finished])
+check('every request asks for the full budget, including a resume',
+      all(c['max_tokens'] == D.MAX_TOKENS for c in msgs.calls),
+      str([c['max_tokens'] for c in msgs.calls]))
+
 
 # --------------------------------------------- the stub survives the validator
 

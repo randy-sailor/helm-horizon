@@ -37,6 +37,16 @@ EDITIONS_DIR = os.path.join(ROOT, 'content', 'editions')
 IMG_DIR = os.path.join(ROOT, 'assets', 'img')
 
 MODEL = 'claude-opus-5'
+
+# max_tokens is an *output* budget, and thinking spends it alongside the prose.
+# At effort "high" with adaptive thinking, an edition's reasoning runs to tens of
+# thousands of tokens before a word of JSON is emitted: October's third attempt
+# ran for eleven minutes and stopped at 32,000 with nothing to show. The model
+# tops out at 128,000 output tokens, so this leaves real headroom rather than
+# creeping up to the next failure. Unspent budget costs nothing — only tokens
+# actually generated are billed.
+MAX_TOKENS = 64000
+
 MONTHS = ('January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December')
 
@@ -377,7 +387,7 @@ class AnthropicProvider(Provider):
     # Five attempts is far more headroom than a month's research has ever needed.
     MAX_RESUMES = 4
 
-    def __init__(self, model=MODEL, effort='high', max_tokens=32000):
+    def __init__(self, model=MODEL, effort='high', max_tokens=MAX_TOKENS):
         self.model = model
         self.effort = effort
         self.max_tokens = max_tokens
@@ -418,12 +428,23 @@ class AnthropicProvider(Provider):
             ) as stream:
                 message = stream.get_final_message()
 
+            # A research call takes ten minutes and costs money, so every one of
+            # them reports what it spent. Without this the budget is guesswork:
+            # the run that died at 32,000 gave no hint how far short it was.
+            spent = getattr(getattr(message, 'usage', None), 'output_tokens', None)
+            print('stop_reason %s, %s' % (
+                message.stop_reason,
+                'used %d of the %d-token output budget' % (spent, self.max_tokens)
+                if spent is not None else 'output usage not reported'), file=sys.stderr)
+
             if message.stop_reason == 'refusal':
                 raise SystemExit('the model declined to draft this edition; '
                                  'no output to read')
             if message.stop_reason == 'max_tokens':
-                raise SystemExit('the draft hit max_tokens and is truncated; '
-                                 'raise --max-tokens and re-run')
+                raise SystemExit('the draft stopped at the %d-token output budget and '
+                                 'is truncated. Thinking is spent from the same budget '
+                                 'as the prose, so raise --max-tokens (the model allows '
+                                 '128000) and re-run.' % self.max_tokens)
             if message.stop_reason != 'pause_turn':
                 break
 
@@ -601,7 +622,9 @@ def main():
                     help='stub drafts without a model, key, or network')
     ap.add_argument('--model', default=MODEL)
     ap.add_argument('--effort', default='high', choices=['low', 'medium', 'high', 'xhigh', 'max'])
-    ap.add_argument('--max-tokens', type=int, default=32000)
+    ap.add_argument('--max-tokens', type=int, default=MAX_TOKENS,
+                    help='output budget, spent by thinking as well as prose '
+                         '(default: %d, model maximum: 128000)' % MAX_TOKENS)
     ap.add_argument('--out', help='where to write (default: content/editions/<slug>.json)')
     ap.add_argument('--stdout', action='store_true', help='print the draft, write nothing')
     ap.add_argument('--plan', action='store_true',

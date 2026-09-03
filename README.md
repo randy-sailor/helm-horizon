@@ -94,6 +94,15 @@ three; and it skips any month that already exists in `content/editions/`.
 Run it by hand from the Actions tab. `provider: stub` exercises the whole path
 without a model, a key, or any cost — useful when changing the workflow itself.
 
+A research call takes ten to fifteen minutes and cannot be replayed — the web
+has moved on by the next one — so the run prints `stop_reason` and the output
+tokens it spent, and uploads the draft as an artifact the moment it exists.
+`--max-tokens` is an **output** budget and thinking is paid out of it alongside
+the prose; the default is 64,000 against a model maximum of 128,000. October's
+third attempt spent eleven minutes and stopped dead at 32,000 with nothing
+written, which is why the run now says what it used rather than leaving the next
+person to guess.
+
 ### By hand
 
 ```bash
