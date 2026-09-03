@@ -428,10 +428,16 @@ class StubProvider(Provider):
 
     def research(self, brief, schema):
         img = brief['images'][0] if brief['images'] else ''
-        src = {'title': 'Example primary source', 'url': 'https://example.com/'}
+        # A real, live citation: the validator now rejects reserved example
+        # domains, and the stub has to survive its own pipeline.
+        src = {'title': 'Federal Reserve FOMC statement, 29 July 2026',
+               'url': 'https://www.federalreserve.gov/newsevents/pressreleases/'
+                      'monetary20260729a.htm'}
         month = brief['month']
         para = ('Placeholder prose for %s, generated without a model so the '
-                'pipeline can be tested. See [the source](https://example.com/).' % month)
+                'pipeline can be tested. See [the source]'
+                '(https://www.federalreserve.gov/newsevents/pressreleases/'
+                'monetary20260729a.htm).' % month)
         return {
             'headline': 'Stub draft for %s' % month,
             'dek': 'A structurally valid placeholder produced without calling a model.',

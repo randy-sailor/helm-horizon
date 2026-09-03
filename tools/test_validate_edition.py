@@ -32,6 +32,11 @@ CASES = [
     ('four_actions.json', 'exactly 3 steps', 'four action steps'),
     ('wrong_number.json', 'expected', 'edition number out of sequence'),
     ('http_source.json', 'not https', 'insecure source URL'),
+    # Added after October's first real draft shipped two risk panels reading
+    # "Placeholder", cited to example.com, past every structural rule.
+    ('placeholder_body.json', 'placeholder text', 'stub prose left in a risk body'),
+    ('example_source.json', 'reserved example domain', 'a citation to example.com'),
+    ('short_body.json', 'too short to be real', 'an action step of a few words'),
 ]
 
 failures = 0

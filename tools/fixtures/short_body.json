@@ -234,7 +234,7 @@
   "actions": [
     {
       "title": "Run the MarineMax playbook on your own P&L before year-end.",
-      "body": "MarineMax did not beat because boats sold — same-store sales were down 7%. It beat because brokerage, finance and insurance, marinas, superyachts, and parts and service now carry the gross profit. Break out your last-twelve-month gross profit by revenue line and mark the non-new-boat share. If it is below 40%, you are running a 2022 business model in a 2026 market. Set a written fiscal 2027 target — the multiple your business is worth in a sale conversation will move with that ratio far more than with unit volume."
+      "body": "Check your margins this quarter."
     },
     {
       "title": "Move charter cross-currency exposure to the front of the risk register.",
@@ -243,10 +243,6 @@
     {
       "title": "Book Monaco with a builder-services agenda, not a boat-shopping agenda.",
       "body": "The Monaco Yacht Show runs 23–26 September, with roughly 120 yachts and 43 new deliveries expected — but the real story on the pontoons will be builder distress. With The Italian Sea Group in insolvency proceedings and a Sanlorenzo-led consortium bidding, refit, warranty, and completion questions will drive more meaningful conversations than new orders. Come with a list: which builders have open orders on which of your clients’ hulls, which yards carry credible completion risk, and which service providers you can extend a preferred-vendor relationship to before demand snaps back. The best Monaco value this year is in the yards, not the demo boats."
-    },
-    {
-      "title": "A fourth step",
-      "body": "Should not be allowed."
     }
   ],
   "profile": {
@@ -280,5 +276,5 @@
     "Send us what you are seeing on the Monaco run-in, on used inventory absorption, on charter reprice negotiations, and on refit-yard capacity. One quote per issue gets the lead position, and we run through October."
   ],
   "colophon": "Sources cited inline with links. Data as of late July / early August 2026. Helm & Horizon is published by The Walton Group, Inc. and is not investment advice.",
-  "_fixture": "Four action steps. The section is \"Three action steps\"."
+  "_fixture": "an action step too short to be a real instruction"
 }

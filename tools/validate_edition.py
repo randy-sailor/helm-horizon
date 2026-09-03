@@ -20,6 +20,7 @@ import os
 import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 EDITIONS_DIR = os.path.join('content', 'editions')
@@ -30,6 +31,24 @@ REGIONS = ('us', 'global')
 MD_LINK = re.compile(r'\[([^\]]*)\]\((https?://[^)\s]+)\)')
 
 USER_AGENT = 'helm-horizon-link-check/1.0 (+https://thehelmandhorizon.com)'
+
+# Reserved names from RFC 2606 and RFC 6761, plus the usual local hosts. A
+# citation pointing at one of these is a placeholder nobody replaced — and
+# example.com answers 200, so the liveness check will never catch it.
+RESERVED_HOST = re.compile(
+    r'^(?:.+\.)?example\.(?:com|org|net|edu)$|^(?:.+\.)?(?:test|invalid|localhost)$'
+    r'|^127\.0\.0\.1$|^::1$', re.I)
+
+# Text that is *only* one of these is a stub, not prose. Matched against the
+# whole field so a paragraph that merely uses the word is left alone.
+PLACEHOLDER = re.compile(
+    r'^\s*(?:placeholder|placeholder text|tbd|to be (?:determined|written|added)|todo|'
+    r'n/?a|none|null|xxx+|\.\.\.|lorem ipsum.*|coming soon|text here|sample text|'
+    r'insert .*here)\s*[.!]?\s*$', re.I)
+
+# Below this a "risk assessment" or "action step" is a stub. September's run
+# 400-900; the October draft that prompted this rule was eleven characters.
+MIN_BODY = 80
 
 
 class Problems:
@@ -82,6 +101,10 @@ def _check_source(p, src, where):
         return None
     if not url.startswith('https://'):
         p.add(where, 'source url is not https: %s' % url)
+        return None
+    host = urllib.parse.urlsplit(url).hostname or ''
+    if RESERVED_HOST.match(host):
+        p.add(where, 'source url is a reserved example domain, not a citation: %s' % url)
         return None
     if not _is_str(src.get('title')):
         p.add(where, 'source has no title')
@@ -199,6 +222,38 @@ def validate_structure(p, ed):
                     p.add(where, 'missing "%s"' % k)
 
 
+def validate_prose(p, ed):
+    """Refuse stub text that satisfies every structural rule.
+
+    October's first real draft passed everything and still carried two risk
+    panels reading "Placeholder", cited to example.com. Each rule was met: a
+    non-empty string, an https URL, and a domain that answers 200. Structure
+    was never what was wrong with it.
+    """
+    def walk(node, path):
+        if isinstance(node, str):
+            if PLACEHOLDER.match(node):
+                p.add(path, 'placeholder text left in place: %r' % node.strip()[:40])
+        elif isinstance(node, dict):
+            for k, v in node.items():
+                if k != 'url':          # urls have their own rule
+                    walk(v, '%s.%s' % (path, k))
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                walk(v, '%s[%d]' % (path, i))
+
+    walk(ed, 'edition')
+
+    # A floor, not a word count: enough to catch a stub, far under real prose.
+    for field in ('risks', 'actions'):
+        for i, item in enumerate(ed.get(field) or []):
+            body = (item or {}).get('body') if isinstance(item, dict) else None
+            if _is_str(body) and len(body.strip()) < MIN_BODY:
+                p.add('%s[%d]' % (field, i),
+                      'body is %d characters — too short to be real'
+                      % len(body.strip()))
+
+
 def validate_sequence(p, ed, path, editions_dir=EDITIONS_DIR):
     """number must be exactly one greater than the highest other edition.
 
@@ -313,6 +368,7 @@ def validate(path, offline=False, editions_dir=EDITIONS_DIR):
         return p
 
     validate_structure(p, ed)
+    validate_prose(p, ed)
     validate_sequence(p, ed, path, editions_dir)
     if not offline:
         validate_links(p, ed)
