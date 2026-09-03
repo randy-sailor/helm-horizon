@@ -131,10 +131,16 @@ class _Block:
         self.text = text
 
 
+class _Container:
+    def __init__(self, cid):
+        self.id = cid
+
+
 class _Msg:
-    def __init__(self, stop_reason, blocks):
+    def __init__(self, stop_reason, blocks, container=None):
         self.stop_reason = stop_reason
         self.content = blocks
+        self.container = _Container(container) if container else None
 
 
 class _Stream:
@@ -244,6 +250,33 @@ _, msgs = run_provider([paused, finished])
 check('every request asks for the full budget, including a resume',
       all(c['max_tokens'] == D.MAX_TOKENS for c in msgs.calls),
       str([c['max_tokens'] for c in msgs.calls]))
+
+
+# The server tools run in a container, and the tool uses a paused turn trails
+# are still pending inside it. A resume that does not name it is refused with
+# "400 container_id is required when there are pending tool uses" — which is
+# how October's fifth attempt ended, one second after a seven-minute search.
+held = _Msg('pause_turn', [_Block(kind='server_tool_use')], container='cnt_01abc')
+
+_, msgs = run_provider([held, finished])
+check('a resume names the container the paused turn left behind',
+      msgs.calls[1].get('container') == 'cnt_01abc', repr(msgs.calls[1].get('container')))
+check('the first request does not invent a container',
+      'container' not in msgs.calls[0], repr(msgs.calls[0].get('container')))
+
+# Two pauses in a row: the second resume must still carry a container, and the
+# newest one wins — a stale id is as useless as none.
+moved = _Msg('pause_turn', [_Block(kind='server_tool_use')], container='cnt_02def')
+_, msgs = run_provider([held, moved, finished])
+check('a second resume carries the newest container, not the first',
+      [c.get('container') for c in msgs.calls] == [None, 'cnt_01abc', 'cnt_02def'],
+      str([c.get('container') for c in msgs.calls]))
+
+# Not every paused turn allocates one. Sending container=None would be a
+# request for a container literally named None, so it must be omitted.
+_, msgs = run_provider([paused, finished])
+check('a pause with no container omits the parameter rather than sending null',
+      'container' not in msgs.calls[1], repr(msgs.calls[1].get('container')))
 
 
 # --------------------------------------------- the stub survives the validator

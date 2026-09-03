@@ -411,6 +411,11 @@ class AnthropicProvider(Provider):
             {'type': 'web_fetch_20260209', 'name': 'web_fetch', 'max_uses': 30},
         ]
 
+        # The server tools run inside a container, and a resume has to name the
+        # one the paused turn left behind. Empty on the first request; the
+        # server allocates a container and reports it back.
+        carried = {}
+
         for resumed in range(self.MAX_RESUMES + 1):
             # Streaming, because a full edition runs well past the non-streaming
             # request timeout once web search rounds are included.
@@ -425,6 +430,7 @@ class AnthropicProvider(Provider):
                     'effort': self.effort,
                     'format': {'type': 'json_schema', 'schema': schema},
                 },
+                **carried,
             ) as stream:
                 message = stream.get_final_message()
 
@@ -455,8 +461,21 @@ class AnthropicProvider(Provider):
             # failure. Re-sending the exchange resumes it; the trailing
             # server_tool_use block is the cue, so do not add a "continue"
             # message of your own.
-            print('research paused at the server tool limit — resuming (%d of %d)'
-                  % (resumed + 1, self.MAX_RESUMES), file=sys.stderr)
+            #
+            # The exchange alone is not enough. Those trailing tool uses are
+            # still pending inside the server's container, and a resume that
+            # does not name it is refused outright:
+            #
+            #   400 container_id is required when there are pending tool uses
+            #
+            # which is how October's fifth attempt ended, one second after a
+            # seven-minute search it then threw away.
+            container = getattr(getattr(message, 'container', None), 'id', None)
+            if container:
+                carried['container'] = container
+            print('research paused at the server tool limit — resuming (%d of %d)%s'
+                  % (resumed + 1, self.MAX_RESUMES,
+                     '' if container else ' without a container id'), file=sys.stderr)
             messages = [{'role': 'user', 'content': prompt},
                         {'role': 'assistant', 'content': message.content}]
         else:

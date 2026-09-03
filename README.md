@@ -103,6 +103,14 @@ third attempt spent eleven minutes and stopped dead at 32,000 with nothing
 written, which is why the run now says what it used rather than leaving the next
 person to guess.
 
+A long search stops at the server's tool-iteration limit with
+`stop_reason: pause_turn` — no text, no error, an unfinished turn — and the
+drafter resumes it up to four times. Resuming takes two things, and each one
+cost a run to learn: the original exchange re-sent verbatim (no "continue"
+message; the trailing tool-use block is the cue), **and** the `container` id the
+paused turn reported, because the tool uses it trails are still pending inside
+the server's container. A resume missing either is refused.
+
 ### By hand
 
 ```bash
