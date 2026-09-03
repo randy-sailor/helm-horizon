@@ -255,14 +255,23 @@ def validate_prose(p, ed):
 
 
 def validate_sequence(p, ed, path, editions_dir=EDITIONS_DIR):
-    """number must be exactly one greater than the highest other edition.
+    """Edition numbers must be unique across the archive and leave no gaps.
+
+    The rule was "exactly one greater than the highest other edition", which is
+    right for a draft joining the archive and wrong for every issue already in
+    it. The day October landed, re-validating September asked why number 9 was
+    not 11 — and `validate_edition.py` with no arguments checks every edition,
+    so the whole archive went red as soon as a second issue existed.
+
+    Uniqueness plus contiguity keeps what the old rule was for: a draft
+    numbered 9 collides, a draft numbered 12 leaves a gap, and only 11 passes.
 
     The archive to sequence against is a parameter, not a constant: an edition
     is only in or out of sequence relative to some set of editions, and the
     fixtures need to state their own. Pinning this to the live directory made
     the fixture tests fail the moment a new edition landed on disk.
     """
-    highest = None
+    others = {}
     for name in sorted(os.listdir(editions_dir)) if os.path.isdir(editions_dir) else []:
         if not name.endswith('.json'):
             continue
@@ -274,15 +283,20 @@ def validate_sequence(p, ed, path, editions_dir=EDITIONS_DIR):
         except Exception:
             continue
         n = other.get('number')
-        if isinstance(n, int) and (highest is None or n > highest):
-            highest = n
+        if isinstance(n, int):
+            others.setdefault(n, name)
+
     n = ed.get('number')
-    if not isinstance(n, int):
-        return
-    if highest is None:
+    if not isinstance(n, int) or not others:
         return  # first edition in the repo; nothing to sequence against
-    if n != highest + 1:
-        p.add('edition', 'number is %d but the highest existing edition is %d — expected %d'
+    if n in others:
+        p.add('edition', 'number %d is already taken by %s' % (n, others[n]))
+        return
+    numbers = sorted(list(others) + [n])
+    if numbers != list(range(numbers[0], numbers[0] + len(numbers))):
+        highest = max(others)
+        p.add('edition', 'number %d leaves a gap in the archive — the highest other '
+                         'edition is %d, so the next one is expected to be %d'
               % (n, highest, highest + 1))
 
 

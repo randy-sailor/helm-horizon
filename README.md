@@ -161,7 +161,7 @@ item, or source link from the article did not survive the conversion. See
 * a figure with no source, or a source that is not `https://`
 * a link that returns 404 or 410, or whose host does not resolve
 * anything other than exactly three action steps
-* an edition number out of sequence with the rest of the archive
+* an edition number that duplicates another, or leaves a gap in the archive
 * a `voices[]` entry whose `permission_to_quote` is not `true`
 * prose left as a placeholder — `Placeholder`, `TBD`, `Lorem ipsum`, `N/A` and the like
 * a citation to a reserved example domain (`example.com`, `.test`, `.invalid`, `localhost`)

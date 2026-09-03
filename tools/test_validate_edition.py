@@ -53,6 +53,52 @@ for name, expect, desc in CASES:
     if not ok:
         failures += 1
 
+# An archive with more than one issue in it. The sequence rule used to be
+# "exactly one greater than the highest other edition", which is right for a
+# draft joining the archive and wrong for every issue already in it: the day
+# October landed, `validate_edition.py` with no arguments turned red because
+# September was number 9 and not 11. These fix the rule in place.
+print()
+SEQ = tempfile.mkdtemp()
+
+
+def seq_write(number, slug):
+    ed = json.load(open(os.path.join(FIX, 'valid.json'), encoding='utf-8'))
+    ed['number'], ed['slug'] = number, slug
+    path = os.path.join(SEQ, '%s.json' % slug)
+    json.dump(ed, open(path, 'w', encoding='utf-8'))
+    return path
+
+
+september = seq_write(9, 'september-2026')
+october = seq_write(10, 'october-2026')
+
+
+def sequence_case(path, expect, desc):
+    global failures
+    p = V.validate(path, offline=True, editions_dir=SEQ)
+    msgs = ' | '.join('%s: %s' % (w, m) for w, m in p.items)
+    ok = (not p) if expect is None else (bool(p) and expect in msgs)
+    print('%-5s %-34s %s' % ('PASS' if ok else 'FAIL', desc, msgs[:88]))
+    if not ok:
+        failures += 1
+
+
+# The two that were failing on the live archive: each existing issue, checked
+# against the other. This is what `validate_edition.py` with no arguments does.
+sequence_case(september, None, 'an older issue in a full archive')
+sequence_case(october, None, 'the newest issue in a full archive')
+
+# And the protections the old rule existed for, still firing.
+for number, expect, desc in ((11, None, 'the next issue after the newest'),
+                             (10, 'already taken', 'a number another edition uses'),
+                             (13, 'leaves a gap', 'a number that skips ahead')):
+    subject = seq_write(number, 'subject-2026')
+    try:
+        sequence_case(subject, expect, desc)
+    finally:
+        os.remove(subject)
+
 # The URL classifier decides what counts as a dead link; check the policy
 # directly rather than over the network, which CI may or may not allow.
 print()
