@@ -7,8 +7,10 @@ The model is asked to research and write. It is not asked for the edition
 number, the publication date, the previous-issue link, an image path, or a
 reader quote — and these check that it cannot supply them by accident either.
 """
+import json
 import os
 import sys
+import types
 from datetime import date
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -112,6 +114,113 @@ try:
     check('refuses an image that is not in the repository', False)
 except SystemExit as e:
     check('refuses an image that is not in the repository', 'does not exist' in str(e), str(e))
+
+
+# ------------------------------------------- the provider resumes a paused turn
+
+# A long web-search turn stops at the server's ten-iteration limit with
+# stop_reason "pause_turn": no text block, no error, an unfinished answer.
+# October's re-run spent eight minutes on exactly that and came back empty.
+# The API resumes when the exchange is re-sent, so this stands in a fake client
+# and proves the loop does it — there is no way to reach the real API from a
+# test, and finding out in the monthly run costs a research call.
+
+class _Block:
+    def __init__(self, text=None, kind='text'):
+        self.type = kind
+        self.text = text
+
+
+class _Msg:
+    def __init__(self, stop_reason, blocks):
+        self.stop_reason = stop_reason
+        self.content = blocks
+
+
+class _Stream:
+    def __init__(self, msg):
+        self._msg = msg
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+    def get_final_message(self):
+        return self._msg
+
+
+class _Messages:
+    def __init__(self, script):
+        self.script = list(script)
+        self.calls = []
+
+    def stream(self, **kw):
+        self.calls.append(kw)
+        return _Stream(self.script.pop(0))
+
+
+class _Client:
+    def __init__(self, script):
+        self.messages = _Messages(script)
+
+
+def run_provider(script, max_resumes=None):
+    """Drive AnthropicProvider.research against a scripted fake client."""
+    fake = types.ModuleType('anthropic')
+    client = _Client(script)
+    fake.Anthropic = lambda *a, **k: client
+    old_mod, old_key = sys.modules.get('anthropic'), os.environ.get('ANTHROPIC_API_KEY')
+    sys.modules['anthropic'] = fake
+    os.environ['ANTHROPIC_API_KEY'] = 'test'
+    prov = D.AnthropicProvider()
+    if max_resumes is not None:
+        prov.MAX_RESUMES = max_resumes
+    try:
+        return prov.research(brief, D.wire_schema(images)), client.messages
+    finally:
+        if old_mod is None:
+            sys.modules.pop('anthropic', None)
+        else:
+            sys.modules['anthropic'] = old_mod
+        if old_key is None:
+            os.environ.pop('ANTHROPIC_API_KEY', None)
+        else:
+            os.environ['ANTHROPIC_API_KEY'] = old_key
+
+
+paused = _Msg('pause_turn', [_Block(kind='server_tool_use')])
+finished = _Msg('end_turn', [_Block(json.dumps({'headline': 'Done'}))])
+
+out, msgs = run_provider([paused, finished])
+check('a paused turn is resumed rather than failed',
+      out == {'headline': 'Done'} and len(msgs.calls) == 2,
+      '%d request(s), got %r' % (len(msgs.calls), out))
+
+# The resume must re-send the exchange, not invent a "continue" message.
+second = msgs.calls[1]['messages']
+check('the resume re-sends the user turn and the paused assistant turn',
+      len(second) == 2 and second[0]['role'] == 'user'
+      and second[1]['role'] == 'assistant',
+      str([m['role'] for m in second]))
+
+out, msgs = run_provider([paused, paused, finished])
+check('it resumes more than once when the search runs long',
+      out == {'headline': 'Done'} and len(msgs.calls) == 3,
+      '%d request(s)' % len(msgs.calls))
+
+try:
+    run_provider([paused, paused, paused], max_resumes=1)
+    check('it gives up rather than looping forever', False)
+except SystemExit as e:
+    check('it gives up rather than looping forever', 'still paused' in str(e), str(e))
+
+try:
+    run_provider([_Msg('refusal', [])])
+    check('a refusal is reported, not parsed', False)
+except SystemExit as e:
+    check('a refusal is reported, not parsed', 'declined' in str(e), str(e))
 
 
 # --------------------------------------------- the stub survives the validator

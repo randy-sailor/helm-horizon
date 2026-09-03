@@ -136,10 +136,22 @@ jobs:
           SLUG: ${{ steps.plan.outputs.slug }}
         run: |
           set -euo pipefail
+          git config user.name "helm-horizon-bot"
+          git config user.email "noreply@thehelmandhorizon.com"
           branch="edition/$SLUG"
           if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
             git fetch origin "$branch"
             git checkout "$branch"
+            # Checking out the branch replaces the whole working tree, tools and
+            # all. An edition branch outlives pipeline changes — October's was cut
+            # before the validator learned to reject placeholder prose — so
+            # without this the re-run would draft and validate with exactly the
+            # code it was meant to replace. Merge the run's own commit in so the
+            # draft is produced by the tooling this run shipped with.
+            if ! git merge --no-edit "$GITHUB_SHA"; then
+              echo "::error::edition/$SLUG conflicts with the base branch; resolve it by hand"
+              exit 1
+            fi
           else
             git checkout -b "$branch"
           fi
