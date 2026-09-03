@@ -68,7 +68,7 @@
   "redirects": [
     {
       "source": "/latest",
-      "destination": "/editions/september-2026",
+      "destination": "/editions/october-2026",
       "permanent": false
     },
     {
