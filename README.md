@@ -103,6 +103,16 @@ third attempt spent eleven minutes and stopped dead at 32,000 with nothing
 written, which is why the run now says what it used rather than leaving the next
 person to guess.
 
+The drafter reads its own output back before writing it. Structured outputs
+cannot express "at least 400 characters" — `minLength` and `minItems` are not
+supported constraints — so the schema is unable to refuse a required string
+reading `Placeholder`, and the model has written exactly that into both risk
+panels twice, with every other field of the edition complete. When a field comes
+back as a stub the drafter asks again for **that field only**, up to twice, with
+the research still in context; a draft it still will not finish is written out
+anyway, with the unfinished fields named, so a month's research is never thrown
+away over one section.
+
 A long search stops at the server's tool-iteration limit with
 `stop_reason: pause_turn` — no text, no error, an unfinished turn — and the
 drafter resumes it up to four times. Resuming takes two things, and each one

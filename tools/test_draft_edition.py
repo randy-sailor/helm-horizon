@@ -279,6 +279,71 @@ check('a pause with no container omits the parameter rather than sending null',
       'container' not in msgs.calls[1], repr(msgs.calls[1].get('container')))
 
 
+# ------------------------------------------ the drafter reads its own output back
+
+# Structured outputs cannot express "at least 400 characters" — minLength and
+# minItems are not supported — so the schema is physically unable to refuse a
+# risks body reading "Placeholder". The model has now shipped exactly that
+# twice, with every other field of the edition fully written, and the house
+# rule in the system prompt did not stop it either. The only place left to
+# catch it is here, before the draft is written.
+
+full = D.StubProvider().research(brief, D.wire_schema(images))
+check('a complete draft has nothing to repair', D.stub_fields(full) == {},
+      str(sorted(D.stub_fields(full))))
+
+stubbed = json.loads(json.dumps(full))
+stubbed['risks'][0]['body'] = 'Placeholder'
+stubbed['risks'][0]['sources'] = []
+found = D.stub_fields(stubbed)
+check('a placeholder risks body is caught', 'risks' in found, str(sorted(found)))
+check('and so is the missing citation underneath it',
+      any('cites no source' in m for m in found.get('risks', [])),
+      str(found.get('risks')))
+check('a stub in one field does not implicate the others',
+      sorted(found) == ['risks'], str(sorted(found)))
+
+# "TBD" is a placeholder; a real short sentence is not — the length rule is what
+# separates them, and it must not fire on prose that is merely concise.
+check('an ordinary paragraph is not mistaken for a stub',
+      'from_the_desk' not in D.stub_fields(full))
+
+# The repair asks only for the fields that failed, so a good indicators array is
+# not regenerated (and cannot be made worse) by a bad risks array.
+narrowed = D.subset_schema(D.wire_schema(images), ['risks'])
+check('the repair request asks only for the fields that failed',
+      list(narrowed['properties']) == ['risks'] and narrowed['required'] == ['risks'],
+      str(list(narrowed['properties'])))
+
+stub_msg = _Msg('end_turn', [_Block(json.dumps(stubbed))])
+good_msg = _Msg('end_turn', [_Block(json.dumps({'risks': full['risks']}))])
+
+out, msgs = run_provider([stub_msg, good_msg])
+check('a stubbed field is asked for again rather than accepted',
+      len(msgs.calls) == 2 and D.stub_fields(out) == {},
+      '%d request(s), %s' % (len(msgs.calls), sorted(D.stub_fields(out))))
+check('the repair keeps the fields that were already good',
+      out['headline'] == full['headline'] and out['indicators'] == full['indicators'])
+check('the repair turn carries the original brief and the paused draft',
+      [m['role'] for m in msgs.calls[1]['messages']] == ['user', 'assistant', 'user'],
+      str([m['role'] for m in msgs.calls[1]['messages']]))
+check('the repair names the unfinished field to the model',
+      'risks[0]' in msgs.calls[1]['messages'][2]['content'],
+      msgs.calls[1]['messages'][2]['content'][:60])
+
+# Two failed repairs must not throw away the eight minutes of research that
+# produced the rest of the edition.
+try:
+    run_provider([stub_msg, stub_msg, stub_msg])
+    check('a draft the model will not finish is still handed back', False)
+except D.StubbedDraft as e:
+    check('a draft the model will not finish is still handed back',
+          e.draft['headline'] == full['headline']
+          and any('risks[0]' in m for m in e.problems), str(e.problems))
+except SystemExit as e:
+    check('a draft the model will not finish is still handed back', False, str(e))
+
+
 # --------------------------------------------- the stub survives the validator
 
 # If the stub could not pass validation, the workflow's dry run would prove
