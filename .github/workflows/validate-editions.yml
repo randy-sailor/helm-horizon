@@ -35,6 +35,12 @@ jobs:
       - name: Test the drafting layer
         run: python3 tools/test_draft_edition.py
 
+      # The home page, the archive strip and every footer name the current
+      # issue. Nothing tested them, and October published with a gold button
+      # reading "Read the September issue" over a panel of September's figures.
+      - name: Test the page renderer
+        run: python3 tools/test_render_html.py
+
       - name: Install the PDF toolkit
         run: pip install --quiet 'reportlab~=5.0'
 

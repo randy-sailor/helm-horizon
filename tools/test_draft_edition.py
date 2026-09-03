@@ -61,12 +61,21 @@ images = D.available_images()
 check('there are editions on disk to sequence against', bool(editions), '%d found' % len(editions))
 check('there are images on disk to reference', bool(images), ', '.join(images))
 
-brief = D.build_brief(2026, 10, editions, images)
+# The target is the month after the newest issue on disk, worked out here rather
+# than written in. Hardcoding "October 2026" passed until October published, and
+# then failed inside the drafting workflow's own pre-flight — a test that expires
+# the moment the thing it tests starts working.
 latest = D.latest_edition(editions)
+year, month = D.next_month(date.fromisoformat(latest['published']))
+brief = D.build_brief(year, month, editions, images)
 check('number follows the highest edition on disk',
       brief['number'] == latest['number'] + 1, '%d -> %d' % (latest['number'], brief['number']))
-check('slug is derived, not drafted', brief['slug'] == 'october-2026', brief['slug'])
-check('publication date is the first Thursday', brief['published'] == '2026-10-01',
+check('slug is derived, not drafted',
+      brief['slug'] == '%s-%d' % (D.MONTHS[month - 1].lower(), year), brief['slug'])
+check('publication date is the first Thursday',
+      brief['published'] == D.first_thursday(year, month).isoformat()
+      and date.fromisoformat(brief['published']).weekday() == 3
+      and date.fromisoformat(brief['published']).day <= 7,
       brief['published'])
 check('previous points at the highest edition on disk',
       brief['previous']['slug'] == latest['slug'], brief['previous']['slug'])
