@@ -49,11 +49,11 @@ jobs:
   draft:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -164,7 +164,7 @@ jobs:
       # whatever happens afterwards.
       - name: Keep the draft, whatever happens next
         if: ${{ always() && steps.plan.outputs.proceed == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: draft-${{ steps.plan.outputs.slug }}
           path: ${{ steps.plan.outputs.path }}
