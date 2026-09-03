@@ -126,6 +126,7 @@ jobs:
         run: |
           python3 tools/test_validate_edition.py
           python3 tools/test_draft_edition.py
+          python3 tools/test_render_html.py
           python3 tools/test_render_pdf.py
 
       # A re-run lands on the existing branch, so an editor's own commits are
