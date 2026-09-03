@@ -157,6 +157,20 @@ jobs:
             python3 tools/draft_edition.py --provider "$PROVIDER" --force
           fi
 
+      # The research is the expensive part of this job and the only part that
+      # cannot be reproduced — it is a paid call against a web that has moved on
+      # by the next run. On 3 September a rendering bug three steps later threw
+      # away a finished, validated October draft. Keep it the moment it exists,
+      # whatever happens afterwards.
+      - name: Keep the draft, whatever happens next
+        if: ${{ always() && steps.plan.outputs.proceed == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: draft-${{ steps.plan.outputs.slug }}
+          path: ${{ steps.plan.outputs.path }}
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Validate the draft
         if: steps.plan.outputs.proceed == 'true'
         run: python3 tools/validate_edition.py "${{ steps.plan.outputs.path }}"
