@@ -4,84 +4,101 @@
   "month": "October 2026",
   "slug": "october-2026",
   "published": "2026-10-01",
-  "headline": "The Margin Beat Was Partly a Customs Refund",
-  "dek": "Marine retail, propulsion and boatbuilding all expanded margin in the June quarter — and a measurable slice of the gain was duty money that is still being fought over in court.",
-  "description": "MarineMax, OneWater, Brunswick and Malibu all posted margin expansion in the June quarter. Some of it was tariff refunds. What that means for floorplan, covenants and 2027 budgets.",
+  "headline": "Consolidation Moves Upstream While Retail Waits",
+  "dek": "The deals of the last six weeks were signed at the builder and supplier tier, not the dealer tier — and the wholesale tape is now running ahead of the retail tape.",
+  "description": "October 2026: builder and supplier consolidation, refinancing windows, a wholesale restock ahead of retail, brokerage value up on lower volume, and war-risk repricing.",
   "hero": {
     "image": "/assets/img/marina-aerial.webp",
-    "alt": "Aerial view of a full marina basin with boats on moorings and dry stack racks along the shoreline"
+    "alt": "Aerial view of a full marina with boats on moorings and dry-stack storage behind"
   },
   "from_the_desk": [
-    "The June-quarter tape is now complete across the listed marine complex, and the direction of travel is the same one we described in September: volumes soft, margins firm. What changed in the last six weeks is the **composition** of the margin. MarineMax lifted gross margin 530 basis points to 35.7 per cent, and told the market that roughly 110 basis points of that came from a tariff refund, most of it relating to boat sales recorded earlier in the fiscal year ([MarineMax](https://secure.businesswire.com/news/home/20260722016202/en/MarineMax-Reports-Fiscal-2026-Third-Quarter-Results)). Brunswick's raised full-year guidance is built in part on approximately $25–30 million of net refunds under the International Emergency Economic Powers Act, against roughly $40 million of incremental tariff cost for the year ([Brunswick 8-K](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm)). Those refunds exist because the Supreme Court ended the IEEPA-based tariff programme and the United States terminated the duties ([White & Case](https://www.whitecase.com/insight-alert/united-states-terminates-ieepa-based-tariffs-following-supreme-court-decision)); the mechanics of getting the money back are still contested, with the government having appealed a Court of International Trade refund order in June ([Holland & Knight](https://www.hklaw.com/en/insights/publications/2026/06/ieepa-tariff-refund-update-government-appeals)).",
-    "This issue argues three things. First, that the second-half margin story is now part operating and part legal, and that anyone budgeting 2027 off a reported gross-profit percentage is budgeting off a number with a non-recurring customs component inside it. Second, that the genuine, durable improvement this quarter sat on the **balance sheet** rather than the income statement — MarineMax refinancing $1.49 billion of senior secured facilities out to 2031, OneWater reaching 3.7 times adjusted net debt to adjusted EBITDA from 5.8 times a year earlier, Malibu refinancing to 2031 and authorising a $70 million repurchase — and that this is exactly the capacity independents do not have. Third, that the demand split has hardened rather than healed: Northrop & Johnson counts pre-owned 24-metre-plus transactions down 8 per cent with aggregate value up 15 per cent, while Malibu's own commentary points at a pressured payment buyer and Brunswick's at pressured value segments. The top of the market is transacting; the financed middle is not."
+    "No large dealer group reported between mid-August and the close of this issue, so the tape came from upstream. Malibu Boats closed fiscal 2026 on 27 August with fourth-quarter net sales of **$295.5 million, up 42.7%**, unit volume up 19.2% to 1,456 boats, $61.2 million of that from the new Saxdor segment, and gross margin of 17.7% — a shipment number, not a retail number, and management attributed part of it to \"firming dealer inventory levels in pockets of the portfolio\" ([SEC](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)). Brunswick raised full-year adjusted earnings guidance to $4.35–$4.75 per diluted share, with roughly $40 million of incremental tariffs offset in part by $25–30 million of net refunds under the International Emergency Economic Powers Act ([SEC](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm)). Patrick Industries grew marine revenue 22% while its recreational vehicle end market fell 15% ([SEC](https://www.sec.gov/Archives/edgar/data/0000076605/000007660526000069/earningsrelease.htm)). The retail number that governs all of it has not moved: new powerboat retail unit sales were **214,292, down 7.1%** on a rolling twelve-month basis through April, and the Conference Board index fell to 89.4 in August with the expectations component at 68.2 ([NMMA](https://www.nmma.org/statistics/article/25561), [NMMA](https://www.nmma.org/statistics/article/25615)).",
+    "Last month's issue argued that margin and mix were carrying the dealer tier while volume fell. The second-order consequence has now arrived, and it is structural rather than seasonal: the capital is being spent upstream — MasterCraft absorbing Marine Products, Patrick Industries and LCI Industries combining, Malibu buying Saxdor — while the distress is being absorbed downstream, at West Marine and at single-location operators. This issue argues three things. First, wholesale is being restocked ahead of retail, and the model-year 2027 order book is where that gets settled. Second, the financing window that MarineMax, Malibu and OneWater used between June and August is not obviously open at the same price into 2027: the July Federal Open Market Committee minutes record participants who wanted a **hike**, and market pricing for a 25 basis-point increase by September ([Federal Reserve](https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm)). Third, in the large-yacht market value is rising on falling volume, which is a mix story, not a demand story, and it does not help anyone holding a fifteen-year-old 30-metre. Our dashboard closes with early-September data; the Cannes and Monaco results are not yet in these numbers."
   ],
   "featured": {
-    "title": "The Refund Quarter",
+    "title": "Consolidation Moved Upstream",
     "sections": [
       {
-        "heading": "How much of the margin is customs money",
+        "heading": "The deals are being signed above the dealer tier",
         "body": [
-          "Start with the disclosures the companies made themselves, because they were unusually explicit. MarineMax reported gross margin of 35.7 per cent for the quarter ended 30 June, up 530 basis points, and said margin **benefited by approximately 110 basis points from a tariff refund**, the majority of it attaching to boat sales recorded in earlier quarters of the fiscal year ([MarineMax](https://secure.businesswire.com/news/home/20260722016202/en/MarineMax-Reports-Fiscal-2026-Third-Quarter-Results)). Strip that out and the underlying expansion is closer to 420 basis points — still a large number, still driven by better new and used boat margins and by mix shift into superyacht services, marinas, parts and service. But it is not the number the headline carried.",
-          "Brunswick was more granular. Consolidated net sales of $1,557.8 million rose 7.7 per cent, adjusted operating margin improved 90 basis points to 9.6 per cent, and adjusted diluted earnings per share of $1.56 rose 34.5 per cent. Within that, the Navico Group segment reported adjusted operating earnings up 143 per cent and margin up 680 basis points, which the company attributed to the IEEPA refund and higher sales; Engine Parts and Accessories added 200 basis points of margin on a 9 per cent sales increase; the Boat segment grew adjusted operating earnings 45 per cent on a 5 per cent sales increase. Management stated that excluding the net IEEPA impact, earnings and margin still increased significantly, and guided the full year to net sales of $5.7–5.8 billion, adjusted operating margin of about 8.0 per cent and adjusted diluted earnings per share of $4.35–4.75, with third-quarter revenue of $1.4–1.5 billion ([Brunswick 8-K](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm)). Read the guidance as two numbers stacked: an operating recovery, and a one-off recovery of duties paid.",
-          "The reason this matters beyond earnings-model hygiene is that the refund is not settled cash for everyone. The duties were terminated following the Supreme Court decision ([White & Case](https://www.whitecase.com/insight-alert/united-states-terminates-ieepa-based-tariffs-following-supreme-court-decision)), but the refund pathway has been litigated through the summer, with the government appealing a Court of International Trade refund order ([Holland & Knight](https://www.hklaw.com/en/insights/publications/2026/06/ieepa-tariff-refund-update-government-appeals)). A builder or dealer that has booked a duty-refund receivable into gross profit has recognised income whose timing — and in some import postures, whose entitlement — is still moving. Your floorplan lender will eventually ask. Better that you raise it first."
-        ]
-      },
-      {
-        "heading": "The durable improvement was on the balance sheet",
-        "body": [
-          "The most consequential disclosures of the six weeks were financing events, not margin prints. MarineMax completed a refinancing of $1.49 billion of aggregate senior secured credit facilities, extending maturities to 2031, expanding the revolver and lowering borrowing costs; inventories fell 13.0 per cent to $788.6 million, a $118 million reduction year on year; interest expense fell to $14.3 million from $16.9 million; adjusted EBITDA rose to $51.3 million from $35.5 million, and cash stood at $174.8 million ([MarineMax](https://secure.businesswire.com/news/home/20260722016202/en/MarineMax-Reports-Fiscal-2026-Third-Quarter-Results)). Note also that selling, general and administrative expenses rose to 29.6 per cent of revenue from 26.2 per cent — 340 basis points of operating deleverage sitting directly beneath the margin expansion. Gross margin up, expense ratio up, revenue down: that is a mix trade, not a volume recovery.",
-          "OneWater's quarter was the deleveraging story in its purest form. Revenue of $530.7 million fell 4.0 per cent, same-store sales fell 2 per cent, gross margin rose 70 basis points to 24.0 per cent, adjusted EBITDA rose 15 per cent to $37.8 million, and adjusted net debt leverage improved to 3.7 times from 5.8 times, hitting the fiscal-year target early. Finance and insurance income of $17.3 million was down 2.7 per cent; service, parts and other fell 12.8 per cent, mostly on the Ocean Bio-Chem divestiture. Full-year guidance was reset to revenue of $1.75–1.80 billion, adjusted EBITDA of $68–78 million and adjusted diluted earnings per share of $0.35–0.55, on an assumption that the industry finishes down high single digits ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000041/onew-q326earningsreleasexe.htm)).",
-          "One line in that release deserves more attention than it received. Cash was $68.7 million and **total liquidity, including availability under credit facilities, was $73.3 million**. That implies roughly $4.6 million of undrawn capacity outside cash. Leverage at 3.7 times is a genuine achievement; liquidity that thin means the improvement has been bought with working capital discipline and there is very little revolver cushion left for a soft show season. Malibu, for its part, closed a credit refinancing in July extending maturity to 2031 and authorised a $70 million fiscal 2027 repurchase programme ([Malibu Boats 8-K/A](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)). The scaled players have all termed out to 2031. Independents refinancing this autumn are negotiating into the same credit market without the same disclosure record."
+          "Dealer-tier mergers and acquisitions have been quiet since the spring. The ownership map above the dealer, however, has changed materially in four months. MasterCraft completed its acquisition of Marine Products Corporation on 15 May, with Marine Products holders receiving $2.43 per share in cash plus 0.232 MasterCraft shares, leaving MasterCraft holders with 66.5% and Marine Products holders with 33.5% of the combined company in a transaction valued at roughly $232.2 million ([SEC](https://www.sec.gov/Archives/edgar/data/1129155/000110465926010660/tm265315d1_ex99-2.htm), [Trade Only Today](https://tradeonlytoday.com/industry-news/mastercraft-acquires-marine-products-corp/)). Chaparral and Robalo now sit beside MasterCraft and Crest in one dealer-facing organisation.",
+          "On 30 June, Patrick Industries and LCI Industries agreed an all-stock merger: LCI holders receive 1.2440 Patrick shares each, giving pro forma ownership of 52% Patrick and 48% LCI, a combined enterprise value of about **$7.7 billion**, pro forma revenue above $8.1 billion, $150 million of expected run-rate cost synergies within three years, pro forma net leverage of 2.1 times, and a target close in the first half of 2027 subject to shareholder and regulatory approval ([Patrick and LCI transaction site](https://www.patrickandlipperttogether.com/transaction-details), [SEC](https://www.sec.gov/Archives/edgar/data/0000076605/000007660526000069/earningsrelease.htm)). For a builder, that is a consolidation of the people who supply seating, glazing, towers, electrical harnesses and trailers. For a dealer, it is a consolidation of the aftermarket and parts channel behind the service department.",
+          "Malibu did the same thing in miniature. Saxdor contributed $61.2 million of net sales and 180 units in the June quarter at $339,811 per unit, and the first domestically built Saxdor boats are expected out of Fort Pierce, Florida in the first half of fiscal 2027 ([SEC](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)). A European brand becoming a Florida-built brand changes duty exposure, lead times and the dealer agreement all at once."
         ]
       },
       {
         "figure": {
-          "image": "/assets/img/harbour-dusk.webp",
-          "alt": "Motor yachts moored stern-to along a harbour quay at dusk with lit saloon windows",
-          "caption": "Inventory is falling on the dealer side and rising on the brokerage side. Northrop & Johnson counted 2,157 pre-owned superyachts for sale at 1 July 2026 — 17 per cent of the global fleet, about $18.8 billion of asking value — against 326 transactions in the first half."
+          "image": "/assets/img/marina-aerial.webp",
+          "alt": "Aerial photograph of a marina basin, floating docks and adjacent dry storage yard",
+          "caption": "Wholesale shipments rose in the June quarter while retail registrations did not. The gap sits on dealer forecourts and in floorplan balances."
         }
       },
       {
-        "heading": "Where the demand actually is",
+        "heading": "The restock is arriving before the recovery",
         "body": [
-          "Malibu's fourth quarter looked, at first glance, like an inflection: net sales up 42.7 per cent to $295.5 million, unit volume up 19.2 per cent to 1,456, gross profit up 59.4 per cent, adjusted EBITDA up 59.7 per cent to $31.4 million. The full year tells you what actually happened. Fiscal 2026 net sales rose 13.3 per cent to $914.6 million on unit volume up 0.9 per cent, with gross margin down to 16.0 per cent from 17.8 per cent and net income of $1.7 million against $15.2 million ([Malibu Boats 8-K/A](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)). The quarter was carried by acquisition and price, not by a retail turn; management's own framing was early signs of stabilisation set against continued pressure on the payment buyer.",
-          "Brunswick said the same thing from the propulsion end: parts of the United States and global new boat market remained pressured, primarily in the value segments, while first-half United States retail was roughly flat once adjusted for the deliberate value-model rationalisation begun last year. Its participation businesses kept compounding regardless — Freedom Boat Club reached its 450th global location and recorded 13 per cent growth in first-half trips ([Brunswick 8-K](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm)). Shared access is now a demand indicator in its own right, and it is pointing up while unit retail points down.",
-          "At the top of the market the divergence is arithmetically clean. Northrop & Johnson recorded 326 pre-owned 24-metre-plus sales in the first half, down 8 per cent from 354, with aggregate value up 15 per cent to $3.51 billion and average sale value up roughly 25 per cent to about $10.8 million; motoryacht value rose 18 per cent to $3.44 billion while sailing yacht value fell 47 per cent to $79.5 million. New central agency listings rose 2.8 per cent to 696 while price reductions rose 5.9 per cent to 1,117 — more than one and a half reductions for every new listing. New build sales fell to 142 from 177, a fourth consecutive first-half decline, with 936 yachts under construction and 466 due for delivery this year against 411 delivered in 2025 ([Northrop & Johnson](https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report)). Deliveries rising into softening order intake is the definition of a supply overhang arriving on a two-year lag.",
-          "Builders are already pricing that. Ferretti reported first-half net revenue from new yachts of €585.6 million, down 5.6 per cent, adjusted EBITDA of €92.5 million at a 15.8 per cent margin, and order intake of €341.4 million against €467.3 million — down 26.9 per cent, with **no superyacht order intake at all** in the half and Middle East and Africa revenue down 25.5 per cent. Net backlog fell to €564.9 million from €760.8 million and full-year revenue guidance was cut to €1,200–1,240 million ([Ferretti](https://www.ferrettigroup.com/Upload/EI_IPO_IT/20260731093329_PR_%20FG%20H126_clean_Final.pdf)). Sanlorenzo, reporting on 3 September, went the other way, with order intake up 18 per cent and backlog around €1.5 billion ([Investing.com](https://www.investing.com/news/company-news/sanlorenzo-h1-2026-slides-order-intake-surges-18-backlog-hits-15b-93CH-4888352)). Same segment, same quarter, opposite order books. Brand and delivery-slot discipline are now doing more work than the cycle."
+          "The June-quarter shipment numbers are the ones to argue about. Malibu's Cobalt segment shipped 31.0% more revenue and 18.9% more units, and Saltwater Fishing shipped 11.1% more revenue on 2.2% more units, both attributed to firming dealer inventory; the Malibu-branded segment shipped 2.5% fewer units on lower retail activity ([SEC](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)). Brunswick reported first-half United States retail roughly flat once adjusted for its own value-model rationalisation, and described boat and engine pipelines as lean and fresh ([SEC](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm)). Retail registrations, meanwhile, are down 7.1% on a rolling twelve-month basis ([NMMA](https://www.nmma.org/statistics/article/25561)).",
+          "Both things can be true — pipelines can be lean in aggregate while individual rooftops take more units than they will retail — and that is precisely the 2022 pattern in miniature. The dealer-side evidence says the discipline is real for now: MarineMax inventories fell 13.0% to $788.6 million and OneWater's fell to $485.5 million from $517.1 million ([SEC](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526313363/hzo-ex99_1.htm), [SEC](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000041/onew-q326earningsreleasexe.htm)). The pressure point is the independent who accepts a model-year 2027 allocation to protect a brand relationship that may be owned by a different company by the time the boats land.",
+          "Malibu's own framing of the demand side is the sentence to keep: the company said it is contending with macro disruption that continues to pressure the payment buyer, a near-term headwind to an inflection in the cycle ([SEC](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)). Consumers' average twelve-month inflation expectation rose to 5.8% in August and a majority still expect rates to rise ([NMMA](https://www.nmma.org/statistics/article/25615)). Nothing in that mix retails a 24-foot sterndrive at 9% on 180 months."
+        ]
+      },
+      {
+        "heading": "Who refinanced, and who ran out of time",
+        "body": [
+          "The same six months that produced the upstream deals produced a refinancing window, and the larger balance sheets used it. MarineMax completed a refinancing of **$1.49 billion** of senior secured credit facilities, extending maturities to 2031, expanding the revolver and lowering borrowing costs; interest expense fell to $14.3 million from $16.9 million ([SEC](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526313363/hzo-ex99_1.htm)). Malibu closed a credit agreement refinancing in July that extends maturity through 2031 and authorised a $70 million repurchase programme for fiscal 2027 ([SEC](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)). OneWater hit its leverage target early, at 3.7 times trailing adjusted earnings before interest, taxes, depreciation and amortisation, against 5.8 times a year earlier ([SEC](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000041/onew-q326earningsreleasexe.htm)).",
+          "Below that line, the outcome was different. West Marine's Chapter 11 has now closed 59 stores plus a further 32 — 91 in total, roughly a quarter of the chain — after an asset auction drew no qualified bids on 7 July; the pre-arranged plan converts about $251.2 million of term loan claims into all of the equity of the reorganised company against total outstanding obligations of $429.3 million ([TheStreet](https://www.thestreet.com/retail/west-marine-closing-91-stores-chapter-11-bankruptcy), [court docket](https://www.veritaglobal.net/westmarine/document/2610794260517000000000020)). On 5 August, Fort Lauderdale's Fastboats.com Sales Company, trading as FB Marine Group, filed under Subchapter V listing over $1.7 million of assets against about $2.6 million of liabilities, with gross revenue down from over $18.4 million in 2024 to over $15 million in 2025 ([TheStreet](https://www.thestreet.com/retail/fb-marine-group-owner-files-for-chapter-11-bankruptcy)).",
+          "Read those two paragraphs together and the credit market's message is legible. Scale refinanced at lower cost with maturities pushed to 2031. Sub-scale accessory retail and single-location brokerage-and-service businesses were restructured or liquidated. There is no middle path being offered at the moment, which is what makes an unhedged model-year 2027 order commitment an expensive way to demonstrate loyalty."
         ]
       }
     ],
     "takeaway": {
       "eyebrow": "Key takeaway",
-      "body": "The two-track model still holds, but the tracks have been relabelled. Margin is no longer a clean read on operating quality: MarineMax quantified roughly 110 basis points of its 530-basis-point gross-margin expansion as a tariff refund, and Brunswick's raised guidance embeds $25–30 million of net IEEPA refunds against about $40 million of incremental tariff cost — money whose refund mechanics were still under appeal as of June. What is unambiguously real is balance-sheet repair: $1.49 billion refinanced to 2031 at MarineMax, 3.7 times leverage at OneWater, a July refinancing and a $70 million authorisation at Malibu. So run two numbers before you set your 2027 plan. First, your gross-profit percentage with every dollar of duty refund removed — that is your operating margin, and it is the one your lender will eventually use. Second, your undrawn availability net of cash: OneWater disclosed $73.3 million of total liquidity against $68.7 million of cash, and if the largest consolidators are operating on cushions that thin, the independent with a 2027 maturity and a 2022-vintage inventory book has no cushion at all."
+      "body": "Between May and August the industry's ownership map changed more than its retail demand did. Do two pieces of arithmetic this week. First, count how many of your top five franchises are now owned by a company that also owns a competitor's core brand — for Chaparral and Robalo dealers the answer changed on 15 May, and for anyone buying components the Patrick–LCI close in the first half of 2027 will change it again. Second, compare wholesale units received at your rooftops over the last two quarters against your own retail registrations over the same period. If shipments grew faster — as they did for Malibu's Cobalt and Saltwater segments, up 18.9% and 2.2% in units while industry retail ran down 7.1% — then you are financing someone else's restock at a floorplan rate that the July Federal Open Market Committee minutes suggest is more likely to rise than fall. The dealers who came out of the last cycle intact were the ones who took the allocation fight in September rather than the discount fight in March."
     }
   },
   "indicators": [
     {
       "region": "us",
-      "label": "MarineMax gross margin, June quarter",
-      "value": "35.7% · +530 bp (≈110 bp from tariff refund)",
+      "label": "New powerboat retail unit sales, rolling twelve months to April",
+      "value": "214,292 units · −7.1%",
       "source": {
-        "title": "MarineMax",
-        "url": "https://secure.businesswire.com/news/home/20260722016202/en/MarineMax-Reports-Fiscal-2026-Third-Quarter-Results"
+        "title": "NMMA",
+        "url": "https://www.nmma.org/statistics/article/25561"
       }
     },
     {
       "region": "us",
-      "label": "MarineMax inventories",
-      "value": "$788.6M · −13.0% year on year",
+      "label": "Conference Board Consumer Confidence Index, August",
+      "value": "89.4 · expectations component 68.2",
       "source": {
-        "title": "MarineMax",
-        "url": "https://secure.businesswire.com/news/home/20260722016202/en/MarineMax-Reports-Fiscal-2026-Third-Quarter-Results"
+        "title": "NMMA",
+        "url": "https://www.nmma.org/statistics/article/25615"
       }
     },
     {
       "region": "us",
-      "label": "MarineMax adjusted EBITDA, June quarter",
-      "value": "$51.3M · from $35.5M",
+      "label": "Federal funds target range after the 28–29 July meeting",
+      "value": "3.50–3.75% · unchanged, three participants favoured a hike",
       "source": {
-        "title": "MarineMax",
-        "url": "https://secure.businesswire.com/news/home/20260722016202/en/MarineMax-Reports-Fiscal-2026-Third-Quarter-Results"
+        "title": "Federal Reserve",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "region": "us",
+      "label": "MarineMax gross margin, fiscal third quarter",
+      "value": "35.7% · +530 basis points",
+      "source": {
+        "title": "MarineMax 8-K",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001057060/000119312526313363/hzo-ex99_1.htm"
+      }
+    },
+    {
+      "region": "us",
+      "label": "MarineMax inventories at 30 June",
+      "value": "$788.6M · −13.0%",
+      "source": {
+        "title": "MarineMax 8-K",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001057060/000119312526313363/hzo-ex99_1.htm"
       }
     },
     {
@@ -89,50 +106,14 @@
       "label": "OneWater adjusted net debt leverage",
       "value": "3.7× · from 5.8× a year earlier",
       "source": {
-        "title": "OneWater Marine 8-K",
+        "title": "OneWater 8-K",
         "url": "https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000041/onew-q326earningsreleasexe.htm"
       }
     },
     {
       "region": "us",
-      "label": "OneWater finance and insurance income, June quarter",
-      "value": "$17.3M · −2.7%",
-      "source": {
-        "title": "OneWater Marine 8-K",
-        "url": "https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000041/onew-q326earningsreleasexe.htm"
-      }
-    },
-    {
-      "region": "us",
-      "label": "OneWater total liquidity (cash $68.7M included)",
-      "value": "$73.3M · leverage target hit early",
-      "source": {
-        "title": "OneWater Marine 8-K",
-        "url": "https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000041/onew-q326earningsreleasexe.htm"
-      }
-    },
-    {
-      "region": "us",
-      "label": "Brunswick net sales, second quarter",
-      "value": "$1,557.8M · +7.7%",
-      "source": {
-        "title": "Brunswick 8-K",
-        "url": "https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm"
-      }
-    },
-    {
-      "region": "us",
-      "label": "Brunswick 2026 incremental tariffs vs IEEPA refunds",
-      "value": "≈$40M cost · $25–30M net refunds in guidance",
-      "source": {
-        "title": "Brunswick 8-K",
-        "url": "https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm"
-      }
-    },
-    {
-      "region": "us",
-      "label": "Malibu Boats fourth-quarter unit volume",
-      "value": "1,456 units · +19.2% (full year +0.9%)",
+      "label": "Malibu Boats net sales, fiscal fourth quarter",
+      "value": "$295.5M · +42.7% (units +19.2%)",
       "source": {
         "title": "Malibu Boats 8-K/A",
         "url": "https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm"
@@ -140,17 +121,53 @@
     },
     {
       "region": "us",
-      "label": "Federal funds target range",
-      "value": "3.50–3.75% · held, 9–3 vote, three dissents for a hike",
+      "label": "Patrick Industries marine revenue, second quarter",
+      "value": "+22% · marine content per unit +22% (trailing twelve months)",
       "source": {
-        "title": "Federal Reserve",
-        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm"
+        "title": "Patrick Industries 8-K",
+        "url": "https://www.sec.gov/Archives/edgar/data/0000076605/000007660526000069/earningsrelease.htm"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Brunswick full-year 2026 guidance, adjusted diluted earnings per share",
+      "value": "$4.35–$4.75 · raised, incremental tariffs ~$40M",
+      "source": {
+        "title": "Brunswick 8-K",
+        "url": "https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm"
+      }
+    },
+    {
+      "region": "us",
+      "label": "West Marine store closures under Chapter 11",
+      "value": "91 stores · $251.2M term loan converted to equity",
+      "source": {
+        "title": "TheStreet",
+        "url": "https://www.thestreet.com/retail/west-marine-closing-91-stores-chapter-11-bankruptcy"
       }
     },
     {
       "region": "global",
-      "label": "Pre-owned 24m+ transactions, first half",
-      "value": "326 · −8% year on year",
+      "label": "Superyacht brokerage sales value, first half 2026",
+      "value": "€4.05B · from €3.61B in first half 2025",
+      "source": {
+        "title": "Monaco Life",
+        "url": "https://monacolife.net/superyacht-sales-surge-to-e4-billion-ahead-of-monaco-yacht-show/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Sales of 50–70 metre yachts, first half",
+      "value": "26 sales · +52.9%",
+      "source": {
+        "title": "Monaco Life",
+        "url": "https://monacolife.net/superyacht-sales-surge-to-e4-billion-ahead-of-monaco-yacht-show/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Pre-owned 24-metre-plus sales value, first half",
+      "value": "$3.51B · +15% on 8% fewer transactions",
       "source": {
         "title": "Northrop & Johnson",
         "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report"
@@ -158,8 +175,8 @@
     },
     {
       "region": "global",
-      "label": "Pre-owned 24m+ aggregate sales value, first half",
-      "value": "$3.51B · +15%",
+      "label": "Pre-owned superyachts listed for sale at 1 July",
+      "value": "2,157 · 17% of the global fleet",
       "source": {
         "title": "Northrop & Johnson",
         "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report"
@@ -167,8 +184,8 @@
     },
     {
       "region": "global",
-      "label": "Average pre-owned superyacht sale value",
-      "value": "≈$10.8M · +≈25%",
+      "label": "Superyachts under construction at 1 July",
+      "value": "936 hulls · 466 due for delivery in 2026 against 411 in 2025",
       "source": {
         "title": "Northrop & Johnson",
         "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report"
@@ -176,8 +193,8 @@
     },
     {
       "region": "global",
-      "label": "Brokerage fleet for sale at 1 July 2026",
-      "value": "2,157 yachts · 17% of the global fleet, ≈$18.8B asking value",
+      "label": "Charter departures commenced, second quarter",
+      "value": "2,884 charters · +40.1%",
       "source": {
         "title": "Northrop & Johnson",
         "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report"
@@ -185,8 +202,8 @@
     },
     {
       "region": "global",
-      "label": "Price reductions on 24m+ listings, first half",
-      "value": "1,117 · +5.9% (696 new central agency listings)",
+      "label": "Charter bookings taken, second quarter",
+      "value": "3,390 bookings · −5.5%",
       "source": {
         "title": "Northrop & Johnson",
         "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report"
@@ -194,29 +211,11 @@
     },
     {
       "region": "global",
-      "label": "New build sales, first half",
-      "value": "142 · from 177 in H1 2025",
+      "label": "Indicative Red Sea war risk premium, 20 July",
+      "value": "~0.75% of hull value · from ~0.30%",
       "source": {
-        "title": "Northrop & Johnson",
-        "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report"
-      }
-    },
-    {
-      "region": "global",
-      "label": "Order book under construction / 2026 deliveries due",
-      "value": "936 yachts · 466 deliveries scheduled vs 411 delivered in 2025",
-      "source": {
-        "title": "Northrop & Johnson",
-        "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report"
-      }
-    },
-    {
-      "region": "global",
-      "label": "Ferretti net backlog at 30 June 2026",
-      "value": "€564.9M · from €760.8M; order intake €341.4M, −26.9%",
-      "source": {
-        "title": "Ferretti investor relations",
-        "url": "https://www.ferrettigroup.com/Upload/EI_IPO_IT/20260731093329_PR_%20FG%20H126_clean_Final.pdf"
+        "title": "Insurance Journal",
+        "url": "https://www.insurancejournal.com/news/international/2026/07/21/878345.htm"
       }
     }
   ],
@@ -224,77 +223,107 @@
     {
       "region": "us",
       "title": "United States",
-      "body": "Placeholder",
+      "body": "The rate assumption most dealers are still carrying is wrong in direction. The 28–29 July meeting held the target range at 3.50–3.75%, but the minutes record participants who favoured raising it, market pricing for a 25 basis-point increase by September, nominal Treasury yields up 25 to 30 basis points over the intermeeting period, and staff estimates of total personal consumption expenditures inflation at 3.7% in June with core at 3.3% ([Federal Reserve](https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm)). Floorplan and retail paper priced off that curve gets more expensive, not less, in the quarter when model-year 2027 units land. Demand is not improving into it: retail is down 7.1% on a rolling twelve-month basis and confidence fell to 89.4 in August with the expectations index at 68.2, below the 80 line historically associated with elevated recession risk ([NMMA](https://www.nmma.org/statistics/article/25561), [NMMA](https://www.nmma.org/statistics/article/25615)). Two further exposures deserve naming. Tariff accounting is flattering the propulsion and accessory tape — Brunswick expects $25–30 million of net refunds under the International Emergency Economic Powers Act this year against roughly $40 million of incremental tariffs ([SEC](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm)) — and the refund mechanism itself remains contested on appeal following the Supreme Court's February decision, so treat those credits as non-recurring and unsecured ([Morgan Lewis](https://www.morganlewis.com/pubs/2026/06/tariff-refund-battle-continues-government-appeals-order)). And the weather comfort is genuine but thin: Colorado State's 10 June outlook cut the season to 11 named storms, five hurricanes and an accumulated cyclone energy index of 70 against a 123 average, with a 24% chance of a major hurricane landfall on the continental coastline versus a 43% long-period average ([Colorado State University](https://tropical.colostate.edu/Forecast/2026-06.pdf)). A quiet season does not reprice your named-windstorm deductible, and it will not rescue a rooftop carrying 2027 units it did not need.",
       "sources": [
         {
-          "title": "placeholder",
-          "url": "https://example.com"
+          "title": "Federal Reserve",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        {
+          "title": "NMMA",
+          "url": "https://www.nmma.org/statistics/article/25561"
+        },
+        {
+          "title": "NMMA",
+          "url": "https://www.nmma.org/statistics/article/25615"
+        },
+        {
+          "title": "Brunswick 8-K",
+          "url": "https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000087/q22026exhibit99_1.htm"
+        },
+        {
+          "title": "Morgan Lewis",
+          "url": "https://www.morganlewis.com/pubs/2026/06/tariff-refund-battle-continues-government-appeals-order"
+        },
+        {
+          "title": "Colorado State University",
+          "url": "https://tropical.colostate.edu/Forecast/2026-06.pdf"
         }
       ]
     },
     {
       "region": "global",
       "title": "Global",
-      "body": "Placeholder",
+      "body": "Three exposures dominate the coming quarter. First, war risk and routing. Indicative Red Sea premiums roughly doubled to about 0.75% of hull value after the Houthi blockade announcement of 20 July, with underwriters treating Saudi-linked tonnage as high risk, piracy rising in the Gulf of Aden, and a full closure of Bab el-Mandeb assessed as capable of removing 7% of global oil supply; the underlying conflict with Iran has been running since 28 February ([Insurance Journal](https://www.insurancejournal.com/news/international/2026/07/21/878345.htm)). That reaches yachting through delivery voyages, Indian Ocean repositioning, crew cover and fuel, and it is showing up in cruising-area endorsements before it shows up in hull rates. Second, charter behaviour. Fleet data are better than the anecdote: second-quarter departures rose 40.1% to 2,884 and first-half market days booked rose 42.6%, but bookings taken in the quarter fell 5.5% to 3,390, 36.7% of second-quarter booking activity was for same-month or next-month departures, and the western Mediterranean, eastern Mediterranean and Adriatic together carried 81.1% of starts ([Northrop & Johnson](https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report)). Against that, brokers told CNBC in July that Mediterranean summer charters were running 20% to 30% below last year with July and August discounting ([CNBC](https://www.cnbc.com/2026/07/22/mediterranean-yacht-rentals.html)). Both can hold: volume is being bought late and cheap, which destroys yield forecasting more effectively than an outright decline. Third, supply into a selective bid. There were 2,157 pre-owned yachts for sale at 1 July, 17% of the global fleet, alongside 936 hulls in build and 466 deliveries scheduled for 2026 against 411 last year, tapering to 301 in 2027; price reductions rose 5.9% to 1,117 in the half, the 30-to-40-metre band saw sales fall 6%, sailing yacht sales value fell 47% to $79.5 million, and the 25-to-29-year age cohort combines the longest time on market with the deepest cuts ([Northrop & Johnson](https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report)). Headline value is up — €4.05 billion in the half on 281 sales of 24 metres and above ([Monaco Life](https://monacolife.net/superyacht-sales-surge-to-e4-billion-ahead-of-monaco-yacht-show/)) — but that is large-tonnage mix, not liquidity for aged mid-size stock.",
       "sources": [
         {
-          "title": "placeholder",
-          "url": "https://example.com"
+          "title": "Insurance Journal",
+          "url": "https://www.insurancejournal.com/news/international/2026/07/21/878345.htm"
+        },
+        {
+          "title": "Northrop & Johnson",
+          "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report"
+        },
+        {
+          "title": "CNBC",
+          "url": "https://www.cnbc.com/2026/07/22/mediterranean-yacht-rentals.html"
+        },
+        {
+          "title": "Monaco Life",
+          "url": "https://monacolife.net/superyacht-sales-surge-to-e4-billion-ahead-of-monaco-yacht-show/"
         }
       ]
     }
   ],
   "actions": [
     {
-      "title": "Re-run your last two quarters of gross profit with every duty refund stripped out.",
-      "body": "Do it at the line-item level, not as an estimate. Isolate any customs refund, duty drawback or refund receivable that has been recognised in cost of goods sold or as other income, and restate the gross-profit percentage without it. MarineMax quantified its own effect at roughly 110 basis points of a 530-basis-point expansion, and Brunswick's full-year guidance carries $25–30 million of net IEEPA refunds against about $40 million of incremental tariff cost — so if the two largest reporters in the sector needed to disclose it, your number has one too. Then confirm with your accountant how the receivable is being recognised given that the government appealed a Court of International Trade refund order in June, and put the restated figure in front of your floorplan lender and your insurer before the audit does it for you. Budget 2027 off the restated number, and set dealer or sales-manager incentive thresholds off it as well."
+      "title": "Renegotiate your model-year 2027 allocation against your own retail, not your builder's shipment plan.",
+      "body": "Pull retail registrations by brand for your rooftops for the twelve months to August, then set that against units received. The industry benchmark is minus 7.1% ([NMMA](https://www.nmma.org/statistics/article/25561)); the shipment benchmark from the June quarter was Cobalt units up 18.9% and Saltwater up 2.2% on firming dealer inventory ([SEC](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)). Where your received units exceeded your retail, ask for the allocation to be cut before Fort Lauderdale opens on 28 October ([FLIBS guide](https://www.yachtcharterfleet.com/events/fort-lauderdale-international-boat-show-flibs-2026-2335.htm)) rather than asking for programme money in February. Get the reduction in writing alongside curtailment relief and interest assistance terms, and confirm which entity you are contracting with — for Chaparral and Robalo that counterparty changed on 15 May ([Trade Only Today](https://tradeonlytoday.com/industry-news/mastercraft-acquires-marine-products-corp/))."
     },
     {
-      "title": "Age-band your brokerage book this week and force a price decision before Monaco.",
-      "body": "Northrop & Johnson's first-half data is specific enough to act on: yachts aged one to fourteen years sell faster and take smaller reductions, while the 25–29-year cohort combines the longest average time on market with the deepest average price cuts — a refit-cost negotiation, not a market-sentiment problem. Average reduction size eased from $1.7 million in the first quarter to $1.4 million in the second, and there were 1,117 reductions against 696 new central agency listings across the half. Sort your listings by build year and days on market, and treat any 24-metre-plus boat over twenty-five years old and past 180 days as requiring either a documented reduction or a resignation of the central agency. Take a survey-backed refit estimate to the owner rather than a comparable-sales chart; the buyer is pricing the refit, so you should be too."
+      "title": "Stress-test floorplan and retail paper at a higher rate, and take the maturity extension if it is offered.",
+      "body": "The July minutes show market pricing for a 25 basis-point increase by September and Treasury yields up 25 to 30 basis points over the intermeeting period ([Federal Reserve](https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm)). Run your 2027 plan at plus 100 basis points on floorplan and check the covenant headroom that assumption consumes. The comparables are public: MarineMax refinanced $1.49 billion of senior secured facilities to 2031 at lower cost while cutting interest expense to $14.3 million ([SEC](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526313363/hzo-ex99_1.htm)), Malibu extended maturities to 2031 in July ([SEC](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)), and OneWater reached 3.7 times leverage from 5.8 times ([SEC](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000041/onew-q326earningsreleasexe.htm)). Lenders who priced those deals are the same lenders who let a $429.3 million obligation at West Marine convert to equity ([court docket](https://www.veritaglobal.net/westmarine/document/2610794260517000000000020)). Extension is worth more than a 25 basis-point coupon saving this cycle."
     },
     {
-      "title": "Renegotiate floorplan terms on inventory turn, not on a rate cut you are not going to get.",
-      "body": "The Federal Open Market Committee held the target range at 3.50–3.75 per cent on 29 July by a 9–3 vote, with all three dissenters preferring a quarter-point increase and the statement citing energy-driven supply shocks keeping inflation above target. Nothing in that supports a floorplan cost reduction arriving from the policy side before the fourth quarter. What did work this quarter was turn: MarineMax cut inventory 13.0 per cent year on year and brought interest expense down to $14.3 million from $16.9 million, and OneWater took leverage to 3.7 times from 5.8 times. Go into your renewal with twelve months of unit-level ageing, curtailment history and turn by brand, and ask for advance-rate and curtailment-schedule relief on your fastest-turning brands rather than a spread concession across the whole line. If you cannot show the turn data by brand, that is this week's project."
+      "title": "Re-cut your brokerage listings by age band and reduce once, properly, before Monaco week.",
+      "body": "Aged inventory is where the mid-market pain is concentrated: 2,157 pre-owned yachts of 24 metres and above were listed at 1 July, 17% of the global fleet; price reductions rose 5.9% to 1,117 in the half while average reduction size eased from $1.7 million to $1.4 million; hulls aged one to fourteen years sell faster with smaller cuts, and the 25-to-29-year cohort carries both the longest time on market and the deepest discounts ([Northrop & Johnson](https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q2-2026-superyacht-market-report)). Sort your central agency list into those bands, and for anything past fourteen years quantify the refit reserve a buyer will negotiate against before you set the number. For reference on what pricing alignment buys you: the largest transaction of the half, the 99.9-metre Feadship Moonrise, sold in 159 days at a €325 million asking price. Monaco runs 23–26 September and is the last high-traffic viewing window before Fort Lauderdale ([SuperYacht Times](https://www.superyachttimes.com/events/monaco-yacht-show-2026/overview))."
     }
   ],
   "profile": {
-    "company": "Ferretti Group",
-    "ticker": "Euronext Milan: YACHT",
-    "dek": "A builder with one of the strongest balance sheets in the sector and one of its weakest order books.",
+    "company": "MasterCraft Boat Holdings",
+    "ticker": "NASDAQ: MCFT",
+    "dek": "The first real test of whether builder-tier consolidation delivers anything to the dealer who has to retail the boats.",
     "sections": [
       {
         "heading": null,
         "body": [
-          "Ferretti reported first-half 2026 net revenue from new yachts of €585.6 million, down 5.6 per cent, with the rate of decline improving through the half — down 8.0 per cent in the first quarter, down 2.9 per cent in the second. Adjusted EBITDA of €92.5 million held a 15.8 per cent margin, only 20 basis points below the prior year, and net profit was €37.9 million against €43.6 million. The net financial position was €95.0 million of net cash at 30 June, up €76.6 million from 31 March on the seasonal working-capital release from deliveries and after roughly €37.2 million of dividends ([Ferretti](https://www.ferrettigroup.com/Upload/EI_IPO_IT/20260731093329_PR_%20FG%20H126_clean_Final.pdf)).",
-          "The order book is the problem. Order intake was €341.4 million against €467.3 million a year earlier, down 26.9 per cent, with composite yachts up 6.1 per cent to €170.7 million, made-to-measure down 28.8 per cent to €169.3 million, and **no superyacht order intake recorded at all** in the half against €64.9 million in the first half of 2025. Net backlog fell to €564.9 million from €760.8 million. Full-year guidance was cut on what the company called a prudent basis: net revenue from new yachts to €1,200–1,240 million from €1,250–1,265 million, adjusted EBITDA to €186–197 million from €203–210 million, and capital expenditure to €60–65 million."
+          "MasterCraft entered 2026 as a three-segment builder with a conservative balance sheet and left the spring as a four-brand platform. Its fiscal second quarter, reported on 5 February, showed net sales of $71.8 million, net income of $2.5 million, adjusted earnings before interest, taxes, depreciation and amortisation of $7.5 million, roughly $81 million of cash and investments, no debt, and channel inventories down 25% year over year ([SEC](https://www.sec.gov/Archives/edgar/data/1638290/000119312526038499/mcft-ex99_3.htm)).",
+          "On the same day it agreed to combine with Marine Products Corporation, the builder of Chaparral and Robalo, in a cash-and-stock transaction that closed on 15 May: $2.43 per share in cash plus 0.232 MasterCraft shares, 66.5% and 33.5% pro forma ownership, and an announced value of about $232.2 million ([SEC](https://www.sec.gov/Archives/edgar/data/1129155/000110465926010660/tm265315d1_ex99-2.htm), [Trade Only Today](https://tradeonlytoday.com/industry-news/mastercraft-acquires-marine-products-corp/)). Marine Products brought a debt-free balance sheet of its own, with $45.8 million of cash at 31 March ([SEC](https://www.sec.gov/Archives/edgar/data/1129155/000110465926057814/mpx-20260331x10q.htm)). The combined group now spans wake, pontoon, sterndrive and saltwater outboard, which is close to the full spread of the freshwater and coastal dealer's floor."
         ]
       },
       {
         "heading": "Why it matters now",
         "body": [
-          "Backlog of €564.9 million against a low guidance end of €1,200 million is under half a year of revenue cover. For a builder whose made-to-measure and superyacht lines carry multi-year build cycles, that is the thinnest forward visibility the group has published in the recent record, and it arrives in the same half that Northrop & Johnson counted 466 industry deliveries scheduled for 2026 against 411 in 2025. Supply is peaking into slowing intake.",
-          "The regional split explains most of it. Middle East and Africa revenue fell 25.5 per cent to €163.8 million, and Ferretti attributes the made-to-measure shortfall largely to postponed order conversion in the Middle East against ongoing geopolitical tension. Europe was flat at €252.3 million and the Americas flat at €139.8 million; Asia-Pacific tripled off a small base to €29.7 million. This is not a pricing failure or a product failure — it is a specific regional demand pocket going quiet, and any dealer or broker with Gulf exposure should read those two lines carefully.",
-          "The governance overlay is unusual and worth tracking on its own terms. KKCG Maritime's partial tender offer closed on 13 April with valid acceptances of 29,611,598 shares — about 8.75 per cent of capital — for €115,485,232.20, after the consideration was raised from €3.50 to €3.90 per share. Directors Piero Ferrari and Stefano Domenicali resigned in mid-May; Stassi Anastassov was appointed Chief Executive on 15 May; and on 9 June Azur a.s. filed a writ of summons before the Court of Bologna seeking annulment of the 14 May shareholder resolutions appointing the new board. Separately, the company issued a clarification on 11 June regarding rumours of a possible acquisition of The Italian Sea Group ([Ferretti press releases](https://www.ferrettigroup.com/en-us/Investor-relations/Press-release)). Ferretti's own characterisation of its position is that the challenge is commercial rather than financial."
+          "Every consolidation argument made upstream this year — complementary portfolios, shared insight, scaled investment, best-practice transfer — is being made to dealers who mostly want two things: fewer duplicated brand meetings and better parts fill rates. MasterCraft's own communications to dealers and vendors in February promised continuity of teams, processes and go-to-market approach ([SEC](https://www.sec.gov/Archives/edgar/data/1129155/000119312526039699/d13734d425.htm)). The first fiscal year in which that promise can be tested against service metrics is the one now under way.",
+          "The financial stakes are modest by industry standards and instructive for exactly that reason: this is a debt-free acquirer buying a debt-free target in a market where retail is down 7.1% ([NMMA](https://www.nmma.org/statistics/article/25561)) and where the accessory retail tier is being restructured in Delaware. If a balance sheet like this cannot convert consolidation into dealer-visible service and margin improvement, the more leveraged combinations behind it — Patrick and LCI among them — will find it harder."
         ]
       },
       {
         "heading": "Watch for",
         "body": [
-          "Order intake disclosed around and after the Monaco Yacht Show, and specifically whether any superyacht order is booked in the second half after a blank first half. That single line will tell you more about the 30-metre-plus new build market than any brokerage index.",
-          "Whether the composite yachts momentum — up 6.1 per cent and now half of total intake — holds once the European summer season effect washes out. If composite carries the group while made-to-measure stays down, mix will pull the 15.5–15.9 per cent guided margin band toward its low end.",
-          "The Bologna proceedings and any consequent board instability, and any renewed approach to The Italian Sea Group. A builder with €95.0 million of net cash and a thin backlog is a plausible consolidator; a builder in contested governance is a plausible target. Both readings are live, and dealers negotiating 2027 territory agreements should price the possibility that ownership changes mid-term."
+          "The fiscal fourth quarter and full-year results were scheduled for a pre-market release on 10 September with a call at 8:30 a.m. Eastern ([Business Wire](https://www.businesswire.com/news/home/20260824589770/en/MasterCraft-Boat-Holdings-Inc.-to-Webcast-Fiscal-Fourth-Quarter-and-Full-Year-2026-Earnings-Conference-Call-Thursday-September-10-2026)). Three things to read in it. Whether the channel-inventory discipline that produced a 25% year-over-year reduction earlier in the year survived the first quarter of combined shipments. Whether Chaparral and Robalo wholesale followed the Malibu-style restock pattern — Cobalt units up 18.9% in the same June quarter ([SEC](https://www.sec.gov/Archives/edgar/data/0001590976/000159097626000042/correctedex991-4q2026earni.htm)) — or held flat. And what the company discloses about dealer-agreement consolidation where one dealer now holds two of its brands.",
+          "Beyond the print: transaction and integration costs against the synergy case, any change to the no-debt position now that cash has partly funded the acquisition, and order intake at Fort Lauderdale from 28 October ([FLIBS guide](https://www.yachtcharterfleet.com/events/fort-lauderdale-international-boat-show-flibs-2026-2335.htm)), which is the first show where the combined lineup meets the buying public as one company."
         ]
       }
     ]
   },
   "voices": [],
   "voices_intro": [
-    "Next month we want to publish practitioners rather than filings. Three questions in particular. First, on the refund: if you have booked a duty refund or a refund receivable, how did your auditor and your floorplan lender treat it, and did it change any covenant calculation? Second, on credit: for those who renewed floorplan lines in the last quarter, what actually moved — advance rate, curtailment schedule, spread, or the personal guarantee — and what evidence moved it? Third, on the brokerage side: what are you seeing in days on market by build year, and where is the age cliff in your own book compared with the 25–29-year cohort the aggregate data flags?",
-    "We are also looking for charter-side numbers with dates attached: booking windows against last season, discount depth on late Mediterranean availability, and whether Gulf and Red Sea itinerary substitution is showing up in your enquiry mix. We publish contributions with your name and firm, or on background with the figure attributed to an unnamed operator and a description of the business — never with an invented quote and never with a number we cannot see the underlying document for. Send the document with the note. If you would rather we did the arithmetic and did not name you, say so and we will."
+    "This desk publishes numbers, and the numbers we cannot get from a filing are the ones our readers hold. For the November issue we are collecting three specific things. Floorplan term sheets renewed since July — rate, curtailment schedule, aging triggers and any change in interest assistance — anonymised, so we can show whether the pricing MarineMax and Malibu obtained through 2031 reached the two-rooftop operator. Days on market by age band and by length for brokerage listings closed since June, so we can test the large-yacht pattern against the 12-to-24-metre market where most brokers actually work. And charter booking lead times from managers and central agents, given that 36.7% of second-quarter booking activity was for same-month or next-month departures.",
+    "We also want the counter-argument. If your model-year 2027 allocation is right-sized and retailing, say so and show the turn. If war-risk and cruising-area endorsements have moved on your fleet since 20 July, tell us by how much and on what class of vessel. Submissions run under a house byline or under your own; figures are published only with a document behind them, and we will say when we could not verify something. Send material through your usual contact at the desk before the third Friday of the month, and flag anything that is commercially sensitive so we can aggregate it rather than quote it."
   ],
-  "colophon": "Sources cited inline with links. Data as of early September 2026. Figures reflect company filings, results releases and central bank statements published through 3 September 2026; the September Federal Open Market Committee decision and the results of the Cannes and Monaco shows fall after this issue closed. Helm & Horizon is published by The Walton Group, Inc. and is not investment advice.",
-  "data_as_of": "Data as of early September 2026. Figures reflect company filings, results releases and central bank statements published through 3 September 2026; the September Federal Open Market Committee decision and the results of the Cannes and Monaco shows fall after this issue closed.",
+  "colophon": "Sources cited inline with links. Data as of late August / early September 2026. Helm & Horizon is published by The Walton Group, Inc. and is not investment advice.",
+  "data_as_of": "Data as of late August / early September 2026.",
   "previous": {
     "slug": "september-2026",
     "volume": 1,
