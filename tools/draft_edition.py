@@ -37,6 +37,16 @@ EDITIONS_DIR = os.path.join(ROOT, 'content', 'editions')
 IMG_DIR = os.path.join(ROOT, 'assets', 'img')
 
 MODEL = 'claude-opus-5'
+
+# max_tokens is an *output* budget, and thinking spends it alongside the prose.
+# At effort "high" with adaptive thinking, an edition's reasoning runs to tens of
+# thousands of tokens before a word of JSON is emitted: October's third attempt
+# ran for eleven minutes and stopped at 32,000 with nothing to show. The model
+# tops out at 128,000 output tokens, so this leaves real headroom rather than
+# creeping up to the next failure. Unspent budget costs nothing — only tokens
+# actually generated are billed.
+MAX_TOKENS = 64000
+
 MONTHS = ('January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December')
 
@@ -354,6 +364,103 @@ def user_prompt(brief):
 
 # ----------------------------------------------------------------- the providers
 
+class StubbedDraft(Exception):
+    """A draft came back with fields the model never actually wrote.
+
+    Carries the draft, because the research behind it is a paid call against a
+    web that has moved on by the next one. A nearly-finished edition an editor
+    can complete is worth incomparably more than a failed run.
+    """
+
+    def __init__(self, draft, problems):
+        super().__init__('; '.join(problems))
+        self.draft = draft
+        self.problems = problems
+
+
+def stub_fields(draft):
+    """Wire fields left as stubs, keyed by the top-level field they sit under.
+
+    Structured outputs cannot express "at least 400 characters" — minLength and
+    minItems are not supported constraints — so the schema is unable to refuse a
+    required string reading "Placeholder". Twice now the model has written
+    exactly that into both risks entries while filling in every other field, and
+    the house rule in the system prompt did not stop it either. So the draft is
+    read back here, by the validator's own definition of a stub, before it is
+    ever written to disk.
+    """
+    import validate_edition as V
+
+    problems = {}
+
+    def note(key, msg):
+        problems.setdefault(key, []).append(msg)
+
+    # `key` is the top-level field the repair request will ask for again; `path`
+    # is only what the message shows a human. Conflating the two asks the model
+    # to rewrite a field named "risks[0]", which is not in the schema.
+    def walk(node, key, path):
+        if isinstance(node, str):
+            if V.PLACEHOLDER.match(node):
+                note(key, '%s is placeholder text: %r' % (path, node.strip()))
+        elif isinstance(node, dict):
+            for k, v in node.items():
+                if k != 'url':  # a URL is checked for reachability, not prose
+                    walk(v, key, '%s.%s' % (path, k))
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                walk(v, key, '%s[%d]' % (path, i))
+
+    for key, value in draft.items():
+        walk(value, key, key)
+
+    # Length and citation are what "Placeholder" was standing in for, and a
+    # one-sentence risk assessment is a stub whatever words it uses.
+    for i, r in enumerate(draft.get('risks') or []):
+        body = (r.get('body') or '').strip()
+        if len(body) < V.MIN_BODY:
+            note('risks', 'risks[%d].body is %d characters — too short to be real'
+                          % (i, len(body)))
+        if not r.get('sources'):
+            note('risks', 'risks[%d] cites no source' % i)
+    for i, a in enumerate(draft.get('actions') or []):
+        body = (a.get('body') or '').strip()
+        if len(body) < V.MIN_BODY:
+            note('actions', 'actions[%d].body is %d characters — too short to be real'
+                            % (i, len(body)))
+    for i, ind in enumerate(draft.get('indicators') or []):
+        if not (ind.get('source') or {}).get('url'):
+            note('indicators', 'indicators[%d] cites no source' % i)
+
+    return problems
+
+
+def subset_schema(schema, keys):
+    """The wire schema narrowed to a few top-level fields, for a repair request."""
+    return {
+        'type': 'object',
+        'additionalProperties': False,
+        'required': list(keys),
+        'properties': {k: schema['properties'][k] for k in keys},
+    }
+
+
+def repair_prompt(problems):
+    lines = ['These fields came back unfinished:']
+    for key in sorted(problems):
+        lines += ['  %s' % m for m in problems[key]]
+    lines += [
+        '',
+        'You have already researched this edition — do not start over, and do not '
+        'return the fields that were fine. Rewrite only the fields listed above, in '
+        'full, at the length the house standard asks for, with every figure cited '
+        'inline as [publication](https://...) and each entry\'s sources filled in '
+        'from pages you actually opened. Search again only for a figure you do not '
+        'already have.',
+    ]
+    return '\n'.join(lines)
+
+
 class Provider:
     """The whole vendor surface. Add a class, register it, change nothing else."""
 
@@ -373,7 +480,17 @@ class AnthropicProvider(Provider):
 
     name = 'anthropic'
 
-    def __init__(self, model=MODEL, effort='high', max_tokens=32000):
+    # Each resume is another request that picks up where the last one stopped.
+    # Five attempts is far more headroom than a month's research has ever needed.
+    MAX_RESUMES = 4
+
+    # Rounds spent asking again for fields the model left as stubs. Two, because
+    # the failure has always been one section and a rewrite with the research
+    # already in context is cheap; a model that will not write it twice will not
+    # write it on the fifth ask either.
+    MAX_REPAIRS = 2
+
+    def __init__(self, model=MODEL, effort='high', max_tokens=MAX_TOKENS):
         self.model = model
         self.effort = effort
         self.max_tokens = max_tokens
@@ -388,34 +505,46 @@ class AnthropicProvider(Provider):
                              '(repository secret, exposed to the workflow as an env var)')
 
         client = anthropic.Anthropic()
-        # Streaming, because a full edition runs well past the non-streaming
-        # request timeout once web search rounds are included.
-        with client.messages.stream(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            system=SYSTEM,
-            messages=[{'role': 'user', 'content': user_prompt(brief)}],
-            thinking={'type': 'adaptive'},
-            tools=[
-                # Bounded because this runs unattended on a schedule; an
-                # unbounded research loop is an unbounded bill.
-                {'type': 'web_search_20260209', 'name': 'web_search', 'max_uses': 30},
-                {'type': 'web_fetch_20260209', 'name': 'web_fetch', 'max_uses': 30},
-            ],
-            output_config={
-                'effort': self.effort,
-                'format': {'type': 'json_schema', 'schema': schema},
-            },
-        ) as stream:
-            message = stream.get_final_message()
+        prompt = user_prompt(brief)
+        tools = [
+            # Bounded because this runs unattended on a schedule; an
+            # unbounded research loop is an unbounded bill.
+            {'type': 'web_search_20260209', 'name': 'web_search', 'max_uses': 30},
+            {'type': 'web_fetch_20260209', 'name': 'web_fetch', 'max_uses': 30},
+        ]
 
-        if message.stop_reason == 'refusal':
-            raise SystemExit('the model declined to draft this edition; '
-                             'no output to read')
-        if message.stop_reason == 'max_tokens':
-            raise SystemExit('the draft hit max_tokens and is truncated; '
-                             'raise --max-tokens and re-run')
+        # The server tools run inside a container, and a resume has to name the
+        # one the paused turn left behind. Empty on the first request; the
+        # server allocates a container and reports it back.
+        carried = {}
 
+        base = [{'role': 'user', 'content': prompt}]
+        message = self._converse(client, base, schema, tools, carried)
+        draft = self._parse(message)
+
+        # The model has twice returned a complete edition with "Placeholder"
+        # where the risks section should be. Asking again, for those fields
+        # only, is far cheaper than another eight-minute research run — the
+        # research is still in context, so this is a rewrite, not a redo.
+        for attempt in range(self.MAX_REPAIRS):
+            problems = stub_fields(draft)
+            if not problems:
+                return draft
+            keys = sorted(problems)
+            print('unfinished: %s — asking again for those fields (%d of %d)'
+                  % (', '.join(keys), attempt + 1, self.MAX_REPAIRS), file=sys.stderr)
+            base = base + [{'role': 'assistant', 'content': message.content},
+                           {'role': 'user', 'content': repair_prompt(problems)}]
+            message = self._converse(client, base, subset_schema(schema, keys),
+                                     tools, carried)
+            draft = dict(draft, **self._parse(message))
+
+        problems = stub_fields(draft)
+        if problems:
+            raise StubbedDraft(draft, [m for k in sorted(problems) for m in problems[k]])
+        return draft
+
+    def _parse(self, message):
         # Web search rounds can leave narration in earlier text blocks, so the
         # draft is the last block that parses rather than simply the first.
         blocks = [b.text for b in message.content if b.type == 'text']
@@ -424,7 +553,83 @@ class AnthropicProvider(Provider):
                 return json.loads(text)
             except json.JSONDecodeError:
                 continue
-        raise SystemExit('no JSON in the response (%d text block(s))' % len(blocks))
+        raise SystemExit('no JSON in the response (%d text block(s), stop_reason %s)'
+                         % (len(blocks), message.stop_reason))
+
+    def _converse(self, client, base, schema, tools, carried):
+        """One logical turn, resumed through however many pauses it takes.
+
+        `base` ends with the user turn being answered; a resume re-sends it with
+        the paused assistant turn appended, which is the documented pattern and
+        also keeps a repair request in view rather than replaying the original
+        brief on its own.
+        """
+        messages = list(base)
+
+        for resumed in range(self.MAX_RESUMES + 1):
+            # Streaming, because a full edition runs well past the non-streaming
+            # request timeout once web search rounds are included.
+            with client.messages.stream(
+                model=self.model,
+                max_tokens=self.max_tokens,
+                system=SYSTEM,
+                messages=messages,
+                thinking={'type': 'adaptive'},
+                tools=tools,
+                output_config={
+                    'effort': self.effort,
+                    'format': {'type': 'json_schema', 'schema': schema},
+                },
+                **carried,
+            ) as stream:
+                message = stream.get_final_message()
+
+            # A research call takes ten minutes and costs money, so every one of
+            # them reports what it spent. Without this the budget is guesswork:
+            # the run that died at 32,000 gave no hint how far short it was.
+            spent = getattr(getattr(message, 'usage', None), 'output_tokens', None)
+            print('stop_reason %s, %s' % (
+                message.stop_reason,
+                'used %d of the %d-token output budget' % (spent, self.max_tokens)
+                if spent is not None else 'output usage not reported'), file=sys.stderr)
+
+            if message.stop_reason == 'refusal':
+                raise SystemExit('the model declined to draft this edition; '
+                                 'no output to read')
+            if message.stop_reason == 'max_tokens':
+                raise SystemExit('the draft stopped at the %d-token output budget and '
+                                 'is truncated. Thinking is spent from the same budget '
+                                 'as the prose, so raise --max-tokens (the model allows '
+                                 '128000) and re-run.' % self.max_tokens)
+            if message.stop_reason != 'pause_turn':
+                return message
+
+            # The server runs its own sampling loop for web search and stops at
+            # ten iterations with stop_reason "pause_turn" — no text, no error,
+            # just an unfinished turn. October's re-run spent eight minutes
+            # searching and came back with nothing because this was treated as a
+            # failure. Re-sending the exchange resumes it; the trailing
+            # server_tool_use block is the cue, so do not add a "continue"
+            # message of your own.
+            #
+            # The exchange alone is not enough. Those trailing tool uses are
+            # still pending inside the server's container, and a resume that
+            # does not name it is refused outright:
+            #
+            #   400 container_id is required when there are pending tool uses
+            #
+            # which is how October's fifth attempt ended, one second after a
+            # seven-minute search it then threw away.
+            container = getattr(getattr(message, 'container', None), 'id', None)
+            if container:
+                carried['container'] = container
+            print('research paused at the server tool limit — resuming (%d of %d)%s'
+                  % (resumed + 1, self.MAX_RESUMES,
+                     '' if container else ' without a container id'), file=sys.stderr)
+            messages = list(base) + [{'role': 'assistant', 'content': message.content}]
+        else:
+            raise SystemExit('research still paused after %d resumes; the month '
+                             'needs more search than expected' % self.MAX_RESUMES)
 
 
 class StubProvider(Provider):
@@ -574,7 +779,9 @@ def main():
                     help='stub drafts without a model, key, or network')
     ap.add_argument('--model', default=MODEL)
     ap.add_argument('--effort', default='high', choices=['low', 'medium', 'high', 'xhigh', 'max'])
-    ap.add_argument('--max-tokens', type=int, default=32000)
+    ap.add_argument('--max-tokens', type=int, default=MAX_TOKENS,
+                    help='output budget, spent by thinking as well as prose '
+                         '(default: %d, model maximum: 128000)' % MAX_TOKENS)
     ap.add_argument('--out', help='where to write (default: content/editions/<slug>.json)')
     ap.add_argument('--stdout', action='store_true', help='print the draft, write nothing')
     ap.add_argument('--plan', action='store_true',
@@ -617,18 +824,36 @@ def main():
           % (brief['month'], brief['volume'], brief['number'], brief['published'],
              provider.name), file=sys.stderr)
 
-    draft = provider.research(brief, wire_schema(images))
+    # An unfinished draft is still written out. The research behind it is a paid
+    # call against a web that has moved on by the next one, and an edition that
+    # needs one section finished by hand beats starting the month over.
+    unfinished = []
+    try:
+        draft = provider.research(brief, wire_schema(images))
+    except StubbedDraft as e:
+        draft, unfinished = e.draft, e.problems
+
     ed = to_edition(draft, brief)
     text = json.dumps(ed, indent=2, ensure_ascii=False) + '\n'
 
     if args.stdout:
         sys.stdout.write(text)
-        return 0
+    else:
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        open(out, 'w', encoding='utf-8').write(text)
+        print('wrote %s' % out, file=sys.stderr)
 
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    open(out, 'w', encoding='utf-8').write(text)
-    print('wrote %s' % out, file=sys.stderr)
-    print(out)  # stdout is the path, so the workflow can consume it
+    if unfinished:
+        print('\nthe model would not finish these, after %d attempts:'
+              % AnthropicProvider.MAX_REPAIRS, file=sys.stderr)
+        for m in unfinished:
+            print('  %s' % m, file=sys.stderr)
+        print('the rest of the draft is saved%s — finish these by hand, or re-run'
+              % ('' if args.stdout else ' in %s' % out), file=sys.stderr)
+        return 1
+
+    if not args.stdout:
+        print(out)  # stdout is the path, so the workflow can consume it
     return 0
 
 

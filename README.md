@@ -94,6 +94,33 @@ three; and it skips any month that already exists in `content/editions/`.
 Run it by hand from the Actions tab. `provider: stub` exercises the whole path
 without a model, a key, or any cost — useful when changing the workflow itself.
 
+A research call takes ten to fifteen minutes and cannot be replayed — the web
+has moved on by the next one — so the run prints `stop_reason` and the output
+tokens it spent, and uploads the draft as an artifact the moment it exists.
+`--max-tokens` is an **output** budget and thinking is paid out of it alongside
+the prose; the default is 64,000 against a model maximum of 128,000. October's
+third attempt spent eleven minutes and stopped dead at 32,000 with nothing
+written, which is why the run now says what it used rather than leaving the next
+person to guess.
+
+The drafter reads its own output back before writing it. Structured outputs
+cannot express "at least 400 characters" — `minLength` and `minItems` are not
+supported constraints — so the schema is unable to refuse a required string
+reading `Placeholder`, and the model has written exactly that into both risk
+panels twice, with every other field of the edition complete. When a field comes
+back as a stub the drafter asks again for **that field only**, up to twice, with
+the research still in context; a draft it still will not finish is written out
+anyway, with the unfinished fields named, so a month's research is never thrown
+away over one section.
+
+A long search stops at the server's tool-iteration limit with
+`stop_reason: pause_turn` — no text, no error, an unfinished turn — and the
+drafter resumes it up to four times. Resuming takes two things, and each one
+cost a run to learn: the original exchange re-sent verbatim (no "continue"
+message; the trailing tool-use block is the cue), **and** the `container` id the
+paused turn reported, because the tool uses it trails are still pending inside
+the server's container. A resume missing either is refused.
+
 ### By hand
 
 ```bash
