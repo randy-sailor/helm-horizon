@@ -52,7 +52,7 @@
       "value": "$611.3M · −7%",
       "source": {
         "title": "Insecure",
-        "url": "http://example.com/x"
+        "url": "http://www.federalreserve.gov/x"
       }
     },
     {
@@ -186,8 +186,8 @@
       "label": "US federal funds target, end July",
       "value": "3.50–3.75%",
       "source": {
-        "title": "Placeholder",
-        "url": "https://example.com/placeholder"
+        "title": "Federal Reserve FOMC statement, 29 July 2026",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm"
       }
     }
   ],
