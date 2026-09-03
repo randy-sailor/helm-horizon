@@ -136,8 +136,16 @@ item, or source link from the article did not survive the conversion. See
 * anything other than exactly three action steps
 * an edition number out of sequence with the rest of the archive
 * a `voices[]` entry whose `permission_to_quote` is not `true`
+* prose left as a placeholder — `Placeholder`, `TBD`, `Lorem ipsum`, `N/A` and the like
+* a citation to a reserved example domain (`example.com`, `.test`, `.invalid`, `localhost`)
+* a risk or action body under 80 characters, which is a stub rather than an assessment
 
-That last one is why quotes are never drafted. `draft_edition.py` always writes
+The last three were added after October's first real draft passed every
+structural rule and still shipped two risk panels reading `Placeholder`, cited
+to `example.com` — a non-empty string, an `https` URL, and a domain that
+answers 200. Structure was never what was wrong with it.
+
+The `permission_to_quote` rule is why quotes are never drafted. `draft_edition.py` always writes
 `voices: []`; a reader's words go in by hand, after a person has confirmed they
 may be published. Both renderers refuse an uncleared quote outright, so skipping
 the validator does not get one printed.

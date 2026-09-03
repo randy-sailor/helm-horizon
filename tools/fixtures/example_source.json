@@ -51,8 +51,8 @@
       "label": "MarineMax Q3 revenue",
       "value": "$611.3M · −7%",
       "source": {
-        "title": "Yahoo Finance on MarineMax",
-        "url": "https://finance.yahoo.com/markets/stocks/articles/marinemax-inc-hzo-q3-2026-210330404.html"
+        "title": "Example",
+        "url": "https://example.com/x"
       }
     },
     {
@@ -243,10 +243,6 @@
     {
       "title": "Book Monaco with a builder-services agenda, not a boat-shopping agenda.",
       "body": "The Monaco Yacht Show runs 23–26 September, with roughly 120 yachts and 43 new deliveries expected — but the real story on the pontoons will be builder distress. With The Italian Sea Group in insolvency proceedings and a Sanlorenzo-led consortium bidding, refit, warranty, and completion questions will drive more meaningful conversations than new orders. Come with a list: which builders have open orders on which of your clients’ hulls, which yards carry credible completion risk, and which service providers you can extend a preferred-vendor relationship to before demand snaps back. The best Monaco value this year is in the yards, not the demo boats."
-    },
-    {
-      "title": "A fourth step",
-      "body": "Should not be allowed."
     }
   ],
   "profile": {
@@ -280,5 +276,5 @@
     "Send us what you are seeing on the Monaco run-in, on used inventory absorption, on charter reprice negotiations, and on refit-yard capacity. One quote per issue gets the lead position, and we run through October."
   ],
   "colophon": "Sources cited inline with links. Data as of late July / early August 2026. Helm & Horizon is published by The Walton Group, Inc. and is not investment advice.",
-  "_fixture": "Four action steps. The section is \"Three action steps\"."
+  "_fixture": "an indicator cited to a reserved example domain"
 }

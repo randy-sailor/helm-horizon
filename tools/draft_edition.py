@@ -219,7 +219,9 @@ def wire_schema(images):
                         'region': {'type': 'string', 'enum': ['us', 'global']},
                         'title': {'type': 'string', 'enum': ['United States', 'Global']},
                         'body': {'type': 'string',
-                                 'description': 'one paragraph, inline [text](url) citations'},
+                                 'description': 'a full paragraph of at least 400 '
+                                                'characters with inline [text](url) '
+                                                'citations — never a placeholder'},
                         'sources': {'type': 'array', 'items': _src()},
                     },
                 },
@@ -289,6 +291,12 @@ compressed" is a fact; "check your non-new-boat gross-profit share against 40%" 
 is the reason they subscribe.
 5. Use the em dash and the en dash as an editor would. Spell out jargon on first \
 use: "finance and insurance", not "F&I"; "basis points", not "bps" alone.
+6. NEVER LEAVE A PLACEHOLDER. Not "Placeholder", not "TBD", not a stub sentence, \
+and never example.com as a source. Every field is published as written. A section \
+you found little for is still written from what you did find, at full length and \
+sourced; if a whole section is genuinely unsupportable, say so in prose and cite \
+what you checked. The validator rejects placeholder text and reserved example \
+domains outright, so a stub does not become a draft — it becomes a failed run.
 
 Structure you are filling:
 
@@ -299,7 +307,11 @@ optionally one figure section between them, and a takeaway paragraph.
 * indicators — 14 to 18 dashboard figures, split as evenly as you can between \
 region "us" and region "global". Each is a label, a value, and a source.
 * risks — exactly two entries: one with region "us" and title "United States", one \
-with region "global" and title "Global".
+with region "global" and title "Global". Each is a full paragraph on what could go \
+wrong in that market over the coming quarter — inventory and days-on-market, \
+weather, fuel, insurance and war risk, rates and credit, regulation, tariffs — with \
+every figure sourced inline exactly as the rest of the issue is. These carry the \
+same weight as the featured story; they are the section a reader checks first.
 * actions — exactly three. Each is an imperative title and a paragraph a reader \
 could act on this week.
 * profile — one company, with an opening section (empty heading), then \
@@ -428,10 +440,16 @@ class StubProvider(Provider):
 
     def research(self, brief, schema):
         img = brief['images'][0] if brief['images'] else ''
-        src = {'title': 'Example primary source', 'url': 'https://example.com/'}
+        # A real, live citation: the validator now rejects reserved example
+        # domains, and the stub has to survive its own pipeline.
+        src = {'title': 'Federal Reserve FOMC statement, 29 July 2026',
+               'url': 'https://www.federalreserve.gov/newsevents/pressreleases/'
+                      'monetary20260729a.htm'}
         month = brief['month']
         para = ('Placeholder prose for %s, generated without a model so the '
-                'pipeline can be tested. See [the source](https://example.com/).' % month)
+                'pipeline can be tested. See [the source]'
+                '(https://www.federalreserve.gov/newsevents/pressreleases/'
+                'monetary20260729a.htm).' % month)
         return {
             'headline': 'Stub draft for %s' % month,
             'dek': 'A structurally valid placeholder produced without calling a model.',
