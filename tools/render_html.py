@@ -526,50 +526,232 @@ def update_vercel(ed, path='vercel.json'):
     return changed
 
 
-def archive_card(ed):
-    return '''            <article class="card reveal">
+def archive_card(ed, reveal=True, pdf_label='PDF edition'):
+    """One issue's card. subscribe.html's sampler omits the scroll-reveal class
+    and shortens the PDF label, so both are parameters rather than a second
+    near-identical template."""
+    return '''            <article class="card%s">
               <p class="card__vol">Vol. %d, No. %d &middot; %s</p>
               <div class="card__body">
                 <h3>%s</h3>
                 <p>%s</p>
                 <div class="card__links">
                   <a href="/editions/%s">Read online</a>
-                  <a href="/pdf/%s">PDF edition</a>
+                  <a href="/pdf/%s">%s</a>
                 </div>
               </div>
             </article>
-''' % (ed['volume'], ed['number'], esc(ed['month']), esc(ed['headline']),
-       esc(plain(ed['dek'])), ed['slug'], pdf_name(ed['slug']))
+''' % (' reveal' if reveal else '', ed['volume'], ed['number'], esc(ed['month']),
+       esc(ed['headline']), esc(plain(ed['dek'])), ed['slug'], pdf_name(ed['slug']),
+       esc(pdf_label))
+
+
+CARD_RE = re.compile(r'<article class="card[^"]*">.*?</article>\n?', re.S)
+CARD_VOL_RE = re.compile(
+    r'<p class="card__vol">Vol\. \d+, No\. \d+ &middot; ([A-Za-z]+) (\d{4})</p>')
+
+
+def refresh_cards(block, ed, limit=3, reveal=True, pdf_label='PDF edition'):
+    """Point every card at its own issue, and put this one at the front.
+
+    The cards are not regenerated from the JSON, because the earliest issues
+    predate content/editions/ and exist only as a card and a PDF — rebuilding
+    the strip from disk would silently drop them off the site.
+
+    What went wrong before was subtler: update_index replaced the outgoing slug
+    everywhere in the file, so September's card kept its September heading and
+    dek while its "Read online" link was rewritten to October. Each card's links
+    are now derived from the card's own volume line.
+    """
+    def retarget(m):
+        card = m.group(0)
+        v = CARD_VOL_RE.search(card)
+        if not v:
+            return card
+        slug = '%s-%s' % (v.group(1).lower(), v.group(2))
+        card = re.sub(r'href="/editions/[a-z]+-\d{4}"',
+                      'href="/editions/%s"' % slug, card)
+        return re.sub(r'href="/pdf/Helm_Horizon_[A-Za-z]+\d{4}\.pdf"',
+                      'href="/pdf/%s"' % pdf_name(slug), card)
+
+    block = CARD_RE.sub(retarget, block)
+    if 'Vol. %d, No. %d' % (ed['volume'], ed['number']) not in block:
+        block = archive_card(ed, reveal=reveal, pdf_label=pdf_label) + block
+    return ''.join(CARD_RE.findall(block)[:limit]).rstrip('\n')
+
+
+def update_sampler(ed, path='subscribe.html'):
+    """Keep subscribe.html's "Read an issue first" strip on the newest issues.
+
+    It is the panel a prospective subscriber reads before deciding, and it was
+    still offering September as the most recent issue after October published.
+    """
+    s = open(path, encoding='utf-8').read()
+    out = re.sub(r'(<div class="grid-cards">\n)(.*?)(\n          </div>)',
+                 lambda m: m.group(1) + refresh_cards(m.group(2), ed, reveal=False,
+                                                      pdf_label='PDF') + m.group(3),
+                 s, count=1, flags=re.S)
+    if out == s:
+        return False
+    open(path, 'w', encoding='utf-8').write(out)
+    return True
+
+
+def _sentence(text):
+    """Sentence-case a fragment without flattening the words after it.
+
+    str.capitalize() lowercases the remainder, which turns "rolling twelve
+    months to April" into "...to april".
+    """
+    text = text.strip()
+    if not text:
+        return ''
+    text = text[0].upper() + text[1:]
+    return text if text.endswith('.') else text + '.'
+
+
+def _split_value(value):
+    """"214,292 units · -7.1%" -> the figure, and the rest of the line."""
+    parts = [p.strip() for p in str(value).split('·')]
+    return parts[0], ' · '.join(parts[1:])
+
+
+def number_cells(ed, count=4):
+    """The four figures under "By the numbers", from the edition's indicators.
+
+    The cell is a big figure, the subject in bold, then the qualifier — so the
+    label is split at its first comma rather than set whole, which would put a
+    line of small print where the design wants a few words.
+    """
+    cells = []
+    for ind in (ed.get('indicators') or [])[:count]:
+        figure, rest = _split_value(ind.get('value', ''))
+        subject, _, qualifier = plain(ind.get('label', '')).partition(',')
+        tail = ' '.join(t for t in (_sentence(qualifier), _sentence(rest)) if t)
+        cells.append('''            <div class="numbers__cell">
+              <div class="numbers__val">%s</div>
+              <p class="numbers__label">
+                <strong>%s</strong>%s
+              </p>
+            </div>''' % (esc(figure), esc(subject.strip()), esc(tail)))
+    return '\n'.join(cells)
+
+
+def feature_body(ed):
+    """The home page's trailer for the featured story: its first prose section."""
+    sections = [s for s in ed['featured'].get('sections', []) if s.get('body')]
+    first = sections[0] if sections else {}
+    out = []
+    if first.get('heading'):
+        out.append('              <h3>%s</h3>' % esc(first['heading']))
+    # A trailer, not the article: two paragraphs and the button under them.
+    for para in first.get('body', [])[:2]:
+        out.append('              <p>%s</p>' % inline(para))
+    out.append('''              <div class="btn-row">
+                <a class="btn btn--outline" href="/editions/%s"
+                  >Continue reading</a
+                >
+              </div>''' % ed['slug'])
+    return '\n'.join(out)
+
+
+def keylist(ed, count=6):
+    """The "What moved this month" rail, from the same indicators as the page."""
+    items = []
+    for ind in (ed.get('indicators') or [])[:count]:
+        label = plain(ind.get('label', ''))
+        # The rail is narrow: lead with the subject, leave the qualifier off.
+        items.append('                <li><strong>%s</strong><span>%s</span></li>'
+                     % (esc(label.split(',')[0]), esc(plain(ind.get('value', '')))))
+    return '\n'.join(items)
+
+
+def current_issue_links(s, ed):
+    """Point a page's "current issue" footer links at this edition.
+
+    Every page carries them, and they are the one part of the furniture that is
+    not the same on every issue. Five pages spent a month pointing at September
+    because nothing outside index.html ever rewrote them.
+    """
+    s = re.sub(r'(<li><a href=")/editions/[a-z]+-\d{4}(">Current issue</a></li>)',
+               r'\g<1>/editions/%s\g<2>' % ed['slug'], s)
+    s = re.sub(r'(<li><a href=")/pdf/Helm_Horizon_[A-Za-z]+\d{4}\.pdf(">Download PDF</a></li>)',
+               r'\g<1>/pdf/%s\g<2>' % pdf_name(ed['slug']), s)
+    # "Read the September issue" in gold, on the home page and on the page a
+    # reader lands on the moment they confirm their subscription. Both named the
+    # wrong month for a month.
+    return re.sub(r'<a class="btn btn--gold" href="/editions/[a-z]+-\d{4}">Read the [A-Za-z]+ issue</a>',
+                  '<a class="btn btn--gold" href="/editions/%s">Read the %s issue</a>'
+                  % (ed['slug'], esc(ed['month'].split()[0])), s)
 
 
 def update_archive(ed, path='archive.html'):
     s = open(path, encoding='utf-8').read()
-    if 'Vol. %d, No. %d' % (ed['volume'], ed['number']) in s:
+    before = s
+    if 'Vol. %d, No. %d' % (ed['volume'], ed['number']) not in s:
+        anchor = '<div class="grid-cards">\n'
+        i = s.index(anchor) + len(anchor)
+        s = s[:i] + archive_card(ed) + s[i:]
+    s = current_issue_links(s, ed)
+    if s == before:
         return False
-    anchor = '<div class="grid-cards">\n'
-    i = s.index(anchor) + len(anchor)
-    open(path, 'w', encoding='utf-8').write(s[:i] + archive_card(ed) + s[i:])
+    open(path, 'w', encoding='utf-8').write(s)
     return True
 
 
 def update_index(ed, path='index.html'):
-    """Repoint the hero and the newest archive card at this edition."""
+    """Rewrite every part of the home page that belongs to a particular issue.
+
+    This used to repoint the links and patch three labels, leaving the lede, the
+    figures, the featured story and the archive cards exactly as a person had
+    typed them. The result on publication day was a home page carrying October's
+    headline, October's links and September's journalism — a gold button reading
+    "Read the September issue", and a card headed "Vol. 1, No. 9 · September
+    2026" whose "Read online" link had been rewritten to point at October, so
+    September was unreachable from the front page. Anything that names an issue
+    is generated here now.
+    """
     s = open(path, encoding='utf-8').read()
     before = s
-    old_slug = None
-    m = re.search(r'href="/editions/([a-z]+-\d{4})"', s)
-    if m:
-        old_slug = m.group(1)
-    if old_slug and old_slug != ed['slug']:
-        s = s.replace('/editions/%s' % old_slug, '/editions/%s' % ed['slug'])
-        s = s.replace('/pdf/%s' % pdf_name(old_slug), '/pdf/%s' % pdf_name(ed['slug']))
+    # ------ hero
     s = re.sub(r'(<div class="hero__meta">\s*<span>)[^<]*(</span><span>)Vol\. \d+, No\. \d+(</span>)',
                r'\g<1>%s\g<2>Vol. %d, No. %d\g<3>' % (esc(ed['month']), ed['volume'], ed['number']),
                s, count=1)
     s = re.sub(r'(<div class="shell hero__inner">.*?<h1>)(.*?)(</h1>)',
-               lambda m2: m2.group(1) + esc(ed['headline']) + m2.group(3), s, count=1, flags=re.S)
+               lambda m: m.group(1) + esc(ed['headline']) + m.group(3), s, count=1, flags=re.S)
+    s = re.sub(r'(<p class="hero__lede">)(.*?)(</p>)',
+               lambda m: m.group(1) + '\n            ' + esc(plain(ed['dek']))
+               + '\n          ' + m.group(3), s, count=1, flags=re.S)
+    s = re.sub(r'<a class="btn btn--gold" href="[^"]*">[^<]*</a>',
+               '<a class="btn btn--gold" href="/editions/%s">Read the %s issue</a>'
+               % (ed['slug'], esc(ed['month'].split()[0])), s, count=1)
+
+    # ------ by the numbers
     s = re.sub(r'(<p class="eyebrow">By the numbers &mdash; )[^<]*(</p>)',
                r'\g<1>%s\g<2>' % esc(ed['month']), s, count=1)
+    s = re.sub(r'(<div class="numbers">\n).*?(\n          </div>)',
+               lambda m: m.group(1) + number_cells(ed) + m.group(2), s, count=1, flags=re.S)
+
+    # ------ featured story
+    s = re.sub(r'(<p class="eyebrow eyebrow--ink">Featured story</p>\s*<h2>)(.*?)(</h2>)',
+               lambda m: m.group(1) + esc(ed['featured']['title']) + m.group(3),
+               s, count=1, flags=re.S)
+    s = re.sub(r'(<div class="feature__body">\n).*?(\n            </div>)',
+               lambda m: m.group(1) + feature_body(ed) + m.group(2), s, count=1, flags=re.S)
+    s = re.sub(r'(<h4>What moved this month</h4>\s*<ul class="keylist">\n).*?(\n              </ul>)',
+               lambda m: m.group(1) + keylist(ed) + m.group(2), s, count=1, flags=re.S)
+
+    # ------ the archive strip, and everything that links to an issue
+    s = re.sub(r'(<div class="grid-cards">\n)(.*?)(\n          </div>)',
+               lambda m: m.group(1) + refresh_cards(m.group(2), ed) + m.group(3),
+               s, count=1, flags=re.S)
+    s = re.sub(r'(<a href=")/editions/[a-z]+-\d{4}(">Full issue</a>)',
+               r'\g<1>/editions/%s\g<2>' % ed['slug'], s, count=1)
+    s = current_issue_links(s, ed)
+    if ed.get('data_as_of'):
+        s = re.sub(r'(<span>)Data as of [^<]*(</span>)',
+                   r'\g<1>%s\g<2>' % esc(plain(ed['data_as_of'])), s, count=1)
+
     if s != before:
         open(path, 'w', encoding='utf-8').write(s)
         return True
@@ -617,8 +799,21 @@ def main():
     if args.page_only:
         return 0
     for label, fn in (('sitemap.xml', update_sitemap), ('vercel.json', update_vercel),
-                      ('archive.html', update_archive), ('index.html', update_index)):
+                      ('archive.html', update_archive), ('index.html', update_index),
+                      ('subscribe.html', update_sampler)):
         print('  %-14s %s' % (label, 'updated' if fn(ed) else 'already current'))
+
+    # Every page carries "Current issue" and "Download PDF" in its footer, and
+    # nothing outside index.html had ever rewritten them — so about, submit,
+    # subscribe and both confirmation pages spent a month pointing at September.
+    for name in sorted(f for f in os.listdir('.') if f.endswith('.html')):
+        if name in ('index.html', 'archive.html'):
+            continue
+        page = open(name, encoding='utf-8').read()
+        fixed = current_issue_links(page, ed)
+        if fixed != page:
+            open(name, 'w', encoding='utf-8').write(fixed)
+            print('  %-14s updated' % name)
     return 0
 
 

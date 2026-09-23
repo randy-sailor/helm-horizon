@@ -94,6 +94,33 @@ three; and it skips any month that already exists in `content/editions/`.
 Run it by hand from the Actions tab. `provider: stub` exercises the whole path
 without a model, a key, or any cost — useful when changing the workflow itself.
 
+A research call takes ten to fifteen minutes and cannot be replayed — the web
+has moved on by the next one — so the run prints `stop_reason` and the output
+tokens it spent, and uploads the draft as an artifact the moment it exists.
+`--max-tokens` is an **output** budget and thinking is paid out of it alongside
+the prose; the default is 64,000 against a model maximum of 128,000. October's
+third attempt spent eleven minutes and stopped dead at 32,000 with nothing
+written, which is why the run now says what it used rather than leaving the next
+person to guess.
+
+The drafter reads its own output back before writing it. Structured outputs
+cannot express "at least 400 characters" — `minLength` and `minItems` are not
+supported constraints — so the schema is unable to refuse a required string
+reading `Placeholder`, and the model has written exactly that into both risk
+panels twice, with every other field of the edition complete. When a field comes
+back as a stub the drafter asks again for **that field only**, up to twice, with
+the research still in context; a draft it still will not finish is written out
+anyway, with the unfinished fields named, so a month's research is never thrown
+away over one section.
+
+A long search stops at the server's tool-iteration limit with
+`stop_reason: pause_turn` — no text, no error, an unfinished turn — and the
+drafter resumes it up to four times. Resuming takes two things, and each one
+cost a run to learn: the original exchange re-sent verbatim (no "continue"
+message; the trailing tool-use block is the cue), **and** the `container` id the
+paused turn reported, because the tool uses it trails are still pending inside
+the server's container. A resume missing either is refused.
+
 ### By hand
 
 ```bash
@@ -134,16 +161,45 @@ item, or source link from the article did not survive the conversion. See
 * a figure with no source, or a source that is not `https://`
 * a link that returns 404 or 410, or whose host does not resolve
 * anything other than exactly three action steps
-* an edition number out of sequence with the rest of the archive
+* an edition number that duplicates another, or leaves a gap in the archive
 * a `voices[]` entry whose `permission_to_quote` is not `true`
+* prose left as a placeholder — `Placeholder`, `TBD`, `Lorem ipsum`, `N/A` and the like
+* a citation to a reserved example domain (`example.com`, `.test`, `.invalid`, `localhost`)
+* a risk or action body under 80 characters, which is a stub rather than an assessment
 
-That last one is why quotes are never drafted. `draft_edition.py` always writes
+The last three were added after October's first real draft passed every
+structural rule and still shipped two risk panels reading `Placeholder`, cited
+to `example.com` — a non-empty string, an `https` URL, and a domain that
+answers 200. Structure was never what was wrong with it.
+
+The `permission_to_quote` rule is why quotes are never drafted. `draft_edition.py` always writes
 `voices: []`; a reader's words go in by hand, after a person has confirmed they
 may be published. Both renderers refuse an uncleared quote outright, so skipping
 the validator does not get one printed.
 
-`tools/test_validate_edition.py`, `tools/test_draft_edition.py`, and
-`tools/test_render_pdf.py` prove those refusals still fire — a validator that
+### What the render touches besides the edition page
+
+`render_html.py` regenerates everything on the site that names a particular
+issue, not just the links: the hero headline, lede and gold button; the "By the
+numbers" figures; the featured-story trailer and its rail; the archive strips on
+the home and subscribe pages; the "Data as of" line; and the "Current issue" and
+"Download PDF" links in every page's footer.
+
+It did not always. October published with a gold button reading **"Read the
+September issue"**, September's figures under an October heading, September's
+featured story, five pages whose footers still pointed at September — and a card
+headed "Vol. 1, No. 9 · September 2026" whose "Read online" link had been
+rewritten to October, because the old updater replaced the outgoing slug
+everywhere in the file. September was unreachable from the front page.
+
+Each card's links are now derived from that card's own volume line, and the
+strips are *retargeted* rather than rebuilt from `content/editions/`, because the
+earliest issues predate that directory and exist only as a card and a PDF —
+regenerating from disk would drop them off the site.
+
+`tools/test_validate_edition.py`, `tools/test_draft_edition.py`,
+`tools/test_render_html.py`, and `tools/test_render_pdf.py` prove those refusals
+still fire — a validator that
 cannot fail would wave everything through. The PDF test also asserts that every
 cited URL survives as a clickable link annotation, because a citation that
 silently stopped being a link still looks correct on the page.

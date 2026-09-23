@@ -53,6 +53,10 @@ DIVIDER = colors.HexColor('#e3e8ee')
 
 SITE = 'https://thehelmandhorizon.com'
 
+# Usable height of the text frame: LETTER less the half-inch margins,
+# less the 6pt padding SimpleDocTemplate puts above and below.
+FRAME_H = LETTER[1] - 2 * (0.5 * inch) - 12
+
 
 # --------------------------------------------------------------------- the type
 
@@ -304,7 +308,7 @@ def make_styles(body, bold, italic):
 
 # ------------------------------------------------------------------- the story
 
-def build_story(ed, width, st, fonts, unicode_ok):
+def build_story(ed, width, st, fonts, unicode_ok, avail=FRAME_H):
     body_font, bold_font, _italic = fonts
     story = []
 
@@ -376,9 +380,13 @@ def build_story(ed, width, st, fonts, unicode_ok):
     # The two columns are one indivisible flowable, so the label has to travel
     # with them or it strands itself at the foot of the previous page. No forced
     # page break: let it land where it lands and keep the pages full.
-    story.append(KeepTogether([label('Economic indicators and risk', 'By the numbers'),
-                               Spacer(1, 0.1 * inch),
-                               indicator_columns(ed, width, st, unicode_ok)]))
+    # The label rides with the first block only; the rest flow on behind it.
+    blocks = indicator_blocks(ed, width, st, unicode_ok, avail,
+                              first_budget=avail - 60)
+    if blocks:
+        story.append(KeepTogether([label('Economic indicators and risk', 'By the numbers'),
+                                   Spacer(1, 0.1 * inch), blocks[0]]))
+        story.extend(blocks[1:])
     story += rule()
 
     # ---- three action steps
@@ -486,41 +494,113 @@ def wrap_headline(headline, per_line=34):
     return lines
 
 
-def indicator_columns(ed, width, st, unicode_ok):
-    """Two navy panels of figures with a risk panel under each."""
-    col = (width - 0.1 * inch) / 2
+def indicator_blocks(ed, width, st, unicode_ok, avail, first_budget=None):
+    """Two navy panels of figures, chunked into blocks that each fit a page.
 
-    def panel(region, heading):
-        rows = ['• <b>%s</b> %s (%s)' % (
-                    rl(i['label'], unicode_ok), rl(i['value'], unicode_ok),
-                    '<a href="%s" color="#cfdcec">%s</a>'
-                    % (esc(i['source']['url']), rl(i['source'].get('title') or 'source',
-                                                   unicode_ok)))
-                for i in ed.get('indicators') or [] if i.get('region') == region]
-        cells = [Paragraph(heading, st['panel_h']),
-                 Paragraph('<br/><br/>'.join(rows), st['panel_body'])]
-        return boxed(cells, col - 0.05 * inch, NAVY, pad=11)
+    A table row cannot break across pages. Once the side-by-side block grows
+    past the frame ReportLab refuses to place it at all — it raises
+    LayoutError rather than overflowing — and the whole render dies. September
+    measured 499pt against a 708pt frame, which looked comfortable and was
+    not: at 20 indicators the margin was six points. October reached 939pt and
+    took the monthly run down with it.
+
+    So the block is now as many blocks as the month needs. The two-column
+    design is unchanged for a September-sized issue; a longer one simply
+    continues onto the next page.
+    """
+    col = (width - 0.1 * inch) / 2
+    inner = col - 0.05 * inch
+    us = [i for i in ed.get('indicators') or [] if i.get('region') == 'us']
+    gl = [i for i in ed.get('indicators') or [] if i.get('region') == 'global']
+
+    def bullets(items):
+        return '<br/><br/>'.join(
+            '\u2022 <b>%s</b> %s (%s)' % (
+                rl(i['label'], unicode_ok), rl(i['value'], unicode_ok),
+                '<a href="%s" color="#cfdcec">%s</a>'
+                % (esc(i['source']['url']),
+                   rl(i['source'].get('title') or 'source', unicode_ok)))
+            for i in items)
+
+    def panel(items, heading, cont):
+        cells = [Paragraph(heading + (' (continued)' if cont else ''), st['panel_h']),
+                 Paragraph(bullets(items), st['panel_body'])]
+        return boxed(cells, inner, NAVY, pad=11)
 
     def risk(region):
         r = next((x for x in ed.get('risks') or [] if x.get('region') == region), None)
         if not r:
-            return Spacer(1, 0)
+            return None
         cells = [Paragraph('%s RISKS' % r['title'].upper(), st['risk_label']),
                  Paragraph(rl(r['body'], unicode_ok), st['risk_body'])]
-        return boxed(cells, col - 0.05 * inch, WARN_BG, pad=10, border=WARN_BORDER)
+        return boxed(cells, inner, WARN_BG, pad=10, border=WARN_BORDER)
 
-    def stack(region, heading):
-        return bare([panel(region, heading), Spacer(1, 0.08 * inch), risk(region)],
-                    col - 0.05 * inch)
+    def side_by_side(left, right):
+        t = Table([[bare(left or [Spacer(1, 0)], inner),
+                    bare(right or [Spacer(1, 0)], inner)]], colWidths=[col, col])
+        t.setStyle(TableStyle([
+            ('LEFTPADDING', (0, 0), (0, 0), 0), ('RIGHTPADDING', (0, 0), (0, 0), 6),
+            ('LEFTPADDING', (1, 0), (1, 0), 6), ('RIGHTPADDING', (1, 0), (1, 0), 0),
+            ('TOPPADDING', (0, 0), (-1, -1), 0), ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP')]))
+        return t
 
-    two = Table([[stack('us', 'UNITED STATES'), stack('global', 'GLOBAL')]],
-                colWidths=[col, col])
-    two.setStyle(TableStyle([
-        ('LEFTPADDING', (0, 0), (0, 0), 0), ('RIGHTPADDING', (0, 0), (0, 0), 6),
-        ('LEFTPADDING', (1, 0), (1, 0), 6), ('RIGHTPADDING', (1, 0), (1, 0), 0),
-        ('TOPPADDING', (0, 0), (-1, -1), 0), ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
-        ('VALIGN', (0, 0), (-1, -1), 'TOP')]))
-    return two
+    def block(a, nu, b, ng, extra_l=None, extra_r=None):
+        left = [panel(us[a:a + nu], 'UNITED STATES', a > 0)] if nu else []
+        right = [panel(gl[b:b + ng], 'GLOBAL', b > 0)] if ng else []
+        return side_by_side(left + (extra_l or []), right + (extra_r or []))
+
+    def tall(fl):
+        return fl.wrap(width, avail)[1]
+
+    rk_u, rk_g = risk('us'), risk('global')
+    extra_l = [Spacer(1, 0.08 * inch), rk_u] if rk_u else []
+    extra_r = [Spacer(1, 0.08 * inch), rk_g] if rk_g else []
+
+    if not us and not gl:
+        return [side_by_side([rk_u] if rk_u else [], [rk_g] if rk_g else [])] \
+            if (rk_u or rk_g) else []
+
+    # Take as many figures per block as will fit, then start another.
+    spans, a, b = [], 0, 0
+    budget = first_budget or avail
+    while a < len(us) or b < len(gl):
+        nu, ng = len(us) - a, len(gl) - b
+        while tall(block(a, nu, b, ng)) > budget and (nu > 1 or ng > 1):
+            if nu >= ng and nu > 1:
+                nu -= 1
+            elif ng > 1:
+                ng -= 1
+            else:
+                break
+        spans.append((a, nu, b, ng))
+        a += nu
+        b += ng
+        budget = avail
+
+    blocks = []
+    for k, (a, nu, b, ng) in enumerate(spans):
+        last = k == len(spans) - 1
+        t = block(a, nu, b, ng, extra_l if last else None, extra_r if last else None)
+        if last and (extra_l or extra_r) and tall(t) > avail:
+            # The risk panels do not fit beside the final figures; give them a
+            # block of their own rather than overflowing the page.
+            blocks += [block(a, nu, b, ng), Spacer(1, 0.12 * inch),
+                       side_by_side([rk_u] if rk_u else [], [rk_g] if rk_g else [])]
+        else:
+            blocks.append(t)
+        if not last:
+            blocks.append(Spacer(1, 0.12 * inch))
+
+    # A single figure taller than a whole page cannot be chunked out of trouble.
+    # It has never happened and would be a content fault, but say so plainly
+    # rather than leaving ReportLab to raise something unreadable.
+    for blk in blocks:
+        if hasattr(blk, 'wrap') and tall(blk) > avail + 1:
+            raise SystemExit(
+                'an indicator block is %.0fpt tall and cannot fit a %.0fpt page — '
+                'one figure or its source title is far too long' % (tall(blk), avail))
+    return blocks
 
 
 # ------------------------------------------------------------------------- main

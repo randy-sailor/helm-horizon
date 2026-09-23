@@ -128,6 +128,44 @@ except SystemExit as e:
     check('renders a quote once permission is recorded', False, str(e))
 
 
+# --------------------------------------------- volume: a long month must render
+
+# Every check above uses September (16 short indicators) or the stub (8), and
+# neither exercises volume. The October run failed on exactly that: the
+# two-column indicator block is a single table row, a row cannot break across
+# pages, and once the block passes the 708pt frame ReportLab refuses to place
+# it at all rather than overflowing. September measured 499pt — six points of
+# headroom at 20 indicators. These render well past the cliff.
+
+def inflate(base, n):
+    """September's edition with n indicators, labelled at realistic length."""
+    src = base['indicators']
+    out = copy.deepcopy(base)
+    out['indicators'] = [
+        dict(src[i % len(src)],
+             region='us' if i % 2 else 'global',
+             label='%s, twelve-month rolling basis' % src[i % len(src)]['label'])
+        for i in range(n)]
+    return out
+
+
+for n in (16, 24, 32, 48):
+    big = inflate(ed, n)
+    out_n = os.path.join(tempfile.mkdtemp(), 'v%d.pdf' % n)
+    try:
+        R.render(big, out_n)
+        raw_n = open(out_n, 'rb').read()
+        seen = {u.decode('latin-1') for u in re.findall(rb'/URI\s*\(([^)]+)\)', raw_n)}
+        want_n = {i['source']['url'] for i in big['indicators']}
+        lost = want_n - seen
+        check('%d indicators render, every citation kept' % n,
+              raw_n[:5] == b'%PDF-' and not lost,
+              'dropped %d citation(s)' % len(lost) if lost else '%d KB' % (len(raw_n) // 1024))
+    except Exception as e:
+        check('%d indicators render, every citation kept' % n, False,
+              '%s: %s' % (type(e).__name__, str(e).strip()[:100]))
+
+
 print('\n%s' % ('all checks passed' if not failures
                 else '%d FAILED: %s' % (len(failures), '; '.join(failures))))
 sys.exit(1 if failures else 0)

@@ -186,7 +186,7 @@
       "label": "US federal funds target, end July",
       "value": "3.50–3.75%",
       "source": {
-        "title": "Federal Reserve FOMC statement, 29 July 2026",
+        "title": "Placeholder",
         "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm"
       }
     }
@@ -195,11 +195,11 @@
     {
       "region": "us",
       "title": "United States",
-      "body": "Florida brokerage inventory stood at 4,316 active listings on 24 July, with a median asking price of $349,995; the 100-foot-and-above segment carried a $7.4M median and roughly $61,600 per foot ([Florida Yacht Market](https://floridaluxury.io/yachts/market)). Hurricane season is now in its peak window as the MarineMax sale decision approaches, and the consensus exit multiple resets industry-wide when that deal announces.",
+      "body": "Placeholder",
       "sources": [
         {
-          "title": "Florida Yacht Market",
-          "url": "https://floridaluxury.io/yachts/market"
+          "title": "placeholder",
+          "url": "https://example.com"
         }
       ]
     },
@@ -243,10 +243,6 @@
     {
       "title": "Book Monaco with a builder-services agenda, not a boat-shopping agenda.",
       "body": "The Monaco Yacht Show runs 23–26 September, with roughly 120 yachts and 43 new deliveries expected — but the real story on the pontoons will be builder distress. With The Italian Sea Group in insolvency proceedings and a Sanlorenzo-led consortium bidding, refit, warranty, and completion questions will drive more meaningful conversations than new orders. Come with a list: which builders have open orders on which of your clients’ hulls, which yards carry credible completion risk, and which service providers you can extend a preferred-vendor relationship to before demand snaps back. The best Monaco value this year is in the yards, not the demo boats."
-    },
-    {
-      "title": "A fourth step",
-      "body": "Should not be allowed."
     }
   ],
   "profile": {
@@ -280,5 +276,5 @@
     "Send us what you are seeing on the Monaco run-in, on used inventory absorption, on charter reprice negotiations, and on refit-yard capacity. One quote per issue gets the lead position, and we run through October."
   ],
   "colophon": "Sources cited inline with links. Data as of late July / early August 2026. Helm & Horizon is published by The Walton Group, Inc. and is not investment advice.",
-  "_fixture": "Four action steps. The section is \"Three action steps\"."
+  "_fixture": "a risk body the model left as the literal word Placeholder"
 }
