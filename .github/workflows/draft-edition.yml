@@ -223,9 +223,20 @@ jobs:
           NUMBER: ${{ steps.plan.outputs.number }}
         run: |
           set -uo pipefail
-          if gh pr view "$BRANCH" --json number >/dev/null 2>&1; then
-            gh pr comment "$BRANCH" --body-file .github/pr-redraft.md
-            echo "updated the open pull request" | tee -a "$GITHUB_STEP_SUMMARY"
+          # Only an OPEN pull request counts as one to update. `gh pr view
+          # <branch>` matches closed and merged ones too, and on 1 October it
+          # found #13 — the stub test's pull request, closed back in August, on
+          # this same recycled branch. The run commented there, reported
+          # success, and never opened a pull request for November. The draft was
+          # committed, validated and pushed, and the only trace of it was a
+          # comment on a dead thread. `gh pr list --state open` cannot make that
+          # mistake, and the number it returns is unambiguous where a branch has
+          # several pull requests behind it.
+          open_pr=$(gh pr list --head "$BRANCH" --state open \
+                      --json number --jq '.[0].number // empty' 2>/dev/null || true)
+          if [ -n "$open_pr" ]; then
+            gh pr comment "$open_pr" --body-file .github/pr-redraft.md
+            echo "updated open pull request #$open_pr" | tee -a "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
 
