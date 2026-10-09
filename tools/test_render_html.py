@@ -166,9 +166,25 @@ try:
           page.index('October 2026</p>') < page.index('September 2026</p>'))
 
     # The earliest issues predate content/editions/ and exist only as a card and
-    # a PDF. Rebuilding the strip from the JSON on disk would drop them.
+    # a PDF. An earlier version of this rebuilt the strip from the JSON on disk,
+    # which dropped them off the site; it retargets the existing cards instead.
+    #
+    # Asserted against a strip built here, not against whichever months happen
+    # to be in the live index.html. The first version looked for "August 2026"
+    # on the rendered page and passed only while August was still inside the
+    # three-card window — then failed the moment November's draft pushed it out,
+    # which is the strip working as designed, not a regression.
+    strip = (R.archive_card(edition(9, 'September'))
+             + R.archive_card(edition(8, 'August')))
+    kept = R.refresh_cards(strip, edition(10, 'October'), limit=3)
+    present = [m for m in ('October', 'September', 'August') if '%s 2026' % m in kept]
     check('an issue with no JSON on disk keeps its card',
-          'August 2026' in page)
+          present == ['October', 'September', 'August'], str(present))
+    check('the newest issue is added to the strip, not appended',
+          kept.index('October 2026') < kept.index('September 2026'))
+    check('the strip shows no more cards than it has room for',
+          R.refresh_cards(strip, edition(10, 'October'), limit=2).count('<article') == 2,
+          str(R.refresh_cards(strip, edition(10, 'October'), limit=2).count('<article')))
 
     # Every page carries these, and only index.html was ever updated.
     for name in ('confirmed.html', 'about.html', 'submit.html', 'subscribe.html'):
