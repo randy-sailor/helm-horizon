@@ -181,7 +181,7 @@ class _Client:
         self.messages = _Messages(script)
 
 
-def run_provider(script, max_resumes=None):
+def run_provider(script, max_resumes=None, with_brief=None):
     """Drive AnthropicProvider.research against a scripted fake client."""
     fake = types.ModuleType('anthropic')
     client = _Client(script)
@@ -193,7 +193,7 @@ def run_provider(script, max_resumes=None):
     if max_resumes is not None:
         prov.MAX_RESUMES = max_resumes
     try:
-        return prov.research(brief, D.wire_schema(images)), client.messages
+        return prov.research(with_brief or brief, D.wire_schema(images)), client.messages
     finally:
         if old_mod is None:
             sys.modules.pop('anthropic', None)
@@ -351,6 +351,122 @@ except D.StubbedDraft as e:
           and any('risks[0]' in m for m in e.problems), str(e.problems))
 except SystemExit as e:
     check('a draft the model will not finish is still handed back', False, str(e))
+
+
+# ----------------------------------------- the company profile rotates
+
+# October, November and the first December draft all profiled MasterCraft —
+# under two spellings — because nothing told the model what it had already
+# covered. These pin both halves of the fix: the brief tells it, and the
+# drafter checks it did as it was told.
+
+print()
+mastercraft = D.company_keys('MasterCraft Boat Holdings, Inc.', 'NASDAQ: MCFT')
+check('a corporate suffix does not make a different company',
+      bool(mastercraft & D.company_keys('MasterCraft Boat Holdings', '')))
+check('the same ticker under another spelling is the same company',
+      bool(mastercraft & D.company_keys('MasterCraft', 'MCFT')))
+check('a different company does not match',
+      not mastercraft & D.company_keys('Brunswick Corporation', 'NYSE: BC'))
+check('a private company is matched by name',
+      bool(D.company_keys('Ferretti Group', '') & D.company_keys('Ferretti', '')))
+check('two private companies written as "Private" are not the same company',
+      not D.company_keys('Sunseeker', 'Private') & D.company_keys('Princess', 'Private'))
+
+
+def archived(number, slug, company, ticker):
+    return {'volume': 1, 'number': number, 'slug': slug, 'headline': 'h',
+            'month': slug.replace('-', ' ').title(),
+            'profile': {'company': company, 'ticker': ticker}}
+
+
+archive = [archived(9, 'september-2026', 'Brunswick Corporation', 'NYSE: BC'),
+           archived(10, 'october-2026', 'MasterCraft Boat Holdings', 'NASDAQ: MCFT'),
+           archived(11, 'november-2026', 'MasterCraft Boat Holdings, Inc.', 'NASDAQ: MCFT')]
+rotation = D.build_brief(2026, 12, archive, images)
+listed = [p['company'] for p in rotation['recent_profiles']]
+check('the brief lists each recently profiled company once, newest first',
+      listed == ['MasterCraft Boat Holdings, Inc.', 'Brunswick Corporation'], str(listed))
+check('a company profiled twice carries both issues',
+      rotation['recent_profiles'][0]['issues'] == ['November 2026', 'October 2026'],
+      str(rotation['recent_profiles'][0]['issues']))
+
+# Redrafting December must not count December's own MasterCraft profile as a
+# repeat of itself — but January must count it.
+redraft_archive = archive + [archived(12, 'december-2026', 'MasterCraft Boat Holdings',
+                                      'NASDAQ: MCFT')]
+again = D.build_brief(2026, 12, redraft_archive, images)
+check('a redraft does not count its own profile',
+      [p['issues'] for p in again['recent_profiles']]
+      == [['November 2026', 'October 2026'], ['September 2026']],
+      str([p['issues'] for p in again['recent_profiles']]))
+january = D.build_brief(2027, 1, redraft_archive, images)
+check('the next month counts it',
+      january['recent_profiles'][0]['issues'][0] == 'December 2026',
+      str(january['recent_profiles'][0]['issues']))
+
+long_run = [archived(n, 'm%d-2026' % n, 'Company %d' % n, '') for n in range(1, 9)]
+window = [p['company'] for p in D.build_brief(2026, 9, long_run, images)['recent_profiles']]
+check('only the last %d issues are off-limits' % D.PROFILE_ROTATION,
+      len(window) == D.PROFILE_ROTATION and 'Company 2' not in window
+      and window[0] == 'Company 8', str(window))
+
+asked = D.user_prompt(rotation)
+check('the prompt names every company it must not profile',
+      'MasterCraft Boat Holdings, Inc. (NASDAQ: MCFT)' in asked
+      and 'Brunswick Corporation (NYSE: BC)' in asked)
+
+repeat = {'profile': {'company': 'MasterCraft Boat Holdings', 'ticker': 'NASDAQ: MCFT'}}
+refused = D.repeated_profile(repeat, rotation)
+check('a repeat of a recent profile is refused', 'profile' in refused)
+check('the refusal names the issues it repeats',
+      'November 2026' in ' '.join(refused.get('profile', [])), str(refused))
+check('a company not profiled recently passes',
+      D.repeated_profile({'profile': {'company': 'Malibu Boats, Inc.',
+                                      'ticker': 'NASDAQ: MBUU'}}, rotation) == {})
+check('a draft with no profile is not taken for a repeat',
+      D.repeated_profile({}, rotation) == {})
+
+both = json.loads(json.dumps(full))
+both['risks'][0]['body'] = 'Placeholder'
+both['profile'] = dict(both['profile'], **repeat['profile'])
+check('a repeated profile and stub prose are repaired in the same round',
+      sorted(D.draft_problems(both, rotation)) == ['profile', 'risks'],
+      str(sorted(D.draft_problems(both, rotation))))
+
+# The whole round, against the scripted client: the first draft repeats
+# MasterCraft, the repair returns a different company.
+repeated = dict(full, profile=dict(full['profile'], **repeat['profile']))
+fresh = dict(full['profile'], company='Malibu Boats, Inc.', ticker='NASDAQ: MBUU')
+out, msgs = run_provider([_Msg('end_turn', [_Block(json.dumps(repeated))]),
+                          _Msg('end_turn', [_Block(json.dumps({'profile': fresh}))])],
+                         with_brief=rotation)
+check('a repeated profile is asked for again rather than published',
+      out['profile']['company'] == 'Malibu Boats, Inc.' and len(msgs.calls) == 2,
+      '%s after %d request(s)' % (out['profile']['company'], len(msgs.calls)))
+check('the repair asks for the profile alone',
+      list(msgs.calls[1]['output_config']['format']['schema']['properties']) == ['profile'],
+      str(list(msgs.calls[1]['output_config']['format']['schema']['properties'])))
+check('the first request already said which companies to avoid',
+      'MasterCraft Boat Holdings, Inc. (NASDAQ: MCFT)' in msgs.calls[0]['messages'][0]['content'])
+check('the rest of the edition survives the repair',
+      out['headline'] == full['headline'] and out['risks'] == full['risks'])
+
+repeated_msg = _Msg('end_turn', [_Block(json.dumps(repeated))])
+try:
+    run_provider([repeated_msg] * 3, with_brief=rotation)
+    check('a model that keeps repeating is stopped, with the draft kept', False)
+except D.StubbedDraft as e:
+    check('a model that keeps repeating is stopped, with the draft kept',
+          e.draft['headline'] == full['headline']
+          and any('profiled in' in m for m in e.problems), str(e.problems))
+
+# And on the real archive: the December redraft on 20 November must not be
+# allowed MasterCraft, whichever branch this runs on.
+december = D.build_brief(2026, 12, editions, images)
+check('the real December brief rules out MasterCraft',
+      any('ticker:MCFT' in p['keys'] for p in december['recent_profiles']),
+      str([p['company'] for p in december['recent_profiles']]))
 
 
 # --------------------------------------------- the stub survives the validator
