@@ -1,0 +1,334 @@
+{
+  "volume": 1,
+  "number": 12,
+  "month": "December 2026",
+  "slug": "december-2026",
+  "published": "2026-12-03",
+  "headline": "Blackstone Buys the Dealer Tier as Carry Gets Worse",
+  "dek": "The largest US boat retailer is about to leave the public market owned by a marina platform, and the floorplan clock keeps running.",
+  "description": "December 2026: MarineMax's last public numbers before the Safe Harbor close, OneWater's margin-first year, MasterCraft's first full quarter with Chaparral and Robalo, and what December rates do to carry.",
+  "hero": {
+    "image": "/assets/img/marina-aerial.webp",
+    "alt": "Aerial view of a crowded marina basin with floating docks and moored motor yachts"
+  },
+  "from_the_desk": [
+    "Six weeks ago the question was whether the September increase would stick. It did, and then some. The Federal Open Market Committee held the target range at 3.75 to 4.00 per cent on 28 October with two members dissenting in favour of a further quarter point ([Federal Reserve](https://www.federalreserve.gov/monetarypolicy/files/monetary20261028a1.pdf)), and the minutes recorded participants treating market pricing for further tightening in December as broadly consistent with their own path ([Trading Economics](https://tradingeconomics.com/united-states/interest-rate)). Overnight secured overnight financing rate printed 3.90 per cent on 18 November ([FRED](https://fred.stlouisfed.org/series/SOFR)). Against that backdrop the sector's numbers arrived in a cluster: Brunswick's fifth consecutive quarter of growth across every segment and a chief executive handover to Aine Denari on 1 January ([Brunswick 8-K](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000130/q32026exhibit99_1.htm)); MarineMax's final public results before its take-private, with fiscal 2026 revenue of $2.164 billion, down 6.3 per cent, and gross margin of 34.9 per cent ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm)); OneWater closing a margin-first year on 17 November and extending its floorplan to 2029 ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)); and MasterCraft's first full quarter with Chaparral and Robalo inside the house, at $154.1 million of net sales ([Motley Fool transcript](https://www.fool.com/earnings/call-transcripts/2026/11/10/mastercraft-mcft-q1-2027-earnings-call-transcript/)). Registrations, meanwhile, did not improve: the 15-foot-and-over powerboat market ran 6.2 per cent below its twelve-month rolling average at 207,459 units on Info-Link data ([Trade Only Today](https://tradeonlytoday.com/industry-news/boat-sales-qualified-buyers-still-shopping/)).",
+    "Last month we argued that this cycle would be decided on carry rather than allocation. Nothing since has contradicted that, but the ownership of the carry has changed. The issue argues three things. First, that the Safe Harbor acquisition of MarineMax is a bet on the **margin stack** — marinas, service, superyacht brokerage, storage — and not on new-boat units, and that it resets what a competitive dealer balance sheet looks like in Florida, the Northeast and the Caribbean. Second, that the profit pattern now separating the winners from the rest is non-boat gross profit: 34.9 per cent consolidated gross margin at MarineMax against 23.7 per cent at OneWater is not a pricing difference, it is a business-mix difference. Third, that the one-off helps are running out — the tariff refunds that flattered fiscal 2026 margins at both Brunswick and MarineMax do not repeat in 2027, and a second rate increase on 9 December would land on inventory already bought at spring expectations. The risks section carries the arithmetic; the actions section tells you which two numbers to pull before Friday."
+  ],
+  "featured": {
+    "title": "The Dealer Tier Gets an Infrastructure Owner",
+    "sections": [
+      {
+        "heading": "What $53 a share actually buys",
+        "body": [
+          "On 9 August MarineMax signed an agreement and plan of merger with affiliates of Safe Harbor Marinas, a portfolio company of Blackstone Infrastructure Partners, at $53.00 a share in cash for an enterprise value of roughly $1.5 billion ([MarineMax 8-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526341302/d135056d8k.htm)). The price was a 96 per cent premium to the 30 January close of $27.03, the last trading day before an unsolicited approach became public ([Tampa Bay Business & Wealth](https://tbbwmag.com/2026/08/10/safe-harbor-marinemax-deal/)). The process has now substantially cleared: the Hart-Scott-Rodino waiting period expired at the end of October, foreign antitrust and foreign direct investment clearances were received, and shareholders approved the transaction at a special meeting on 11 November, with closing expected by the end of calendar 2026 ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm)).",
+          "The company being bought is smaller than it was and better than it was. Fiscal 2026 revenue fell 6.3 per cent to $2.164 billion, gross profit rose 0.5 per cent to $754.2 million, and gross margin reached 34.9 per cent against 32.5 per cent a year earlier ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm)). Fourth-quarter revenue was $520.1 million with same-store sales down 5.7 per cent and gross margin up 270 basis points to 37.4 per cent; inventories ended the year at $812.8 million, down $54.6 million, after a $39.3 million reduction the year before ([MarineMax 8-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526446269/hzo-ex99_1.htm)). Management declined to give fiscal 2027 guidance or hold a call, which is normal practice into a close and also means the channel loses its most useful quarterly read on premium retail.",
+          "Two balance-sheet lines deserve more attention than the headline price. Floorplan borrowings fell to $613.7 million from $715.7 million, and additional availability under the borrowing base stood at approximately $1.3 million at 30 September — effectively drawn to the line. Interest expense for the year was $58.0 million, down from $71.2 million. The floorplan itself is priced at one-month term SOFR plus 3.25 per cent under the June 2026 amended and restated credit agreement, with up to $950 million of capacity ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm)). Infrastructure capital is not buying a company with slack working capital; it is buying one that has been disciplined into shape and that will now refinance inside a much larger sponsor."
+        ]
+      },
+      {
+        "figure": {
+          "image": "/assets/img/harbour-dusk.webp",
+          "alt": "Yachts moored along a harbour wall at dusk with service buildings and travel-lift gantry behind",
+          "caption": "The asset in the MarineMax transaction is the shore side: marinas, storage, service and superyacht brokerage. New-boat units were the part that shrank 6.3 per cent in fiscal 2026."
+        }
+      },
+      {
+        "heading": "The margin stack, not the unit count",
+        "body": [
+          "MarineMax's own framing of the decade is the number to copy: consolidated gross margin of 26.1 per cent in fiscal 2019 against 34.9 per cent in fiscal 2026, driven by expansion of non-boat revenue — IGY Marinas, Fraser Yachts Group, Northrop & Johnson, parts and service, storage ([MarineMax 8-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526446269/hzo-ex99_1.htm)). Set that against OneWater, which ran fiscal 2026 gross margin of 23.7 per cent, up 90 basis points, on revenue of $1.78 billion ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)). Both are well-run dealers. The eleven-point gap is structural, and it is the reason one of them attracted an infrastructure bid.",
+          "The same logic is visible at the manufacturer tier. Brunswick's third quarter produced net sales of $1,453.9 million, up 6.9 per cent, adjusted diluted earnings per share of $1.58, up 62.9 per cent, and an adjusted operating margin of 10.1 per cent, with the Engine Parts and Accessories segment delivering its strongest quarter in years and Freedom Boat Club estimated by the company at close to seventy per cent of the North American boat club market; full-year guidance went up to roughly $4.65 of adjusted earnings per share on $5.7 to $5.8 billion of sales ([Brunswick 8-K](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000130/q32026exhibit99_1.htm)). Patrick Industries, selling into the same channel, grew marine revenue 14 per cent to $171 million against an estimated 8 per cent increase in wholesale powerboat unit shipments ([Patrick Industries](https://ir.patrickind.com/investor-news-events/press-releases/detail/318/patrick-industries-inc-reports-third-quarter-2026-financial-results)). Recurring revenue and content per unit are carrying the sector; retail units are not.",
+          "Where the pressure shows is in the parts of the business that depend on a transaction closing. OneWater's fourth-quarter finance and insurance income fell 9.0 per cent and new-boat revenue fell 4.7 per cent on lower units with higher average prices ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)). That is the signature of a market clearing on price and on credit approval rather than on desire."
+        ]
+      },
+      {
+        "heading": "What it does to everyone else's negotiation",
+        "body": [
+          "Consolidation did not stop at retail. MasterCraft closed its acquisition of Marine Products and reported $154.1 million of net sales in the first quarter of its six-month transition period, up 123.4 per cent, with legacy sales of $94.8 million, adjusted earnings before interest, taxes, depreciation and amortisation of $20.1 million, $41.9 million of cash and no debt, and roughly $6 million of annualised overhead savings already realised; it guided the six months to 31 December to $293 million to $297 million of net sales and said it is planning on a 5 to 10 per cent decline in calendar-year unit sales ([Motley Fool transcript](https://www.fool.com/earnings/call-transcripts/2026/11/10/mastercraft-mcft-q1-2027-earnings-call-transcript/), [Associated Press](https://wtop.com/national/2026/11/mastercraft-boat-holdings-inc-fiscal-q1-earnings-snapshot)). At the other end of the scale, Rec Boat Holdings — the Cadillac, Michigan operation Groupe Beneteau shut on 14 August, ending local Four Winns, Glastron and Scarab production — is in negotiation on a letter of intent from an equity firm, with small-scale production possibly restarting on a sale and broader volume in late January or February ([Trade Only Today](https://tradeonlytoday.com/industry-news/rec-boat-holdings-reported-close-to-sale/)).",
+          "For a dealer, the practical consequence of a Blackstone-funded retailer-marina is not that it will discount harder. It is that it will out-wait you. A competitor whose slips, storage and service bays are owned by an infrastructure fund has a lower required return on the retail unit and can hold a boat through a soft quarter at a cost of capital you cannot match on a floorplan priced at one-month SOFR plus 325 basis points. Expect the competition to show up in trade-in valuations, in brokerage central agency agreements and in who gets the transient berth in February, rather than in window stickers.",
+          "For a builder, the arithmetic is simpler and less comfortable. Two of the three largest US retail counterparties are now either private-equity owned or consolidating, and the remaining listed dealer is explicitly running a margin-first plan. Allocation conversations for model year 2028 will be conducted with buyers who have said in public that they will take fewer units at better terms rather than more units at worse ones."
+        ]
+      }
+    ],
+    "takeaway": {
+      "eyebrow": "Key takeaway",
+      "body": "Pull two numbers this week. First, your floorplan cost at today's index: overnight secured overnight financing rate was 3.90 per cent on 18 November ([FRED](https://fred.stlouisfed.org/series/SOFR)), so a MarineMax-style spread of 325 basis points puts you near 7.15 per cent before aging steps, and OneWater's facility runs 2.75 to 5.00 percentage points over the index depending on unit age ([OneWater 10-Q](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000044/onew-20260630.htm)). On a $20 million average balance that is roughly $1.43 million a year, and every further quarter point is $50,000 — the Federal Open Market Committee next decides on 9 December ([Trading Economics](https://tradingeconomics.com/united-states/interest-rate)). Second, the share of your gross profit that does not come from selling a new boat. MarineMax reached 34.9 per cent consolidated gross margin in fiscal 2026 against 26.1 per cent in fiscal 2019 by building that share; OneWater is at 23.7 per cent ([MarineMax 8-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526446269/hzo-ex99_1.htm), [OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)). If yours is below forty per cent of total gross profit, you are a new-boat dealer in a year when the 15-foot-and-over registration market is running 6.2 per cent below its twelve-month average ([Trade Only Today](https://tradeonlytoday.com/industry-news/boat-sales-qualified-buyers-still-shopping/)) and the best-capitalised competitor in your market has just been bought for its marinas."
+    }
+  },
+  "indicators": [
+    {
+      "region": "us",
+      "label": "Federal funds target range",
+      "value": "3.75%–4.00% · held 28 October, two dissents to raise",
+      "source": {
+        "title": "Federal Reserve",
+        "url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20261028a1.pdf"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Overnight secured overnight financing rate",
+      "value": "3.90% · 18 November",
+      "source": {
+        "title": "FRED, Federal Reserve Bank of St. Louis",
+        "url": "https://fred.stlouisfed.org/series/SOFR"
+      }
+    },
+    {
+      "region": "us",
+      "label": "10-year Treasury yield",
+      "value": "5.10% · +97 basis points year on year",
+      "source": {
+        "title": "Macrotrends",
+        "url": "https://www.macrotrends.net/2016/10-year-treasury-bond-rate-yield-chart"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Powerboat registrations, 15 feet and over",
+      "value": "207,459 units · −6.2% vs 12-month rolling average",
+      "source": {
+        "title": "Info-Link data via Trade Only Today",
+        "url": "https://tradeonlytoday.com/industry-news/boat-sales-qualified-buyers-still-shopping/"
+      }
+    },
+    {
+      "region": "us",
+      "label": "MarineMax fiscal 2026 revenue",
+      "value": "$2.164B · −6.3%",
+      "source": {
+        "title": "MarineMax Form 10-K",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm"
+      }
+    },
+    {
+      "region": "us",
+      "label": "MarineMax floorplan balance, 30 September",
+      "value": "$613.7M · −$102.0M year on year",
+      "source": {
+        "title": "MarineMax Form 10-K",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm"
+      }
+    },
+    {
+      "region": "us",
+      "label": "OneWater fiscal 2026 revenue",
+      "value": "$1.78B · −5%, gross margin 23.7% (+90 basis points)",
+      "source": {
+        "title": "OneWater Marine Form 8-K",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm"
+      }
+    },
+    {
+      "region": "us",
+      "label": "Brunswick third-quarter net sales",
+      "value": "$1,453.9M · +6.9%, adjusted diluted EPS $1.58",
+      "source": {
+        "title": "Brunswick Form 8-K",
+        "url": "https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000130/q32026exhibit99_1.htm"
+      }
+    },
+    {
+      "region": "us",
+      "label": "MasterCraft transition-period first-quarter net sales",
+      "value": "$154.1M · +123.4% with Chaparral and Robalo",
+      "source": {
+        "title": "MasterCraft earnings call transcript, Motley Fool",
+        "url": "https://www.fool.com/earnings/call-transcripts/2026/11/10/mastercraft-mcft-q1-2027-earnings-call-transcript/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Sanlorenzo nine-month new-yacht net revenues",
+      "value": "€711.3M · +3.1%",
+      "source": {
+        "title": "Sanlorenzo results via Salone Nautico",
+        "url": "https://www.salonenautico.com/en/2026/11/16/sanlorenzo-publishes-9m-2026-financial-results/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Sanlorenzo nine-month order intake",
+      "value": "€803.1M · +16.4%, gross backlog €1,806M",
+      "source": {
+        "title": "Sanlorenzo 9M 2026 presentation via Investing.com",
+        "url": "https://uk.investing.com/news/stock-market-news/sanlorenzo-9m-2026-slides-cash-generation-backlog-drive-outlook-93CH-4978401"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Ferretti nine-month net revenue",
+      "value": "€888.6M · +0.2%, adjusted EBITDA −7.8%",
+      "source": {
+        "title": "Trade Only Today",
+        "url": "https://tradeonlytoday.com/industry-news/ferretti-releases-third-quarter-results/"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Ferretti net backlog",
+      "value": "€571M · −28%",
+      "source": {
+        "title": "Il Sole 24 Ore",
+        "url": "https://en.ilsole24ore.com/art/minimum-targets-year-weighting-new-revision-profitability-guidance-AJofiXvB"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Groupe Beneteau nine-month revenue",
+      "value": "€595.8M · +3.7%, third quarter €146.6M (−14.1%)",
+      "source": {
+        "title": "Boat Industry",
+        "url": "https://www.boatindustry.com/news/52918/beneteau-group-nine-month-growth-reinforces-the-2026-outlook"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Superyachts listed for sale, 1 October",
+      "value": "2,197 · 17.2% of the 12,775-yacht fleet",
+      "source": {
+        "title": "Northrop & Johnson Q3 2026 market report",
+        "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q3-2026-superyacht-market-report"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Average days on market, third-quarter sales",
+      "value": "445 days · from 542 in the second quarter",
+      "source": {
+        "title": "Northrop & Johnson Q3 2026 market report",
+        "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q3-2026-superyacht-market-report"
+      }
+    },
+    {
+      "region": "global",
+      "label": "October brokerage sales, 24 metres and above",
+      "value": "€415.6M across 33 sales · +5% year on year",
+      "source": {
+        "title": "BOAT International, BOATPro data",
+        "url": "https://www.boatinternational.com/boat-pro/news/monthly-superyacht-brokerage-report-october-2026"
+      }
+    },
+    {
+      "region": "global",
+      "label": "Brent crude",
+      "value": "$90.73/bbl · +45% year on year, −16.6% on the month",
+      "source": {
+        "title": "Trading Economics",
+        "url": "https://tradingeconomics.com/commodity/brent-crude-oil"
+      }
+    }
+  ],
+  "risks": [
+    {
+      "region": "us",
+      "title": "United States",
+      "body": "The December meeting is the live one. The Committee held at 3.75 to 4.00 per cent on 28 October with two members preferring a quarter-point increase ([Federal Reserve](https://www.federalreserve.gov/monetarypolicy/files/monetary20261028a1.pdf)), and the minutes recorded participants viewing market pricing for further tightening in December as broadly aligned with their own path, with the next decision on 9 December ([Trading Economics](https://tradingeconomics.com/united-states/interest-rate)). Overnight secured overnight financing rate at 3.90 per cent ([FRED](https://fred.stlouisfed.org/series/SOFR)) plus a 325 basis point floorplan spread of the kind MarineMax documents in its new credit agreement puts new-unit carry near 7.15 per cent before aging steps, and OneWater's facility runs 2.75 to 5.00 percentage points over index by age ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm), [OneWater 10-Q](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000044/onew-20260630.htm)). Demand is not rescuing that: registrations of 15-foot-and-over powerboats ran 6.2 per cent below the twelve-month rolling average at 207,459 units, with runabouts off 16.1 per cent and cruisers and yachts off 11.2 per cent ([Trade Only Today](https://tradeonlytoday.com/industry-news/boat-sales-qualified-buyers-still-shopping/)), and MasterCraft is planning for a 5 to 10 per cent calendar-year unit decline ([Motley Fool transcript](https://www.fool.com/earnings/call-transcripts/2026/11/10/mastercraft-mcft-q1-2027-earnings-call-transcript/)) even as OneWater guides to a flat industry and flat-to-slightly-positive same-store sales ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)). Two further hazards are being under-modelled. One is the tariff refund cliff: the Supreme Court invalidated the International Emergency Economic Powers Act tariffs on 20 February 2026 and refunds followed, worth about $17.2 million to MarineMax and an estimated $60 million to $70 million in total to Brunswick, of which $32.9 million had already been recognised against cost of sales in nine months ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm), [Brunswick 10-Q](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000136/bcorp-20261003.htm)). None of that repeats in 2027, and the replacement regime — Section 122 and amended Section 232 applications — remains in motion ([Brunswick 8-K](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000046/q12026exhibit99_1.htm)). The other is liquidity headroom: MarineMax had roughly $1.3 million of additional floorplan availability under its borrowing base at 30 September, and OneWater's total liquidity including revolver availability was about $58.5 million against $507.0 million of inventory, even after lenders extended maturities to 2029 and added $50 million of floorplan capacity to $547 million. Weather remains the unhedged line item in Florida and the Gulf, where storm damage to inventory and facilities and the availability of affordable retail boat insurance are both named operating risks ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm)). Cash timing is tight too: the Discover Boating Miami International Boat Show runs 10 to 14 February 2027, which is late relative to a December curtailment ([Trade Only Today](https://tradeonlytoday.com/industry-news/nmma-announces-new-miami-show-dates/)).",
+      "sources": [
+        {
+          "title": "Federal Reserve",
+          "url": "https://www.federalreserve.gov/monetarypolicy/files/monetary20261028a1.pdf"
+        },
+        {
+          "title": "MarineMax Form 10-K",
+          "url": "https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm"
+        },
+        {
+          "title": "OneWater Marine Form 8-K",
+          "url": "https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm"
+        },
+        {
+          "title": "Brunswick Form 10-Q",
+          "url": "https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000136/bcorp-20261003.htm"
+        },
+        {
+          "title": "Trade Only Today",
+          "url": "https://tradeonlytoday.com/industry-news/boat-sales-qualified-buyers-still-shopping/"
+        }
+      ]
+    },
+    {
+      "region": "global",
+      "title": "Global",
+      "body": "Fuel is the cleanest global risk on the board. Brent closed at $90.73 a barrel on 20 November, 45 per cent above a year earlier even after falling 16.6 per cent in a month, with West Texas Intermediate at $81.67 and gasoline futures at $2.50 a gallon, up 33.5 per cent year on year ([Trading Economics](https://tradingeconomics.com/commodity/brent-crude-oil), [Trading Economics](https://tradingeconomics.com/commodity/crude-oil), [Trading Economics](https://tradingeconomics.com/commodity/gasoline)). For charter that is an advanced provisioning allowance problem in the Caribbean season now starting, and for owners it is the line that most reliably converts into a listing decision. Charter demand itself has been strong but has changed shape: January to August charter starts ran 20.8 per cent ahead of 2025 with booked days up 18.9 per cent, while the booking window compressed — two thirds of July bookings were for same- or next-month departures — and August volume fell to 741 bookings, 33.9 per cent below August 2025, with 44.8 per cent of those bookings for 2027 or later ([Northrop & Johnson](https://www.northropandjohnson.com/navigator-news/charter/the-charter-market-after-a-strong-summer)). That is a cash-flow timing risk for managers as much as a demand signal. On the brokerage side, supply keeps building: 2,197 pre-owned yachts were listed at 1 October, 17.2 per cent of a 12,775-yacht fleet; 1,400 new central agency listings came to market in nine months, up 5.5 per cent; and 1,949 price reductions were recorded, up 7.2 per cent, even as average days on market for completed sales improved to 445 ([Northrop & Johnson](https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q3-2026-superyacht-market-report)). October sales value of €415.6 million across 33 deals was 5 per cent ahead of last year on a lower average of €12.6 million ([BOAT International](https://www.boatinternational.com/boat-pro/news/monthly-superyacht-brokerage-report-october-2026)), so the market is clearing — at the seller's expense. The order book is where the divergence is sharpest. Sanlorenzo booked €803.1 million of orders in nine months, up 16.4 per cent, with a gross backlog of €1,806 million ([Salone Nautico](https://www.salonenautico.com/en/2026/11/16/sanlorenzo-publishes-9m-2026-financial-results/)); Ferretti's nine-month revenue was flat at €888.6 million with adjusted earnings before interest, taxes, depreciation and amortisation down 7.8 per cent, order intake down 13.8 per cent, net backlog down 28 per cent to €571 million and no superyacht orders at all in the period, alongside a second profitability guidance cut ([Trade Only Today](https://tradeonlytoday.com/industry-news/ferretti-releases-third-quarter-results/), [Il Sole 24 Ore](https://en.ilsole24ore.com/art/minimum-targets-year-weighting-new-revision-profitability-guidance-AJofiXvB)). In Europe's volume tier, Groupe Beneteau grew nine-month revenue 3.7 per cent to €595.8 million but saw third-quarter revenue fall 14.1 per cent to €146.6 million ([Boat Industry](https://www.boatindustry.com/news/52918/beneteau-group-nine-month-growth-reinforces-the-2026-outlook)), and its former Cadillac operation sits idle pending a sale ([Trade Only Today](https://tradeonlytoday.com/industry-news/rec-boat-holdings-reported-close-to-sale/)). Suppliers read the same split at METSTRADE, where about 1,700 exhibitors met more than 20,000 visitors from 130 countries from 17 to 19 November ([Trade Only Today](https://tradeonlytoday.com/industry-news/metstrade-2026-comes-to-a-close/)).",
+      "sources": [
+        {
+          "title": "Trading Economics",
+          "url": "https://tradingeconomics.com/commodity/brent-crude-oil"
+        },
+        {
+          "title": "Northrop & Johnson Q3 2026 market report",
+          "url": "https://www.northropandjohnson.com/navigator-news/brokerage-new-build/q3-2026-superyacht-market-report"
+        },
+        {
+          "title": "Northrop & Johnson charter analysis",
+          "url": "https://www.northropandjohnson.com/navigator-news/charter/the-charter-market-after-a-strong-summer"
+        },
+        {
+          "title": "Il Sole 24 Ore",
+          "url": "https://en.ilsole24ore.com/art/minimum-targets-year-weighting-new-revision-profitability-guidance-AJofiXvB"
+        },
+        {
+          "title": "Trade Only Today",
+          "url": "https://tradeonlytoday.com/industry-news/metstrade-2026-comes-to-a-close/"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "title": "Re-price your curtailment schedule before the 9 December decision, not after it.",
+      "body": "Take your trailing-twelve-month average floorplan balance and multiply by the spread in your agreement over the current index — overnight secured overnight financing rate printed 3.90 per cent on 18 November ([FRED](https://fred.stlouisfed.org/series/SOFR)). At a MarineMax-style 325 basis points that is about 7.15 per cent; at the top of OneWater's 2.75 to 5.00 percentage point age-based grid it is closer to 8.90 per cent ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm), [OneWater 10-Q](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000044/onew-20260630.htm)). Then list every unit that crosses an aging step between now and the Miami show on 10 to 14 February ([Trade Only Today](https://tradeonlytoday.com/industry-news/nmma-announces-new-miami-show-dates/)) and decide this week which ones you discount into the December shows rather than finance through the step. A further quarter point on a $20 million average balance is $50,000 a year, and it applies to units already priced on last spring's assumptions."
+    },
+    {
+      "title": "Measure your non-boat gross profit as a share of total gross profit, and write the number down.",
+      "body": "MarineMax took consolidated gross margin from 26.1 per cent in fiscal 2019 to 34.9 per cent in fiscal 2026 by growing marinas, service, parts, storage and superyacht brokerage, and that mix — not new-boat volume — is what attracted a $1.5 billion enterprise-value bid ([MarineMax 8-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526446269/hzo-ex99_1.htm)). OneWater, running the same market at 23.7 per cent, is pushing the same lever through portfolio exits and margin discipline ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)). Split your own gross profit four ways — new boats, pre-owned, finance and insurance, and service, parts and storage — for the trailing twelve months. If the last two together are under forty per cent, your 2027 plan should be about technician capacity, slip and rack utilisation and service throughput, not about ordering more units. Note also that OneWater's fourth-quarter finance and insurance income fell 9.0 per cent: that income follows unit count, so it cannot be the thing that saves you."
+    },
+    {
+      "title": "Strip the one-off tariff refunds out of your 2027 margin plan and re-quote accordingly.",
+      "body": "Fiscal 2026 gross margins across the channel were flattered by refunds of tariffs collected under the International Emergency Economic Powers Act after the Supreme Court's 20 February ruling: approximately $17.2 million received by MarineMax, of which $8.1 million on sold boats passed through cost of sales, and an estimated $60 million to $70 million in total for Brunswick, with $32.9 million recognised in nine months ([MarineMax 10-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526463429/hzo-20260930.htm), [Brunswick 10-Q](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000136/bcorp-20261003.htm)). If any of that reached you as a credit, your 2026 boat gross margin overstates your 2027 run rate. Rebuild the model-year 2027 margin bridge without it, ask your two largest suppliers in writing what they are assuming for Section 232 and Section 122 exposure next year ([Brunswick 8-K](https://www.sec.gov/Archives/edgar/data/0000014930/000001493026000046/q12026exhibit99_1.htm)), and set your floor price per unit from the rebuilt number before the January shows rather than after them."
+    }
+  ],
+  "profile": {
+    "company": "OneWater Marine Inc.",
+    "ticker": "NASDAQ: ONEW",
+    "dek": "The last listed pure-play US boat dealer finished a margin-first year and bought itself three more years of floorplan.",
+    "sections": [
+      {
+        "heading": null,
+        "body": [
+          "OneWater closed fiscal 2026 on 30 September with revenue of $1.78 billion, down 5 per cent, same-store sales down 3.8 per cent, and gross margin up 90 basis points to 23.7 per cent. The statutory result was a net loss of $8.4 million, or $(0.51) a share, after $14.9 million of non-cash impairment and business disposition charges; adjusted diluted earnings per share rose to $0.49 from $0.44 and adjusted earnings before interest, taxes, depreciation and amortisation rose 7.4 per cent to $75.3 million. Inventory finished at $507.0 million against $539.8 million a year earlier, long-term debt fell $69.8 million to $342.3 million, and adjusted net leverage improved to 3.8 times from 5.1 times ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)).",
+          "The fourth quarter shows the shape of the year in miniature: revenue of $426.0 million, down 7.4 per cent on the exit of certain brands and the sale of Ocean Bio-Chem; new-boat revenue down 4.7 per cent on fewer units at higher average prices; pre-owned essentially flat; finance and insurance income down 9.0 per cent; and gross margin up 60 basis points to 23.2 per cent ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)). Full-year revenue fell about 5 per cent to $1.78 billion from $1.87 billion ([Trade Only Today](https://tradeonlytoday.com/industry-news/onewater-reports-fiscal-2026-results/))."
+        ]
+      },
+      {
+        "heading": "Why it matters now",
+        "body": [
+          "Once the MarineMax delisting completes — all regulatory clearances were obtained by 31 October and shareholders approved on 11 November, with closing expected by year end ([MarineMax 8-K](https://www.sec.gov/Archives/edgar/data/0001057060/000119312526445327/d156320d8k.htm)) — OneWater is, on current plans, the only pure-play recreational boat dealer left with a US listing. That makes its quarterly disclosure the industry's remaining public window onto retail: same-store sales, finance and insurance income per unit, inventory aging and floorplan pricing. Brokers, lenders and builders who used MarineMax's premium-segment commentary as a benchmark will have to re-anchor on a business with a different mix and a different customer.",
+          "The financing news matters as much as the earnings. After year end OneWater amended its term loan and floorplan facilities, extending both maturities to 2029 and raising floorplan capacity by $50 million to $547 million — a vote of confidence from lenders in a quarter when the cost of that money is rising. Interest on the inventory financing facility is set at adjusted thirty-day average secured overnight financing rate plus 2.75 to 5.00 percentage points depending on unit age, which is precisely the structure that punishes slow turns ([OneWater 10-Q](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000044/onew-20260630.htm)).",
+          "Guidance for fiscal 2027 assumes industry unit sales flat year on year, dealership same-store sales flat to slightly positive, revenue of $1.78 billion to $1.88 billion, adjusted earnings before interest, taxes, depreciation and amortisation of $80 million to $95 million, and adjusted diluted earnings per share of $0.75 to $1.00 ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)). That is a more constructive view of volume than MasterCraft's planning assumption of a 5 to 10 per cent calendar-year unit decline ([Motley Fool transcript](https://www.fool.com/earnings/call-transcripts/2026/11/10/mastercraft-mcft-q1-2027-earnings-call-transcript/)) and than the 6.2 per cent shortfall against the twelve-month rolling average in current registrations ([Trade Only Today](https://tradeonlytoday.com/industry-news/boat-sales-qualified-buyers-still-shopping/))."
+        ]
+      },
+      {
+        "heading": "Watch for",
+        "body": [
+          "Three things in the January report. First, whether gross margin holds above 23 per cent without the portfolio-exit tailwind, because the fiscal 2026 expansion came substantially from what was removed rather than from what was sold. Second, liquidity: cash of $53.7 million and total liquidity of about $58.5 million at year end is thin relative to a $507.0 million inventory book, and the extra $50 million of floorplan capacity is wholesale credit, not working capital ([OneWater 8-K](https://www.sec.gov/Archives/edgar/data/0001772921/000177292126000057/onew-q426earningsreleasexe.htm)). Third, the index. A further increase on 9 December feeds straight into a facility priced over secured overnight financing rate, which stood at 3.90 per cent on 18 November ([FRED](https://fred.stlouisfed.org/series/SOFR), [Trading Economics](https://tradingeconomics.com/united-states/interest-rate)).",
+          "Also watch the competitive geography. With Safe Harbor and Blackstone Infrastructure behind the largest premium retailer and MasterCraft now owning Chaparral and Robalo alongside its legacy brands, OneWater's brand mix and its ability to defend allocation on favourable terms become the strategic question rather than the store count."
+        ]
+      }
+    ]
+  },
+  "voices": [],
+  "voices_intro": [
+    "This issue has leaned heavily on filings, because that is where December's evidence was. January's issue needs the part that filings do not capture: what your lender actually said when you asked about the spread, what a December curtailment did to your discounting, and whether the Caribbean charter season is booking at the rates the summer suggested it would. If you run a dealership, a yard, a marina or a charter fleet, we want your numbers — days on market by segment, service hours sold per technician, the share of retail deals that needed a second lender, the trade-in haircut you are taking to move 2024 and 2025 stock. We will use figures only in aggregate, or attributed if you prefer, and we will tell readers which it is.",
+    "We are particularly interested in three questions for the January edition. First, from brokers: with 2,197 superyachts listed and price reductions rising, where did your buyers actually close relative to first asking price this autumn? Second, from dealers and lenders: how are curtailment and aging grids being enforced this winter compared with last, and are any lenders re-pricing spreads rather than waiting for the index? Third, from yards and suppliers who were at METSTRADE and Fort Lauderdale: did the order conversations convert, and on what terms? Write to the desk with a short note and the underlying number, and tell us what you would want checked before it is published. Submissions close two weeks before the January issue."
+  ],
+  "colophon": "Sources cited inline with links. Data as of 20 November 2026; rates, yields and commodity prices as of that date, with company results through the November reporting season. Helm & Horizon is published by The Walton Group, Inc. and is not investment advice.",
+  "data_as_of": "Data as of 20 November 2026; rates, yields and commodity prices as of that date, with company results through the November reporting season.",
+  "previous": {
+    "slug": "november-2026",
+    "volume": 1,
+    "number": 11,
+    "headline": "Rates Turned Up Just as the Channel Refilled"
+  }
+}
