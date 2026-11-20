@@ -102,6 +102,70 @@ def available_images():
                   if n.lower().endswith(('.webp', '.jpg', '.jpeg', '.png', '.avif')))
 
 
+# How many recent issues the company profile may not repeat. October, November
+# and the first December draft all profiled MasterCraft, because nothing told
+# the model what it had already covered; a monthly that profiles one company
+# three issues running reads as though nobody is editing it. Six issues is
+# half a year between repeats.
+PROFILE_ROTATION = 6
+
+# Corporate suffixes stripped before names are compared. October's profile was
+# "MasterCraft Boat Holdings" and November's "MasterCraft Boat Holdings, Inc." —
+# one company, two spellings, and an exact match would have let it through.
+COMPANY_SUFFIXES = frozenset(
+    'inc incorporated corp corporation co company ltd limited llc plc holdings '
+    'holding group sa spa ag nv se'.split())
+NOT_TICKERS = frozenset('PRIVATE PRIVATELYHELD UNLISTED NONE NA N/A'.split())
+
+
+def company_keys(company, ticker):
+    """The identities a profile is compared by: its ticker, and its name.
+
+    "NASDAQ: MCFT" and "MCFT" are the same listing, and so are
+    "MasterCraft Boat Holdings" and "MasterCraft Boat Holdings, Inc."; either
+    key matching means the same company.
+    """
+    keys = set()
+    symbol = re.sub(r'\s+', '', ticker or '').upper().rpartition(':')[2]
+    # The schema asks for "" when a company is private, but a model that
+    # writes "Private" instead would make every private company match every
+    # other one.
+    if symbol and symbol.strip('-—') and symbol not in NOT_TICKERS:
+        keys.add('ticker:' + symbol)
+    words = re.findall(r'[a-z0-9]+', (company or '').lower())
+    while words and words[-1] in COMPANY_SUFFIXES:
+        words.pop()
+    if words:
+        keys.add('name:' + ' '.join(words))
+    return keys
+
+
+def recent_profiles(editions, slug, number):
+    """Companies profiled in the issues before this one, newest first.
+
+    One entry per company, listing every issue that profiled it. The target
+    month itself is left out: a redraft is replacing its own profile, not
+    repeating it.
+    """
+    earlier = sorted((e for e in editions if e.get('slug') != slug
+                      and isinstance(e.get('number'), int) and e['number'] < number),
+                     key=lambda e: e['number'], reverse=True)
+    out = []
+    for e in earlier[:PROFILE_ROTATION]:
+        p = e.get('profile') or {}
+        if not p.get('company'):
+            continue
+        keys = company_keys(p['company'], p.get('ticker'))
+        seen = next((r for r in out if r['keys'] & keys), None)
+        if seen:
+            seen['issues'].append(e.get('month') or e['slug'])
+            seen['keys'] |= keys
+        else:
+            out.append({'company': p['company'], 'ticker': p.get('ticker') or '',
+                        'issues': [e.get('month') or e['slug']], 'keys': keys})
+    return out
+
+
 def build_brief(year, month, editions, images):
     """Everything the provider needs, and nothing it gets to invent."""
     slug = '%s-%d' % (MONTHS[month - 1].lower(), year)
@@ -131,6 +195,7 @@ def build_brief(year, month, editions, images):
         'previous': previous,
         'previous_headline': (prev or previous or {}).get('headline'),
         'previous_takeaway': ((prev or {}).get('featured') or {}).get('takeaway', {}).get('body'),
+        'recent_profiles': recent_profiles(editions, slug, number),
     }
 
 
@@ -325,7 +390,8 @@ same weight as the featured story; they are the section a reader checks first.
 * actions — exactly three. Each is an imperative title and a paragraph a reader \
 could act on this week.
 * profile — one company, with an opening section (empty heading), then \
-"Why it matters now", then "Watch for".
+"Why it matters now", then "Watch for". A different company every issue: the \
+brief names the companies profiled recently, and none of them may be repeated.
 * voices_intro — two paragraphs inviting reader submissions for the next issue.
 
 Search the web before writing. Verify every figure against its source rather than \
@@ -353,6 +419,16 @@ def user_prompt(brief):
         if brief.get('previous_takeaway'):
             lines.append('Its takeaway was: %s' % brief['previous_takeaway'])
         lines.append('Advance that story where the evidence has moved. Do not restate it.')
+    if brief.get('recent_profiles'):
+        lines += [
+            '',
+            'Company profile: choose a company that has not been profiled in the last '
+            '%d issues. These have been, and must not be profiled again:' % PROFILE_ROTATION,
+        ]
+        for p in brief['recent_profiles']:
+            lines.append('  %s%s — profiled in %s' % (
+                p['company'], ' (%s)' % p['ticker'] if p['ticker'] else '',
+                ', '.join(p['issues'])))
     lines += [
         '',
         'Images: use only these paths, which exist in the repository. Pick the one '
@@ -445,8 +521,36 @@ def subset_schema(schema, keys):
     }
 
 
+def repeated_profile(draft, brief):
+    """The profile section, if it repeats a company from recent issues.
+
+    Telling the model which companies to avoid is not enough on its own: the
+    house rule against placeholders sat in the system prompt in capitals and
+    the model wrote "Placeholder" anyway. So the draft is checked, and a
+    repeat goes back through the same repair round as unfinished prose.
+    """
+    p = draft.get('profile') or {}
+    keys = company_keys(p.get('company'), p.get('ticker'))
+    for prior in brief.get('recent_profiles') or []:
+        if keys & prior['keys']:
+            return {'profile': [
+                'profile is %s, which was profiled in %s — profile a different company, '
+                'not one profiled in the last %d issues, and research it as fully as '
+                'any other section' % (p.get('company'), ', '.join(prior['issues']),
+                                       PROFILE_ROTATION)]}
+    return {}
+
+
+def draft_problems(draft, brief):
+    """Every field the drafter refuses to accept, keyed by top-level field."""
+    problems = stub_fields(draft)
+    for key, msgs in repeated_profile(draft, brief).items():
+        problems.setdefault(key, []).extend(msgs)
+    return problems
+
+
 def repair_prompt(problems):
-    lines = ['These fields came back unfinished:']
+    lines = ['These fields need rewriting:']
     for key in sorted(problems):
         lines += ['  %s' % m for m in problems[key]]
     lines += [
@@ -455,7 +559,7 @@ def repair_prompt(problems):
         'return the fields that were fine. Rewrite only the fields listed above, in '
         'full, at the length the house standard asks for, with every figure cited '
         'inline as [publication](https://...) and each entry\'s sources filled in '
-        'from pages you actually opened. Search again only for a figure you do not '
+        'from pages you actually opened. Search again only for what you do not '
         'already have.',
     ]
     return '\n'.join(lines)
@@ -523,23 +627,26 @@ class AnthropicProvider(Provider):
         draft = self._parse(message)
 
         # The model has twice returned a complete edition with "Placeholder"
-        # where the risks section should be. Asking again, for those fields
-        # only, is far cheaper than another eight-minute research run — the
-        # research is still in context, so this is a rewrite, not a redo.
+        # where the risks section should be, and three issues running profiled
+        # the same company. Asking again, for those fields only, is far cheaper
+        # than another eight-minute research run — the research is still in
+        # context, so this is a rewrite, not a redo.
         for attempt in range(self.MAX_REPAIRS):
-            problems = stub_fields(draft)
+            problems = draft_problems(draft, brief)
             if not problems:
                 return draft
             keys = sorted(problems)
-            print('unfinished: %s — asking again for those fields (%d of %d)'
+            print('needs rewriting: %s — asking again for those fields (%d of %d)'
                   % (', '.join(keys), attempt + 1, self.MAX_REPAIRS), file=sys.stderr)
+            for msg in (m for k in keys for m in problems[k]):
+                print('  %s' % msg, file=sys.stderr)
             base = base + [{'role': 'assistant', 'content': message.content},
                            {'role': 'user', 'content': repair_prompt(problems)}]
             message = self._converse(client, base, subset_schema(schema, keys),
                                      tools, carried)
             draft = dict(draft, **self._parse(message))
 
-        problems = stub_fields(draft)
+        problems = draft_problems(draft, brief)
         if problems:
             raise StubbedDraft(draft, [m for k in sorted(problems) for m in problems[k]])
         return draft
@@ -844,11 +951,11 @@ def main():
         print('wrote %s' % out, file=sys.stderr)
 
     if unfinished:
-        print('\nthe model would not finish these, after %d attempts:'
+        print('\nthe model would not fix these, after %d attempts:'
               % AnthropicProvider.MAX_REPAIRS, file=sys.stderr)
         for m in unfinished:
             print('  %s' % m, file=sys.stderr)
-        print('the rest of the draft is saved%s — finish these by hand, or re-run'
+        print('the rest of the draft is saved%s — fix these by hand, or re-run'
               % ('' if args.stdout else ' in %s' % out), file=sys.stderr)
         return 1
 

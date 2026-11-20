@@ -113,6 +113,16 @@ the research still in context; a draft it still will not finish is written out
 anyway, with the unfinished fields named, so a month's research is never thrown
 away over one section.
 
+The same check keeps the company profile rotating. October, November and the
+first December draft all profiled MasterCraft — under two spellings — because
+nothing told the model what it had already covered. The brief now lists every
+company profiled in the last six issues and says none may be repeated, and the
+drafter checks the result: a repeat, matched by ticker or by name with its
+corporate suffix removed, goes back through the repair round like any
+unfinished section. Change the window with `PROFILE_ROTATION` in
+`tools/draft_edition.py`. Hand-written profiles are not checked; this binds the
+drafter, not the editor.
+
 A long search stops at the server's tool-iteration limit with
 `stop_reason: pause_turn` — no text, no error, an unfinished turn — and the
 drafter resumes it up to four times. Resuming takes two things, and each one
